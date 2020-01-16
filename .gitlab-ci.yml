@@ -7,8 +7,8 @@ docker-build-frontend-production:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE-frontend" frontend/
-    - docker push "$CI_REGISTRY_IMAGE-frontend"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:prod-frontend" frontend/
+    - docker push "$CI_REGISTRY_IMAGE:prod-frontend"
   only:
     - master
 
@@ -22,8 +22,8 @@ docker-build-backend-production:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE-backend" backend/
-    - docker push "$CI_REGISTRY_IMAGE-backend"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:prod-backend" backend/
+    - docker push "$CI_REGISTRY_IMAGE:prod-backend"
   only:
     - master
 
@@ -37,8 +37,8 @@ docker-build-frontend-integration:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE-frontend:dev" frontend/
-    - docker push "$CI_REGISTRY_IMAGE-frontend:dev"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:dev-frontend" frontend/
+    - docker push "$CI_REGISTRY_IMAGE:dev-frontend"
   only:
     - dev
 
@@ -52,7 +52,7 @@ docker-build-backend-integration:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE-backend:dev" backend/
-    - docker push "$CI_REGISTRY_IMAGE-backend:dev"
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:dev-backend" backend/
+    - docker push "$CI_REGISTRY_IMAGE:dev-backend"
   only:
     - dev
