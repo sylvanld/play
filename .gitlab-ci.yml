@@ -7,8 +7,8 @@ docker-build-frontend-production:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:prod-frontend" frontend/
-    - docker push "$CI_REGISTRY_IMAGE:prod-frontend"
+    - docker build --pull -t "play/production/frontend" frontend/
+    - docker push "play/production/frontend"
   only:
     - master
 
@@ -22,8 +22,8 @@ docker-build-backend-production:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:prod-backend" backend/
-    - docker push "$CI_REGISTRY_IMAGE:prod-backend"
+    - docker build --pull -t "play/production/backend" backend/
+    - docker push "play/production/backend"
   only:
     - master
 
