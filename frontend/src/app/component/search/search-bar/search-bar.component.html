@@ -1,0 +1,17 @@
+<form (submit)="submitSearch()" style="display:flex; height:45px; width:40em">
+  <mat-form-field style="flex: 1">
+    <input matInput [placeholder]="placeholder" [(ngModel)]="query" name="query">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select [value]="appliedFilter">
+      <mat-option *ngFor="let filter of filters" [value]="filter">
+        {{filter}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button type="submit" mat-raised-button color="primary">
+    <mat-icon>search</mat-icon>
+  </button>
+</form>

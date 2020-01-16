@@ -1,0 +1,20 @@
+@import 'src/app/constants.scss';
+
+.heading{
+    display: flex;
+    align-items: center;
+    margin: 0 16px;
+
+    height: 100%;
+    justify-content: center;
+}
+
+.heading mat-icon{
+    margin-right: 5px
+}
+
+@media screen and (max-width: $mobile-max-width){
+    .heading{
+        display: none;
+    }
+}

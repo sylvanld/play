@@ -1,0 +1,24 @@
+@import 'src/app/constants.scss';
+
+mat-toolbar{
+  padding: 0;
+  align-items: inherit;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+@media screen and (max-width: $mobile-max-width){
+  mat-toolbar{
+    bottom: 0;
+    position: fixed;
+    flex-direction: row-reverse;
+  }
+
+  mat-toolbar > app-heading{
+    display: none;
+  }
+
+  mat-toolbar > *{
+    flex: 1;
+  }
+}

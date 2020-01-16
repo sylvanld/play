@@ -1,0 +1,54 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* custom colors */
+@import '~@angular/material/theming';
+
+// Be sure that you only ever include 'mat-core' mixin once!
+// it should not be included for each theme.
+@include mat-core(); 
+
+$mat-secondary: (
+    50 : #e7e7e7,
+    100 : #c2c2c2,
+    200 : #999999,
+    300 : #707070,
+    400 : #525252,
+    500 : #333333,
+    600 : #2e2e2e,
+    700 : #272727,
+    800 : #202020,
+    900 : #141414,
+    A100 : #ef6e6e,
+    A200 : #ea4040,
+    A400 : #f60000,
+    A700 : #dd0000,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+
+// mandatory stuff for theming
+$play-palette-secondary: mat-palette($mat-secondary);
+
+// include the custom theme components into a theme object
+$play-theme: mat-light-theme($mat-blue, $play-palette-secondary);
+
+// include the custom theme object into the angular material theme
+@include angular-material-theme($play-theme);
