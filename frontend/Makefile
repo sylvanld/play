@@ -21,4 +21,4 @@ serve: ## run debug server in hot reload mode
 	ng serve
 
 build: ## build container and tag it as play-frontend
-	docker build -t play-frontend .
+	docker build -t everrest/play-frontend .

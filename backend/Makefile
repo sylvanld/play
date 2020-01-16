@@ -25,4 +25,7 @@ serve: ## run debug server in hot reload mode
 	$(VPYTHON) server.py
 
 build: ## build container and tag it as play-backend
-	docker build -t play-backend .
+	docker build -t everrest/play-backend .
+
+deploy: build ## push container to docker registry
+	docker push everrest/play-backend

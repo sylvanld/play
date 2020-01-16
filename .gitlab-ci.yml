@@ -5,10 +5,10 @@ docker-build-frontend-production:
   services:
     - docker:dind
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker login -u "$DOCKER_HUB_LOGIN" -p "$DOCKER_HUB_PASSWORD"
   script:
-    - docker build --pull -t "play/production/frontend" frontend/
-    - docker push "play/production/frontend"
+    - docker build --pull -t "everrest/play-frontend" frontend/
+    - docker push "everrest/play-frontend"
   only:
     - master
 
@@ -20,10 +20,10 @@ docker-build-backend-production:
   services:
     - docker:dind
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker login -u "$DOCKER_HUB_LOGIN" -p "$DOCKER_HUB_PASSWORD"
   script:
-    - docker build --pull -t "play/production/backend" backend/
-    - docker push "play/production/backend"
+    - docker build --pull -t "everrest/play-backend" backend/
+    - docker push "everrest/play-backend"
   only:
     - master
 
@@ -35,10 +35,10 @@ docker-build-frontend-integration:
   services:
     - docker:dind
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker login -u "$DOCKER_HUB_LOGIN" -p "$DOCKER_HUB_PASSWORD"
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:dev-frontend" frontend/
-    - docker push "$CI_REGISTRY_IMAGE:dev-frontend"
+    - docker build --pull -t "everrest/play-dev-frontend" frontend/
+    - docker push "everrest/play-dev-frontend"
   only:
     - dev
 
@@ -50,9 +50,9 @@ docker-build-backend-integration:
   services:
     - docker:dind
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker login -u "$DOCKER_HUB_LOGIN" -p "$DOCKER_HUB_PASSWORD"
   script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:dev-backend" backend/
-    - docker push "$CI_REGISTRY_IMAGE:dev-backend"
+    - docker build --pull -t "everrest/play-dev-backend" backend/
+    - docker push "everrest/play-dev-backend"
   only:
     - dev
