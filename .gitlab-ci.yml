@@ -7,8 +7,8 @@ docker-build-frontend-production:
   before_script:
     - docker login -u "$DOCKER_HUB_LOGIN" -p "$DOCKER_HUB_PASSWORD"
   script:
-    - docker build --pull -t "everrest/play-frontend" -t everrest/play-frontend:$CI_COMMIT_REF frontend/
-    - docker push everrest/play-frontend:$CI_COMMIT_REF
+    - docker build --pull -t "everrest/play-frontend" -t everrest/play-frontend:$CI_COMMIT_TAG frontend/
+    - docker push everrest/play-frontend:$CI_COMMIT_TAG
     - docker push everrest/play-frontend:latest
   only:
     - tags
@@ -23,8 +23,8 @@ docker-build-backend-production:
   before_script:
     - docker login -u "$DOCKER_HUB_LOGIN" -p "$DOCKER_HUB_PASSWORD"
   script:
-    - docker build --pull -t "everrest/play-backend" -t everrest/play-backend:$CI_COMMIT_REF backend/
-    - docker push everrest/play-backend:$CI_COMMIT_REF
+    - docker build --pull -t "everrest/play-backend" -t everrest/play-backend:$CI_COMMIT_TAG backend/
+    - docker push everrest/play-backend:$CI_COMMIT_TAG
     - docker push everrest/play-backend:latest
   only:
     - tags
