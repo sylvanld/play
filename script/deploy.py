@@ -70,7 +70,7 @@ commit_message = version_types[type_index].upper() + ': ' + version_note
 old_branch = current_branch()
 
 subprocess.call('git checkout dev', shell=True)
-increment_version(type_index)
+version = increment_version(type_index)
 
 for command in [
     'git add .',
