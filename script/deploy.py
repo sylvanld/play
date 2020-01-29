@@ -1,27 +1,16 @@
 import json
 import subprocess
 
+
 version_types = ['patch', 'minor', 'major']
+
 
 def current_branch():
     output = subprocess.check_output('git branch', shell=True)
     matches = filter(lambda s: s.startswith('*'), output.decode('utf-8').strip().split('\n'))
     branch = tuple(matches)[0][2:]
     return branch
-    """
-    [
-        current_branch,
-        'git checkout dev',
-        'increment version',
-        'git add .',
-        'git commit -m TRUC: version note',
-        'git push origin dev',
-        'git checkout master',
-        'git pull origin dev',
-        'git tag VERSION'
-        'git push --tags' <-- deployed
-    ]
-    """
+   
 
 def cinput(*messages, required=False, choices=None):
     """
@@ -48,6 +37,7 @@ def cinput(*messages, required=False, choices=None):
     print('-'*60)
     return response
 
+
 def increment_version(type_index=0):
     # increment (in-memory) current version
     package_data = json.load(open('package.json'))
@@ -62,25 +52,28 @@ def increment_version(type_index=0):
     return version
 
 
-type_index = cinput('Select version type', choices=version_types)
-version_note = cinput("Note for version")
-commit_message = version_types[type_index].upper() + ': ' + version_note
+def deploy(type_index, version_note=""):
+    if not version_note:
+        version_note = cinput("Note for version")
+    commit_message = version_types[type_index].upper() + ': ' + version_note
 
+    old_branch = current_branch()
 
-old_branch = current_branch()
+    subprocess.call('git checkout dev', shell=True)
+    version = increment_version(type_index)
 
-subprocess.call('git checkout dev', shell=True)
-version = increment_version(type_index)
+    for command in [
+        'git add .',
+        'git commit -m "%s"'%commit_message,
+        'git push origin dev',
+        'git checkout master',
+        'git pull origin dev',
+        'git push origin master',
+        'git tag %s'%version,
+        'git push --tags',
+        'git checkout %s'%old_branch
+    ]:
+        subprocess.check_call(command, shell=True)
 
-for command in [
-    'git add .',
-    'git commit -m "%s"'%commit_message,
-    'git push origin dev',
-    'git checkout master',
-    'git pull origin dev',
-    'git push origin master',
-    'git tag %s'%version,
-    'git push --tags',
-    'git checkout %s'%old_branch
-]:
-    subprocess.check_call(command, shell=True)
+if __name__ == '__main__':
+    deploy()
