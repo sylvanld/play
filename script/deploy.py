@@ -80,6 +80,7 @@ for command in [
     'git pull origin dev',
     'git push origin master',
     'git tag %s'%version,
-    'git push --tags'
+    'git push --tags',
+    'git checkout %s'%old_branch
 ]:
     subprocess.check_call(command, shell=True)
