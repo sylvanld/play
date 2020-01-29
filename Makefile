@@ -1,6 +1,4 @@
-
-integrate:
-	git checkout dev
-	git tag
+PYTHON=python3
 
 deploy:
+	$(PYTHON) -m script.deploy

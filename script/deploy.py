@@ -43,9 +43,3 @@ commit_message = version_types[type_index].upper() + ': ' + version_note
 # save version note and commit
 package_data['version'] = version
 json.dump(package_data, open('package.json', 'w'))
-
-# 
-commands = [
-    ''
-]
-subprocess.call()
