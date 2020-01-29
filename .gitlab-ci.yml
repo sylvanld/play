@@ -7,10 +7,11 @@ docker-build-frontend-production:
   before_script:
     - docker login -u "$DOCKER_HUB_LOGIN" -p "$DOCKER_HUB_PASSWORD"
   script:
-    - docker build --pull -t "everrest/play-frontend" frontend/
-    - docker push "everrest/play-frontend"
+    - docker build --pull -t "everrest/play-frontend" -t everrest/play-frontend:$CI_COMMIT_TAG frontend/
+    - docker push everrest/play-frontend:$CI_COMMIT_TAG
+    - docker push everrest/play-frontend:latest
   only:
-    - master
+    - tags
 
 
 docker-build-backend-production:
@@ -22,37 +23,8 @@ docker-build-backend-production:
   before_script:
     - docker login -u "$DOCKER_HUB_LOGIN" -p "$DOCKER_HUB_PASSWORD"
   script:
-    - docker build --pull -t "everrest/play-backend" backend/
-    - docker push "everrest/play-backend"
+    - docker build --pull -t "everrest/play-backend" -t everrest/play-backend:$CI_COMMIT_TAG backend/
+    - docker push everrest/play-backend:$CI_COMMIT_TAG
+    - docker push everrest/play-backend:latest
   only:
-    - master
-
-
-docker-build-frontend-integration:
-  # Official docker image.
-  image: docker:latest
-  stage: build
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u "$DOCKER_HUB_LOGIN" -p "$DOCKER_HUB_PASSWORD"
-  script:
-    - docker build --pull -t "everrest/play-dev-frontend" frontend/
-    - docker push "everrest/play-dev-frontend"
-  only:
-    - dev
-
-
-docker-build-backend-integration:
-  # Official docker image.
-  image: docker:latest
-  stage: build
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u "$DOCKER_HUB_LOGIN" -p "$DOCKER_HUB_PASSWORD"
-  script:
-    - docker build --pull -t "everrest/play-dev-backend" backend/
-    - docker push "everrest/play-dev-backend"
-  only:
-    - dev
+    - tags
