@@ -1,1 +1,5 @@
-{"version": "0.0.3"}
+{
+    "name": "play",
+    "language": "python",
+    "version": "0.0.3"
+}
