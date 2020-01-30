@@ -1,6 +1,6 @@
 import json
 import subprocess
-
+from .common import current_branch
 
 version_types = ['patch', 'minor', 'major']
 
@@ -75,4 +75,4 @@ def deploy(type_index):
         subprocess.check_call(command, shell=True)
 
 if __name__ == '__main__':
-    deploy()
+    deploy(0)
