@@ -52,9 +52,8 @@ def increment_version(type_index=0):
     return version
 
 
-def deploy(type_index, version_note=""):
-    if not version_note:
-        version_note = cinput("Note for version")
+def deploy(type_index):
+    version_note = cinput("Note for version")
     commit_message = version_types[type_index].upper() + ': ' + version_note
 
     old_branch = current_branch()
