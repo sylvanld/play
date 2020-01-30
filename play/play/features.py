@@ -1,8 +1,17 @@
 import sys
 import subprocess
-from .common import current_branch, abort
+from .common import current_branch, abort, sanitize
 
-def close_current_feature():
+def create_feature(name):
+    feature_name = 'feature/' + sanitize('name')
+    commands = (
+        ['git', 'checkout', 'dev'],
+        ['git', 'pull'],
+        ['git', 'checkout', '-b', feature_name],
+        ['git', 'push', '-u', 'origin', feature_name]
+    )
+
+def merge_current_feature():
     feature_branch = current_branch()
 
     if not feature_branch.startswith('feature/'):
