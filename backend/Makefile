@@ -17,11 +17,12 @@ help: ## display this message
 venv:
 	pip3 install virtualenv
 	virtualenv -p python3 venv
+	make install
 
 install: venv ## create virtualenv and install dependencies
 	$(VPIP) install -r requirements/dev
 
-serve: ## run debug server in hot reload mode
+serve: venv ## run debug server in hot reload mode
 	$(VPYTHON) server.py
 
 build: ## build container and tag it as play-backend
