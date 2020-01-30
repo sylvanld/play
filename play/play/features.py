@@ -10,6 +10,7 @@ def create_feature(name):
         ['git', 'checkout', '-b', feature_name],
         ['git', 'push', '-u', 'origin', feature_name]
     )
+    print(commands)
     for command in commands:
         subprocess.call(command, shell=True)
 
