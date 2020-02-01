@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './lib/material/material.module';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +21,11 @@ import { ArtistsListComponent } from './component/items/artists/artists-list/art
 import { ArtistItemComponent } from './component/items/artists/artist-item/artist-item.component';
 import { SearchResultsComponent } from './component/search/search-results/search-results.component';
 import { MatIconRegistry } from '@angular/material/icon';
+import { ListviewComponent } from './component/listview/listview.component';
+import { CardviewComponent } from './component/cardview/cardview.component';
+import { PlaylistsComponent } from './component/playlists/playlists.component';
+import { SliderComponent } from './component/slider/slider.component';
+import { ViewToggleComponent } from './component/view-toggle/view-toggle.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +41,12 @@ import { MatIconRegistry } from '@angular/material/icon';
     PlaytechComponent,
     ArtistsListComponent,
     ArtistItemComponent,
-    SearchResultsComponent
+    SearchResultsComponent,
+    ListviewComponent,
+    CardviewComponent,
+    PlaylistsComponent,
+    SliderComponent,
+    ViewToggleComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +54,8 @@ import { MatIconRegistry } from '@angular/material/icon';
     MaterialModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

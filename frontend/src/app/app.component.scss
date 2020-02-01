@@ -1,0 +1,7 @@
+.adaptative {
+    --space: calc(100% - 64px);
+    height: auto;
+    min-height: var(--space);
+    max-height: var(--space);
+    overflow-y: auto;
+}

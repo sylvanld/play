@@ -1,0 +1,45 @@
+/*@keyframes go-out-right {
+    from {left: 0px;}
+    to {right: 0px;}
+}
+  
+@keyframes enter-from-left {
+    from {left: -100%;}
+    to {left: 0px;}
+}
+
+@keyframes go-out-left {
+    from {right: 0px;}
+    to {left: 0px;}
+}
+
+@keyframes enter-from-right {
+    from {right: -100%;}
+    to {right: 0px;}
+}
+
+.show-list {
+	//width: 100%;
+    position: relative;
+    animation: go-out-right 5s; 
+}
+
+.hide {
+	display: block;
+	visibility: hidden;
+	position: relative;
+	height: 0 !important;
+	bottom: -1000px;	
+	z-index: -10;
+    transition: all 0.2s ease-in-out;
+}*/
+
+:host {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: stretch;
+    overflow-y: auto;
+}
