@@ -1,0 +1,68 @@
+@import 'src/app/constants.scss';
+
+.player-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 90px;
+  padding: 0 16px;
+
+  background-color: rgb(56, 56, 56);
+  bottom: 0;
+  position: fixed;
+  width: -moz-available;
+
+  @media screen and (max-width: $mobile-max-width){
+    bottom: 68px;
+  }
+}
+
+.player-container-left {
+  width: 30%;
+
+  // debug
+  height: 100%;
+}
+
+.player-container-center {
+  width: 40%;
+  min-width: 250px;
+  max-width: 722px;
+
+  // debug
+  height: 100%;
+}
+
+.player-container-right {
+  width: 30%;
+
+  // debug
+  height: 100%;
+}
+
+.player-controls {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.player-controls-buttons {
+  display: flex;
+  margin-bottom: 12px;
+  width: 224px;
+  justify-content: space-between;
+  flex-flow: row nowrap;
+}
+
+.control-buttons {
+  background-color: transparent;
+  border: none;
+  color:#b3b3b3;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  margin-top: 10px;
+}
+
