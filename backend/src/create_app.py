@@ -5,6 +5,9 @@ from src.addons import ma, api
 from src.database import create_db
 
 def create_app():
+    """
+    Create Flask application and initialize addons.
+    """
     app = Flask(__name__)
     app.config.from_object(environment)
 
