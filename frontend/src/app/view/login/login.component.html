@@ -1,0 +1,27 @@
+<app-form>
+    <h1>
+        <mat-icon svgIcon="play_logo"></mat-icon>
+        Play, login
+    </h1>
+    <form (submit)="submitLogin()" style="display: flex; flex-direction: column; padding: 16px">
+        <mat-form-field>
+            <input matInput placeholder="Email address" [formControl]="email" name="email" required autocomplete="off">
+            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="password" type="password" [formControl]="password" name="password" required
+                autocomplete="off">
+        </mat-form-field>
+        <button mat-raised-button color="primary">
+            Connexion
+        </button>
+        <p>
+            New play user? <a routerLink="/register">Register here</a>!
+        </p>
+    </form>
+    <h2>or</h2>
+    <div>
+        <app-spotify-login-button></app-spotify-login-button>
+        <app-deezer-login-button></app-deezer-login-button>
+    </div>
+</app-form>

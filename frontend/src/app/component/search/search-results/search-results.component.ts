@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DeezerGlobalSearchResult } from 'src/app/deezer/deezer-global-search-result';
+import { DeezerGlobalSearchResult } from 'src/app/module/deezer/deezer-global-search-result';
 
 @Component({
   selector: 'app-search-results',

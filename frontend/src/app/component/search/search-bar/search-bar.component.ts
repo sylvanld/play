@@ -1,6 +1,6 @@
-import { DeezerService } from '../../../deezer/deezer.service';
+import { DeezerService } from '../../../module/deezer/deezer.service';
 import { Component, OnInit, Input } from '@angular/core';
-import { DeezerGlobalSearchResult } from '../../../deezer/deezer-global-search-result';
+import { DeezerGlobalSearchResult } from '../../../module/deezer/deezer-global-search-result';
 
 const ALL = 'ALL';
 const TRACKS = 'TRACKS';

@@ -1,0 +1,30 @@
+<app-form>
+    <h1>
+        <mat-icon svgIcon="play_logo"></mat-icon>
+        Play, register
+    </h1>
+    <form (submit)="submitRegistration()" style="display: flex; flex-direction: column; padding: 16px">
+        <mat-form-field>
+            <input matInput placeholder="Email address" [(ngModel)]="user.email" name="email" autocomplete="off">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="password" type="password" [(ngModel)]="user.password" name="password"
+                autocomplete="off">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="confirm password" type="password" [(ngModel)]="confirmation"
+                name="confirmation" autocomplete="off">
+        </mat-form-field>
+        <button mat-raised-button color="primary">
+            Register
+        </button>
+        <p>
+            Already registered? <a routerLink="/login">Login here</a>!
+        </p>
+    </form>
+    <h2>or</h2>
+    <div>
+        <app-spotify-login-button></app-spotify-login-button>
+        <app-deezer-login-button></app-deezer-login-button>
+    </div>
+</app-form>

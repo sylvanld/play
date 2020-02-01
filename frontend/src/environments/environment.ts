@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  play_api_url: 'http://localhost:5000'
+  play_api_url: 'http://localhost:8080'
 };
 
 /*
