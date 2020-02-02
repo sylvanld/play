@@ -13,7 +13,7 @@
   height: 90px;
   padding: 0 16px;
 
-  background-color: #464646;
+  background-color: $player-background;
 }
 
 .player-container-left {
@@ -65,14 +65,14 @@
 .control-buttons {
   background-color: transparent;
   border: none;
-  color:#b3b3b3;
+  color: $player-secondary;
   width: 32px;
   min-width: 32px;
   height: 32px;
 }
 
 .player-bar {
-  color: red;
+  color: $player-primary;
   display: inline-flex;
   width: 100%;
   align-items: center;
@@ -86,9 +86,9 @@ mat-slider {
 
 ::ng-deep .mat-slider-track-background,
 ::ng-deep .mat-slider-thumb {
-  background-color: #b3b3b3 !important; /*replace with your color*/
+  background-color: $player-secondary !important; /*replace with your color*/
 }
 
 ::ng-deep .mat-slider-track-fill {
-  background-color: red !important;  /*replace with your color*/
+  background-color: $player-primary !important;  /*replace with your color*/
 }
