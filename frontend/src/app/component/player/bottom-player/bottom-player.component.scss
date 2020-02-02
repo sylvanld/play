@@ -11,10 +11,10 @@
   background-color: rgb(56, 56, 56);
   bottom: 0;
   position: fixed;
-  width: -moz-available;
+  width: 100%;
 
   @media screen and (max-width: $mobile-max-width){
-    bottom: 68px;
+    bottom: 55px;
   }
 }
 
@@ -73,7 +73,7 @@
 }
 
 mat-slider {
-  width: -moz-available;
+  width: 100%;
 }
 
 ::ng-deep .mat-slider-track-background,
