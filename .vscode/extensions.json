@@ -3,6 +3,7 @@
         "ms-vscode.vscode-typescript-tslint-plugin", // vscode typescript linter
         "mhutchie.git-graph", // graph for git branches
         "eamodio.gitlens", // git blame in code
-        "ms-python.python" // python for vscode
+        "ms-python.python", // python for vscode
+        "gruntfuggly.todo-tree" // provide nice todo explorer
     ]
 }
