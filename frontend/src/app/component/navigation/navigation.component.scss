@@ -1,5 +1,9 @@
 @import 'src/app/constants.scss';
 
+:host {
+  grid-area: navigation;
+}
+
 mat-toolbar{
   padding: 0;
   align-items: inherit;
@@ -9,8 +13,6 @@ mat-toolbar{
 
 @media screen and (max-width: $mobile-max-width){
   mat-toolbar{
-    bottom: 0;
-    position: fixed;
     flex-direction: row-reverse;
   }
 

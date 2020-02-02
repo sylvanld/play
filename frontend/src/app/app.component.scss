@@ -1,0 +1,16 @@
+@import 'src/app/constants.scss';
+
+:host {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 64px auto 90px;
+  grid-template-areas: "navigation"  "content"  "player";
+
+
+  @media screen and (max-width: $mobile-max-width) {
+    grid-template-rows: auto 90px 60px;
+    grid-template-areas: "content"  "player"  "navigation";
+  }
+}

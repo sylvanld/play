@@ -1,5 +1,10 @@
 @import 'src/app/constants.scss';
 
+:host {
+  grid-area: player;
+  align-items: end;
+}
+
 .player-container {
   align-items: center;
   display: flex;
@@ -9,9 +14,6 @@
   padding: 0 16px;
 
   background-color: rgb(56, 56, 56);
-  bottom: 0;
-  position: fixed;
-  width: 100%;
 
   @media screen and (max-width: $mobile-max-width){
     bottom: 55px;
@@ -36,9 +38,25 @@
 
 .player-container-right {
   width: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 
   // debug
   height: 100%;
+}
+
+.player-extracontrols {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 5px;
+}
+
+.volume-bar {
+  align-items: center;
+  width: 136px;
+  display: flex;
 }
 
 .player-controls {
