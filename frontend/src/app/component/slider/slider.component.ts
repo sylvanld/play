@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild, ContentChild, Directive, Input, ContentChildren, ElementRef, QueryList } from '@angular/core';
+import { SliderBarComponent } from './slider-bar/slider-bar.component';
+import { SliderAdapter } from './sliderAdapter.service';
 
 @Component({
   selector: 'app-slider',
@@ -6,38 +8,26 @@ import { Component, OnInit, Input, HostBinding, Output, EventEmitter } from '@an
   styleUrls: ['./slider.component.scss']
 })
 export class SliderComponent implements OnInit {
-  title: String = "";
-  content: String = "";
-  paramMenu: String = "";
-  status: boolean = false;
-  //@Input() title: String = "";
-  //@Input() parameters: String = null;
-  //@Input() status: boolean = false;
-  //@Output() statusChange = new EventEmitter<boolean>();
-  @HostBinding('class.active')
-    public get isActive(): boolean {
-      return this.status;
-    }
+  @ViewChild(SliderBarComponent, {static: false}) sliderBar:SliderBarComponent;
   
-  constructor() { }
-
-  ngOnInit() {
+  @HostBinding('class.active')
+  public get isActive(): boolean {
+    return this.status;
   }
 
-  /*showSlider() {
+  status: boolean = false;
+  
+  constructor(private sliderAdapter: SliderAdapter) { }
+
+  ngOnInit() {
+    this.sliderAdapter.becomeSlider(this);
+  }
+
+  show() {
     this.status = true;
-    this.statusChange.emit(this.status);
-  }*/
+  }
 
   hide() {
     this.status = false;
-    //this.statusChange.emit(this.status);
-  }
-
-  show(title=null, content=null, paramMenu=null) {
-    if (this.title !== null) this.title = title;
-    if (this.content !== null) this.content = content;
-    if (this.paramMenu !== null) this.paramMenu = paramMenu;
-    this.status = true;
   }
 }

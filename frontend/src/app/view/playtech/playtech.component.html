@@ -1,1 +1,19 @@
-<app-playlists></app-playlists>
+<app-browse></app-browse>
+
+<app-view-toggle (mode)="onSwitchMode($event)"></app-view-toggle>
+
+<div *ngIf="isListMode()" [@slide]>
+    <app-listview (addItemEvent)="addPlaylist()" (delItemEvent)="delPlaylist($event)" 
+        (moveItemEvent)="movePlaylist($event)" [items]="playlists" addBtnPosition="start">
+    </app-listview>
+</div>
+
+<div *ngIf="isCardMode()" [@slide]>
+    <app-cardview (addItemEvent)="addPlaylist()" (delItemEvent)="delPlaylist($event)" 
+        (moveItemEvent)="movePlaylist($event)" [items]="playlists" addBtnPosition="start">
+    </app-cardview>
+</div>
+
+<app-slider>
+    <app-playlist-creation-stepper></app-playlist-creation-stepper>
+</app-slider>

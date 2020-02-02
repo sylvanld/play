@@ -6,6 +6,30 @@
     align-content: stretch;
     align-items: flex-start;
     box-sizing: border-box;
+
+    .options {
+        position: absolute;
+        right: 0;
+        bottom: 5px;
+
+        flex: 0 0 fit-content;
+        display: inline-flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        align-content: stretch;
+        align-items: center;
+
+        >* {
+            margin: 5px;
+            order: 0;
+            flex: 0 1 auto;
+            align-self: auto;
+        }
+        >*:hover, >*:active {
+            color: blue;
+        }
+    }
 }
 
 .list-item {
@@ -78,6 +102,17 @@
 .secondary-content {
     font-size: 12px;
     color: gray;
+}
+
+.dragdrop-placeholder {
+    --size: 200px;
+    min-height: var(--size);
+    max-height: var(--size);
+    min-width: var(--size);
+    max-width: var(--size);
+    background: #ccc;
+    border: dotted 3px #999;
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 @keyframes text-defilement {

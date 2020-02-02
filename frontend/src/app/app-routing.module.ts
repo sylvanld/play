@@ -6,13 +6,13 @@ import { ShareComponent } from './view/share/share.component';
 import { AccountsComponent } from './view/accounts/accounts.component';
 import { PlayerComponent } from './view/player/player.component';
 
-
 const routes: Routes = [
   { path: 'player', component: PlayerComponent },
   { path: 'playtech', component: PlaytechComponent },
   { path: 'browse', component: BrowseComponent },
   { path: 'share', component: ShareComponent },
-  { path: 'accounts', component: AccountsComponent }
+  { path: 'accounts', component: AccountsComponent },
+  //{ path: 'slider', children: sliderRoutes }
 ];
 
 @NgModule({

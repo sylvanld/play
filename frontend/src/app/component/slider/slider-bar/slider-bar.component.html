@@ -1,0 +1,15 @@
+<mat-icon (click)="backAction()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon>
+<h2>{{ title }}</h2>
+<div>
+    <ng-template [ngIf]="paramMenu">
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="parameters">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu"> <!-- [innerHTML]="paramMenu"> -->
+            <button mat-menu-item (click)="param.onClick()" *ngFor="let param of paramMenu">
+                <mat-icon>{{ param.icon }}</mat-icon>
+                <span>{{ param.label }}</span>
+            </button>
+        </mat-menu>
+    </ng-template>
+</div>

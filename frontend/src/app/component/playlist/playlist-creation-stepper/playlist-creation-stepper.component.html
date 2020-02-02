@@ -1,0 +1,37 @@
+<mat-horizontal-stepper linear="true" (selectionChange)="stepChange($event)" *ngIf="!genComplete" #stepper>
+    <mat-step>
+        <ng-template matStepLabel>Création</ng-template>
+        <!-- <label id="playlist-type">Type de playlist</label> -->
+        <!-- [(ngModel)]="playlistType" (change)="playlistTypeChange($event)" -->
+        <mat-radio-group
+            class="radio-group-vertical"
+            [(ngModel)]="playlistType"
+        >
+            <mat-radio-button *ngFor="let choice of playlistTypeChoice()" [value]="choice">
+                {{ choice }}
+            </mat-radio-button>
+        </mat-radio-group>
+        <div>
+            <button mat-button (click)="checkGeneration()" matStepperNext>Suivant</button>
+        </div>
+    </mat-step>
+    <mat-step *ngIf="!this.isManual()">
+        <ng-template matStepLabel>Génération de contenu</ng-template>
+        <app-filtered-playlist-gen *ngIf="isFiltered()" [playlistId]="playlistId" (completed)="step2Completed()"></app-filtered-playlist-gen>
+        <app-external-playlist-gen *ngIf="isExternal()" [playlistId]="playlistId" (completed)="step2Completed()"></app-external-playlist-gen>
+        <div>
+            <button mat-button matStepperPrevious>Précédent</button>
+            <button mat-button (click)="checkGeneration()" matStepperNext>Suivant</button>
+        </div>
+    </mat-step>
+    <!-- <mat-step *ngIf="showStep3()">
+        <ng-template matStepLabel>Edition</ng-template>
+        <app-playlist-edition locked="false"></app-playlist-edition>
+        <div>
+            <button mat-button matStepperPrevious>Précédent</button>
+            <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+    </mat-step> -->
+</mat-horizontal-stepper>
+
+<app-playlist-edition [(locked)]="playlistLocker" [playlistId]="playlistId" *ngIf="genComplete"></app-playlist-edition>
