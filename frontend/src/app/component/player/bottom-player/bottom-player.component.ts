@@ -11,6 +11,7 @@ export class BottomPlayerComponent implements OnInit, OnDestroy {
 
   private isDefined = false;
   private isPlaying: YT.PlayerState = YT.PlayerState.UNSTARTED;
+  private isMuted = false;
 
   private updateInterval;
   private currentTime: number;

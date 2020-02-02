@@ -33,8 +33,11 @@
     <!-- About extra controls -->
     <div class="player-extracontrols">
       <div class="volume-bar" dir="ltr">
-        <mat-icon>volume_up</mat-icon>
-        <mat-slider [min]="0" [max]="100"></mat-slider>
+        <button class="control-buttons" (click)="player.toogleVolume()">
+          <mat-icon *ngIf="isMuted">volume_off</mat-icon>
+          <mat-icon *ngIf="!isMuted">volume_up</mat-icon>
+        </button>
+        <mat-slider [min]="0" [max]="100" [(ngModel)]="player.volume"></mat-slider>
       </div>
     </div>
   </div>

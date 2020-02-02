@@ -48,12 +48,18 @@ export class PlayerService {
     public readonly play = () => { this._player.playVideo(); };
     public readonly pause = () => { this._player.pauseVideo(); };
     public readonly toogleState = () => {
-      if (this.currentState() === YT.PlayerState.PLAYING) { this.pause(); }
-      else if (this.currentState() === YT.PlayerState.BUFFERING) { this.pause(); }
-      else { this.play(); }
+      this.currentState() in [YT.PlayerState.PLAYING, YT.PlayerState.BUFFERING] ? this.pause() : this.play();
     }
     public readonly next = () => { this._player.nextVideo(); };
     public readonly previous = () => { this._player.previousVideo(); };
+
+    // Player extra controls //
+    public readonly mute = () => { this._player.mute(); };
+    public readonly unMute = () => { this._player.unMute(); };
+    public readonly isMuted = () => this._player.isMuted();
+    public readonly toogleVolume = () => { this.isMuted() ? this.unMute() : this.mute(); };
+    public get volume() { return this._player.getVolume(); }
+    public set volume(v: number) { this._player.setVolume(v); }
 
     // Player tracks //
     public readonly currentTime = () => this._player.getCurrentTime();
