@@ -50,7 +50,6 @@
 
 .player-controls-buttons {
   display: flex;
-  margin-bottom: 12px;
   width: 224px;
   justify-content: space-between;
   flex-flow: row nowrap;
@@ -66,3 +65,22 @@
   margin-top: 10px;
 }
 
+.player-bar {
+  color: red;
+  display: inline-flex;
+  width: 350px;
+  align-items: center;
+}
+
+mat-slider {
+  width: -moz-available;
+}
+
+::ng-deep .mat-slider-track-background,
+::ng-deep .mat-slider-thumb {
+  background-color: #b3b3b3 !important; /*replace with your color*/
+}
+
+::ng-deep .mat-slider-track-fill {
+  background-color: red !important;  /*replace with your color*/
+}

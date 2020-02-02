@@ -20,8 +20,8 @@ import { PlaytechComponent } from './view/playtech/playtech.component';
 import { ArtistsListComponent } from './component/items/artists/artists-list/artists-list.component';
 import { ArtistItemComponent } from './component/items/artists/artist-item/artist-item.component';
 import { SearchResultsComponent } from './component/search/search-results/search-results.component';
+import { BottomPlayerComponent } from './component/player/bottom-player/bottom-player.component';
 import { MatIconRegistry } from '@angular/material/icon';
-import { StickyPlayerComponent } from './component/player/sticky-player/player.component';
 import { TimerPipePipe } from './pipes/timer-pipe.pipe';
 
 @NgModule({
@@ -39,8 +39,8 @@ import { TimerPipePipe } from './pipes/timer-pipe.pipe';
     ArtistsListComponent,
     ArtistItemComponent,
     SearchResultsComponent,
-    StickyPlayerComponent,
-    TimerPipePipe
+    TimerPipePipe,
+    BottomPlayerComponent
   ],
   imports: [
     BrowserModule,

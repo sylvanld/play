@@ -1,6 +1,6 @@
 <p>player works!</p>
 
 <mat-form-field>
-  <input matInput placeholder="Title" [(ngModel)]="query" (keyup)="updates()">
+  <input matInput placeholder="Title" [ngModel]="query" (ngModelChange)='changed($event)' >
 </mat-form-field>
 

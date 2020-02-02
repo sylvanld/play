@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 import { YoutubeService } from '@youtube/youtube.service';
+import { PlayerService } from '@play/player.service';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-player',
@@ -10,18 +12,27 @@ import { YoutubeService } from '@youtube/youtube.service';
 export class PlayerComponent implements OnInit {
 
   private query: string;
+  private modelChanged: Subject<string> = new Subject<string>();
 
-  constructor(private youtube: YoutubeService) { }
+  constructor(private player: PlayerService, private youtube: YoutubeService) { }
 
   ngOnInit() {
+    this.modelChanged.pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe(
+        (query) => {
+          this.query = query;
+          this.youtube.searchTrack(query)
+            .subscribe(( object: any ) => {
+              const id: string = object.items[0].id.videoId;
+              console.log(id);
+              this.player.loadPlaylist([id], 0);
+            });
+        }
+      );
   }
 
-  updates() {
-    this.youtube.searchTrack(this.query).subscribe(( object ) => {
-      let id: string = object.items[0].id.videoId;
-      console.log(id);
-      this.youtube.loadPlaylist([id], 0);
-    });
+  changed(text: string) {
+    this.modelChanged.next(text);
   }
 
 }
