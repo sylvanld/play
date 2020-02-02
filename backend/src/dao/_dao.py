@@ -34,11 +34,16 @@ class DAO:
         return obj
 
     @classmethod
+    def get_first(cls, **kwargs):
+        return cls.model.query.filter_by(**kwargs).first()
+
+    @classmethod
     def filter(cls, *filters):
         return cls.model.query.filter(*filters).all()
 
     @classmethod
-    def create(cls, data):        
+    def create(cls, data):
+        print('create', cls.__name__, 'with data', data)        
         instance = cls.load(data)
         db.session.add(instance)
         db.session.commit()

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-spotify-login-button',
@@ -9,10 +10,11 @@ import { environment } from 'src/environments/environment';
 export class SpotifyLoginButtonComponent implements OnInit {
   spotifyAuthorizationUrl: string;
 
-  constructor() { }
+  constructor(private auth: AuthenticationService) { }
 
   ngOnInit() {
-    this.spotifyAuthorizationUrl = environment.play_api_url + '/auth/spotify';
+    const identifier = (!!this.auth.accessToken) ? '?token=' + this.auth.accessToken : '';
+    this.spotifyAuthorizationUrl = environment.play_api_url + '/auth/spotify' + identifier;
   }
 
 }

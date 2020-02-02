@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-deezer-login-button',
@@ -9,10 +10,10 @@ import { environment } from 'src/environments/environment';
 export class DeezerLoginButtonComponent implements OnInit {
   deezerAuthorizationUrl: string;
 
-  constructor() { }
+  constructor(private auth: AuthenticationService) { }
 
   ngOnInit() {
-    this.deezerAuthorizationUrl = environment.play_api_url + '/auth/deezer';
+    this.deezerAuthorizationUrl = environment.play_api_url + '/auth/deezer?token=' + this.auth.accessToken;
   }
 
 }

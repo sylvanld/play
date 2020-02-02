@@ -12,8 +12,9 @@ class User(db.Model):
         return None
 
     @password.setter
-    def password(self, phrase):
-        self.pwdhash = bcrypt.generate_password_hash(phrase)
+    def password(self, phrase=None):
+        if phrase is not None:
+            self.pwdhash = bcrypt.generate_password_hash(phrase)
 
     def check_password(self, candidate):
         if self.pwdhash is None:

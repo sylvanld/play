@@ -1,7 +1,7 @@
 from src.addons import db
 
 from src.database.user import User
-from src.database.account import Account
+from src.database.account import Account, Provider
 
 
 def create_db(app):

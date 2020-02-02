@@ -15,7 +15,7 @@ class TokenResource(Resource):
         """
         Return play access token
         """
-        return UserDAO.get_token()
+        return UserDAO.get_token_resource()
         
         
 

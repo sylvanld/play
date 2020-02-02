@@ -1,6 +1,6 @@
 import requests
 from urllib.parse import urlencode
-from flask import redirect
+from flask import redirect, request
 
 from src.authentication._provider import IdentityProvider
 from src.environment import (
@@ -10,11 +10,13 @@ from src.environment import (
 class Deezer(IdentityProvider):
     @classmethod
     def require_authorization(cls):
+        state = {'state': request.args['token']} if request.args.get('token') else {}
         # redirect end-user on authorization page
         return redirect('https://connect.deezer.com/oauth/auth.php?' + urlencode({
             'app_id': DEEZER_CLIENT_ID,
             'redirect_uri': DEEZER_REDIRECT_URI,
-            'perms': ','.join(DEEZER_PERMISSIONS)
+            'perms': ','.join(DEEZER_PERMISSIONS),
+            **state
         }))
 
     @classmethod
@@ -42,8 +44,8 @@ class Deezer(IdentityProvider):
         user_info = response.json()
 
         return {
-            'id': user_info['id'],
-            'provider': 'deezer',
+            'external_id': str(user_info['id']),
+            'provider': 'DEEZER',
             'name': user_info['name'].title(),
             'lang': user_info['country'],
             'email': user_info['email']

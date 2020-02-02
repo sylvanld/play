@@ -1,5 +1,5 @@
 import requests
-from flask import redirect
+from flask import redirect, request
 from urllib.parse import urlencode
 
 from src.authentication._provider import IdentityProvider
@@ -10,12 +10,14 @@ from src.environment import (
 class Spotify(IdentityProvider):
     @classmethod
     def require_authorization(cls):
+        state = {'state': request.args['token']} if request.args.get('token') else {}
         # redirect end-user on authorization page
         return redirect('https://accounts.spotify.com/authorize?' + urlencode({
             'client_id': SPOTIFY_CLIENT_ID,
             'response_type': 'code',
             'redirect_uri': SPOTIFY_REDIRECT_URI,
-            'scope': ' '.join(SPOTIFY_PERMISSIONS)
+            'scope': ' '.join(SPOTIFY_PERMISSIONS),
+            **state
         }))
 
     @classmethod
@@ -47,8 +49,8 @@ class Spotify(IdentityProvider):
         user_info = response.json()
 
         return {
-            'id': user_info['id'],
-            'provider': 'spotify',
+            'external_id': user_info['id'],
+            'provider': 'SPOTIFY',
             'name': user_info['display_name'].title(),
             'lang': user_info['country'],
             'email': user_info['email']
