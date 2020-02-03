@@ -9,10 +9,16 @@ users_ns = Namespace('users', '...', path='/users')
 @users_ns.route('')
 class UsersResource(Resource):
     def get(self):
+        """
+        Browse users
+        """
         users = UserDAO.filter()
         return UserDAO.dump(users, many=True)
     
     def post(self):
+        """
+        Create user
+        """
         user = UserDAO.create(request.json)
         return UserDAO.dump(user)
 
@@ -21,18 +27,30 @@ class UsersResource(Resource):
 class CurrentUserResource(Resource):
     @jwt_required
     def get(self):
+        """
+        Get current user's details
+        """
         return UserDAO.dump(current_user)
 
 
 @users_ns.route('/<int:user_id>')
 class UserResource(Resource):
     def get(self, user_id):
+        """
+        Get user's details
+        """
         user = UserDAO.get_by_id(user_id)
         return UserDAO.dump(user)
 
     def put(self, user_id):
+        """
+        Edit user's details
+        """
         user = UserDAO.update(user_id, request.json)
         return UserDAO.dump(user)
 
     def delete(self, user_id):
+        """
+        Delete a user
+        """
         UserDAO.delete(user_id)

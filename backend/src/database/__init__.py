@@ -2,6 +2,12 @@ from src.addons import db
 
 from src.database.user import User
 from src.database.account import Account, Provider
+from src.database.friendship import Friendship
+
+from src.database.track import Track
+from src.database.artist import Artist
+from src.database.album import Album
+from src.database.playlist import Playlist
 
 
 def create_db(app):
