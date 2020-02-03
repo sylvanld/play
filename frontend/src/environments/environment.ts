@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  // need to forward requests to an http proxy to communicate with deezer from http
+  deezer_api_url: 'https://cors-anywhere.herokuapp.com/https://api.deezer.com',
   play_api_url: 'http://localhost:8080'
 };
 

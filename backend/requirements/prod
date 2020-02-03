@@ -8,6 +8,7 @@ Click==7.0
 Flask==1.1.1
 Flask-Bcrypt==0.7.1
 Flask-Cors==3.0.8
+Flask-JWT-Extended==3.24.1
 flask-marshmallow==0.10.1
 flask-restplus==0.13.0
 Flask-SQLAlchemy==2.4.1
@@ -18,9 +19,11 @@ Jinja2==2.10.3
 jsonschema==3.2.0
 MarkupSafe==1.1.1
 marshmallow==3.3.0
+marshmallow-enum==1.5.1
 marshmallow-sqlalchemy==0.21.0
 more-itertools==8.1.0
 pycparser==2.19
+PyJWT==1.7.1
 pyrsistent==0.15.7
 pytz==2019.3
 requests==2.22.0
