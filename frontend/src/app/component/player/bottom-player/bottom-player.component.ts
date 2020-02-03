@@ -8,16 +8,15 @@ import { YoutubeService } from '@youtube/youtube.service';
   styleUrls: ['./bottom-player.component.scss']
 })
 export class BottomPlayerComponent implements OnInit, OnDestroy {
-
-  private isDefined = false;
-  private isPlaying: YT.PlayerState = YT.PlayerState.UNSTARTED;
-  private isMuted = false;
+  isDefined = false;
+  isPlaying: YT.PlayerState = YT.PlayerState.UNSTARTED;
+  isMuted = false;
 
   private updateInterval;
-  private currentTime: number;
-  private duration: number;
+  currentTime: number;
+  duration: number;
 
-  constructor(private player: PlayerService) { }
+  constructor(public player: PlayerService) { }
 
   ngOnInit() {
     // subscribe to the state
@@ -38,11 +37,11 @@ export class BottomPlayerComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
-  newValue({value}) {
+  newValue({ value }) {
     this.player.seekTo(value, true);
     this.player.play();
   }
-  onMove({value}) {
+  onMove({ value }) {
     this.player.seekTo(value, false);
     this.player.pause();
   }

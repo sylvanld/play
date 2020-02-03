@@ -21,13 +21,13 @@ export class PlayerService {
   /** Initialise the player.
    * @param instance: the player instance.
    */
-  ready({target}) {
+  ready({ target }) {
     this._isDefined.next(true);
     this._player = target;
 
     // adding handlers
     const vm: PlayerService = this;
-    const onStateChangeHandler = ({data}: YT.OnStateChangeEvent) => {
+    const onStateChangeHandler = ({ data }: YT.OnStateChangeEvent) => {
       vm._isPlaying.next(data);
     };
 
@@ -44,52 +44,52 @@ export class PlayerService {
 
   // public Player API //
 
-    // Player controls //
-    public readonly play = () => { this._player.playVideo(); };
-    public readonly pause = () => { this._player.pauseVideo(); };
-    public readonly toogleState = () => {
-      this.currentState() in [YT.PlayerState.PLAYING, YT.PlayerState.BUFFERING] ? this.pause() : this.play();
-    }
-    public readonly next = () => { this._player.nextVideo(); };
-    public readonly previous = () => { this._player.previousVideo(); };
+  // Player controls //
+  public readonly play = () => { this._player.playVideo(); };
+  public readonly pause = () => { this._player.pauseVideo(); };
+  public readonly toggleState = () => {
+    this.currentState() in [YT.PlayerState.PLAYING, YT.PlayerState.BUFFERING] ? this.pause() : this.play();
+  }
+  public readonly next = () => { this._player.nextVideo(); };
+  public readonly previous = () => { this._player.previousVideo(); };
 
-    // Player extra controls //
-    public readonly mute = () => { this._player.mute(); };
-    public readonly unMute = () => { this._player.unMute(); };
-    public readonly isMuted = () => this._player.isMuted();
-    public readonly toogleVolume = () => { this.isMuted() ? this.unMute() : this.mute(); };
-    public get volume() { return this._player.getVolume(); }
-    public set volume(v: number) { this._player.setVolume(v); }
+  // Player extra controls //
+  public readonly mute = () => { this._player.mute(); };
+  public readonly unMute = () => { this._player.unMute(); };
+  public readonly isMuted = () => this._player.isMuted();
+  public readonly toggleVolume = () => { this.isMuted() ? this.unMute() : this.mute(); };
+  public get volume() { return this._player.getVolume(); }
+  public set volume(v: number) { this._player.setVolume(v); }
 
-    // Player tracks //
-    public readonly currentTime = () => this._player.getCurrentTime();
-    public readonly seekTo = (seconds: number, reload = false) => this._player.seekTo(seconds, reload);
+  // Player tracks //
+  public readonly currentTime = () => this._player.getCurrentTime();
+  public readonly seekTo = (seconds: number, reload = false) => this._player.seekTo(seconds, reload);
 
-    public readonly durationTime = () => this._player.getDuration();
-    public readonly currentState = () => this._player.getPlayerState();
+  public readonly durationTime = () => this._player.getDuration();
+  public readonly currentState = () => this._player.getPlayerState();
 
-    /** Play a track from the current playlist.
-     * @param index: the positional id inside the playlist.
-     */
-    public playTrack(index: number) {
-      this._player.playVideoAt(index);
-    }
+  /** Play a track from the current playlist.
+   * @param index: the positional id inside the playlist.
+   */
+  public playTrack(index: number) {
+    this._player.playVideoAt(index);
+  }
 
-    /** Load tracks and start playing.
-     * @param tracks: List or string of YT id's video.
-     * @param index: The positional track played.
-     */
-    // tslint:disable-next-line: max-line-length
-    public loadPlaylist(tracks: string[] | string, index: number) {
-      this._player.loadPlaylist(tracks, index);
-    }
+  /** Load tracks and start playing.
+   * @param tracks: List or string of YT id's video.
+   * @param index: The positional track played.
+   */
+  // tslint:disable-next-line: max-line-length
+  public loadPlaylist(tracks: string[] | string, index: number) {
+    this._player.loadPlaylist(tracks, index);
+  }
 
-    /** Cue tracks with the current playlist.
-     * @param tracks: List or string of YT id's video.
-     * @param index: The positional track played.
-     */
-    public cuePlaylist(tracks: Array<string> | string, index: number) {
-      this._player.cuePlaylist(tracks, index);
-    }
+  /** Cue tracks with the current playlist.
+   * @param tracks: List or string of YT id's video.
+   * @param index: The positional track played.
+   */
+  public cuePlaylist(tracks: Array<string> | string, index: number) {
+    this._player.cuePlaylist(tracks, index);
+  }
 
 }

@@ -10,8 +10,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-
-  private query: string;
+  query: string;
   private modelChanged: Subject<string> = new Subject<string>();
 
   constructor(private player: PlayerService, private youtube: YoutubeService) { }
@@ -22,7 +21,7 @@ export class PlayerComponent implements OnInit {
         (query) => {
           this.query = query;
           this.youtube.searchTrack(query)
-            .subscribe(( object: any ) => {
+            .subscribe((object: any) => {
               const id: string = object.items[0].id.videoId;
               console.log(id);
               this.player.loadPlaylist([id], 0);
