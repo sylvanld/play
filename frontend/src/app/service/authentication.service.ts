@@ -42,16 +42,30 @@ export class AuthenticationService {
   ) { }
 
   register(user: { email: string, password: string }) {
-    return this.http.post(environment.play_api_url + '/users', user);
+    this.http.post(environment.play_api_url + '/users', user)
+      .subscribe(
+        resp => {
+          this.notify.info('Successfully registered');
+          this.login(user.email, user.password);
+        },
+        error => {
+          let message: string = null;
+          switch (error.status) {
+            case 409:
+              message = 'An account already exists with this email address.';
+              break;
+          }
+          this.notify.error(message);
+        }
+      );
   }
 
   login(email, password) {
-    return this.http.post(environment.play_api_url + '/auth/token', {
+    this.http.post(environment.play_api_url + '/auth/token', {
       email, password
     }).subscribe(
       (grant: { access_token: string }) => {
         this.setToken(grant.access_token);
-        this.notify.info('Successfully authenticated');
         this.router.navigateByUrl('/');
       }
       ,
@@ -80,6 +94,10 @@ export class AuthenticationService {
     this.accessToken = accessToken;
     this.storage.set(ACCESS_TOKEN, this.accessToken);
     this._connected.next(true);
+  }
+
+  getToken() {
+    return this.accessToken || null;
   }
 
   loadTokenFromUrl() {

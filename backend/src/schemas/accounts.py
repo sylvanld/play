@@ -12,6 +12,6 @@ class AccountSchema(ma.ModelSchema):
     class Meta:
         unknown = EXCLUDE
         model = Account
-        fields = ('id', 'email', 'external_id', 'provider', 'code', 'user_id')
+        fields = ('id', 'email', 'name', 'external_id', 'provider', 'code', 'user_id')
         load_only = ('code',)
         dump_only = ('id',)

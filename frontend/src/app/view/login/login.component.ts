@@ -20,9 +20,9 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  getErrorMessage() {
-    return this.email.hasError('required') ? 'You must enter a value' :
-      this.email.hasError('email') ? 'Not a valid email' :
+  getErrorMessage(field: FormControl) {
+    return field.hasError('required') ? 'This field is mandatory' :
+      field.hasError('email') ? 'Not a valid email' :
         '';
   }
 

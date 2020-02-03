@@ -51,6 +51,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .icon-play{
     background-image: url('assets/icons/play.svg');
 }
+.icon-spotify{
+    background-image: url('/assets/icons/spotify.svg');
+}
+.icon-deezer{
+    background-image: url('/assets/icons/deezer.svg');
+}
 
 /* custom colors */
 @import '~@angular/material/theming';

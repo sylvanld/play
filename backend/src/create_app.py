@@ -6,7 +6,7 @@ from src.addons import ma, api, cors, bcrypt, jwt
 from src.database import create_db
 from src.endpoints import create_endpoints
 from src.authentication.play import configure_jwt
-
+from src.exceptions import HttpError
 
 def create_app():
     """
@@ -15,6 +15,10 @@ def create_app():
     app = Flask(__name__)
     app.wsgi_app = ProxyFix(app.wsgi_app)
     app.config.from_object(environment)
+
+    @app.errorhandler(HttpError)
+    def error_handler(error: HttpError):
+        return error.make_response()
 
     create_db(app)
     create_endpoints(api)

@@ -20,9 +20,7 @@ export class RegisterComponent implements OnInit {
 
   submitRegistration() {
     if (this.user.password !== '' && this.user.password === this.confirmation) {
-      this.auth.register(this.user).subscribe(resp => {
-        console.log(resp);
-      });
+      this.auth.register(this.user);
     }
   }
 

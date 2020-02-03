@@ -1,5 +1,7 @@
 from flask import request
 from flask_restplus import Resource, Namespace
+from flask_jwt_extended import jwt_required, current_user
+
 from ..dao.user import UserDAO
 
 users_ns = Namespace('users', '...', path='/users')
@@ -13,6 +15,13 @@ class UsersResource(Resource):
     def post(self):
         user = UserDAO.create(request.json)
         return UserDAO.dump(user)
+
+
+@users_ns.route('/me')
+class CurrentUserResource(Resource):
+    @jwt_required
+    def get(self):
+        return UserDAO.dump(current_user)
 
 
 @users_ns.route('/<int:user_id>')

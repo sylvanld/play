@@ -1,6 +1,9 @@
 from ..addons import db, ma 
+from ..exceptions import HttpError
+
 from typing import Dict
-from flask import abort
+from sqlalchemy.exc import IntegrityError
+
 
 class DAO:
     model: db.Model
@@ -30,7 +33,7 @@ class DAO:
     def get_or_404(cls, obj_id):
         obj = cls.get_by_id(obj_id)
         if not obj:
-            return abort(404)
+            return HttpError("%s with id %s not found"%(cls.model.__name__, obj_id), 404)
         return obj
 
     @classmethod
@@ -43,12 +46,19 @@ class DAO:
 
     @classmethod
     def create(cls, data):
-        print('create', cls.__name__, 'with data', data)        
-        instance = cls.load(data)
-        db.session.add(instance)
-        db.session.commit()
-        return instance
-
+        try:    
+            instance = cls.load(data)
+            db.session.add(instance)
+            db.session.commit()
+            return instance
+        except IntegrityError as e:
+            error = str(e).lower()
+            if 'unique' in error:
+                raise HttpError({
+                    'message': 'Unique constraint failed when creating %s'%cls.model.__name__
+                }, 409)
+            else:
+                raise e
 
     @classmethod
     def update(cls, obj_id, data):

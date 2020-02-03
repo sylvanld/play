@@ -13,7 +13,8 @@ export class DeezerLoginButtonComponent implements OnInit {
   constructor(private auth: AuthenticationService) { }
 
   ngOnInit() {
-    this.deezerAuthorizationUrl = environment.play_api_url + '/auth/deezer?token=' + this.auth.accessToken;
+    const identifier = (!!this.auth.accessToken) ? '?token=' + this.auth.accessToken : '';
+    this.deezerAuthorizationUrl = environment.play_api_url + '/auth/deezer' + identifier;
   }
 
 }

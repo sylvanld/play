@@ -6,11 +6,12 @@
     <form (submit)="submitLogin()" style="display: flex; flex-direction: column; padding: 16px">
         <mat-form-field>
             <input matInput placeholder="Email address" [formControl]="email" name="email" required autocomplete="off">
-            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+            <mat-error *ngIf="email.invalid">{{getErrorMessage(email)}}</mat-error>
         </mat-form-field>
         <mat-form-field>
             <input matInput placeholder="password" type="password" [formControl]="password" name="password" required
                 autocomplete="off">
+            <mat-error *ngIf="password.invalid">{{getErrorMessage(password)}}</mat-error>
         </mat-form-field>
         <button mat-raised-button color="primary">
             Connexion

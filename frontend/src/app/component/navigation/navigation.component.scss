@@ -22,3 +22,8 @@ mat-toolbar{
     flex: 1;
   }
 }
+
+app-nav-item.active{
+  color: #D93936;
+  background-color: #EBEBEB;
+}
