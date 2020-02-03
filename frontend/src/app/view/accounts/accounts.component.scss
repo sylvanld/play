@@ -1,21 +1,22 @@
 @import 'src/app/constants.scss';
 
 :host{
-    grid-area: content;
-    display: flex;
-    padding: 16px;
+  grid-area: content;
+  overflow-y: auto;
+  display: flex;
+  padding: 16px;
 }
 
 aside{
-    flex: 1;
+  flex: 1;
 }
 
 @media screen and (max-width: $mobile-max-width){
   :host{
-      flex-direction: column;
+    flex-direction: column;
   }
 }
 
 i{
-    font-size: 1.5em;
+  font-size: 1.5em;
 }

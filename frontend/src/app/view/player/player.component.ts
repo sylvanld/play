@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { YoutubeService } from '@youtube/youtube.service';
-import { PlayerService } from '@play/player.service';
+import { YoutubeService } from 'src/app/service/youtube.service';
+import { PlayerService } from 'src/app/service/player.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 

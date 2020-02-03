@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PlayerService } from '@play/player.service';
-import { YoutubeService } from '@youtube/youtube.service';
+import { PlayerService } from 'src/app/service/player.service';
+import { YoutubeService } from 'src/app/service/youtube.service';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 @Component({
   selector: 'app-bottom-player',
@@ -8,6 +9,7 @@ import { YoutubeService } from '@youtube/youtube.service';
   styleUrls: ['./bottom-player.component.scss']
 })
 export class BottomPlayerComponent implements OnInit, OnDestroy {
+  isConnected = false;
   isDefined = false;
   isPlaying: YT.PlayerState = YT.PlayerState.UNSTARTED;
   isMuted = false;
@@ -16,12 +18,13 @@ export class BottomPlayerComponent implements OnInit, OnDestroy {
   currentTime: number;
   duration: number;
 
-  constructor(public player: PlayerService) { }
+  constructor(public player: PlayerService, private auth: AuthenticationService) { }
 
   ngOnInit() {
     // subscribe to the state
     this.player.isDefined.subscribe(val => this.isDefined = val);
     this.player.isPlaying.subscribe(val => this.isPlaying = val);
+    this.auth.connected.subscribe(val => this.isConnected = val);
 
     // This code loads the IFrame Player API code asynchronously.
     const tag = document.createElement('script');
