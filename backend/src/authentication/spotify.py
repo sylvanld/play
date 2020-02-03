@@ -4,8 +4,9 @@ from urllib.parse import urlencode
 
 from src.authentication._provider import IdentityProvider
 from src.environment import (
-    SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REDIRECT_URI, SPOTIFY_PERMISSIONS)
+    SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_PERMISSIONS, PLAY_AUTHORIZED_URI)
 
+SPOTIFY_REDIRECT_URI = PLAY_AUTHORIZED_URI + '/spotify'
 
 class Spotify(IdentityProvider):
     @classmethod

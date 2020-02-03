@@ -4,8 +4,9 @@ from flask import redirect, request
 
 from src.authentication._provider import IdentityProvider
 from src.environment import (
-    DEEZER_CLIENT_ID, DEEZER_CLIENT_SECRET, DEEZER_REDIRECT_URI, DEEZER_PERMISSIONS)
+    DEEZER_CLIENT_ID, DEEZER_CLIENT_SECRET, DEEZER_PERMISSIONS, PLAY_AUTHORIZED_URI)
 
+DEEZER_REDIRECT_URI = PLAY_AUTHORIZED_URI + '/deezer'
 
 class Deezer(IdentityProvider):
     @classmethod
