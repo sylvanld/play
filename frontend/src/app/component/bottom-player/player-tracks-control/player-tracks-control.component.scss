@@ -1,53 +1,5 @@
 @import 'src/app/constants.scss';
 
-:host {
-  grid-area: player;
-  align-items: end;
-  z-index: 4;
-}
-
-.player-container {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  height: 90px;
-  padding: 0 16px;
-
-  background-color: $player-background;
-}
-
-.player-container-left {
-  width: 30%;
-}
-
-
-.player-container-center {
-  width: 40%;
-  min-width: 250px;
-  max-width: 722px;
-}
-
-.player-container-right {
-  width: 30%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-.player-extracontrols {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding-right: 5px;
-}
-
-.volume-bar {
-  align-items: center;
-  width: 136px;
-  display: flex;
-}
-
 .player-controls {
   display: flex;
   flex-direction: column;
@@ -67,9 +19,6 @@
   background-color: transparent;
   border: none;
   color: $player-secondary;
-  width: 32px;
-  min-width: 32px;
-  height: 32px;
 }
 
 .player-bar {

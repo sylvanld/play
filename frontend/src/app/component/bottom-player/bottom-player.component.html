@@ -1,0 +1,13 @@
+<div class="player-container" *ngIf="isDefined && isConnected">
+  <div class="player-container-center">
+    <!-- About the controls -->
+    <app-player-tracks-control></app-player-tracks-control>
+  </div>
+  <div class="player-container-right">
+    <!-- About extra controls -->
+    <div class="player-extracontrols">
+      <app-player-sound-control></app-player-sound-control>
+    </div>
+  </div>
+</div>
+<app-youtube-player></app-youtube-player>

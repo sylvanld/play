@@ -1,0 +1,28 @@
+@import 'src/app/constants.scss';
+
+.volume-bar {
+  align-items: flex-end;
+  display: flex;
+}
+
+.control-buttons {
+  background-color: transparent;
+  border: none;
+  color: $player-secondary;
+}
+
+.item-menu {
+  display: flex;
+  min-width: 150px;
+  padding: 0 5px;
+}
+
+::ng-deep .mat-slider-track-background,
+::ng-deep .mat-slider-thumb {
+  background-color: $player-secondary !important; /*replace with your color*/
+}
+
+::ng-deep .mat-slider-track-fill {
+  background-color: $player-primary !important;  /*replace with your color*/
+}
+

@@ -1,0 +1,23 @@
+<div class="player-controls" aria-label="Contrôles du lecteur">
+  <div class="player-controls-buttons">
+    <!-- Buttons -->
+    <button mat-button class="control-buttons" (click)="player.previous()">
+      <mat-icon>skip_previous</mat-icon>
+    </button>
+    <button mat-button class="control-buttons" (click)="player.toggleState()">
+      <mat-icon *ngIf="isPlaying === 1 || isPlaying === 3">pause_circle_outline</mat-icon>
+      <mat-icon *ngIf="!(isPlaying === 1 || isPlaying === 3)">play_circle_outline</mat-icon>
+    </button>
+    <button mat-button class="control-buttons" (click)="player.next()">
+      <mat-icon>skip_next</mat-icon>
+    </button>
+  </div>
+  <div class="player-bar">
+    <!-- Bar -->
+    {{ currentTime | timerPipe }}
+    <mat-slider [max]="duration" [min]="0" [value]="currentTime" (input)="onMove($event)"
+      (change)="newValue($event)">
+    </mat-slider>
+    {{ duration | timerPipe }}
+  </div>
+</div>
