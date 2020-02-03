@@ -1,4 +1,4 @@
-docker-build-frontend-production:
+build-frontend-image:
   # Official docker image.
   image: docker:latest
   stage: build
@@ -10,11 +10,13 @@ docker-build-frontend-production:
     - docker build --pull -t "everrest/play-frontend" -t everrest/play-frontend:$CI_COMMIT_TAG frontend/
     - docker push everrest/play-frontend:$CI_COMMIT_TAG
     - docker push everrest/play-frontend:latest
+  after_script:
+    - curl http://ci-cd.play.sylvan.ovh/deploy/frontend
   only:
     - tags
 
 
-docker-build-backend-production:
+build-backend-image:
   # Official docker image.
   image: docker:latest
   stage: build
@@ -26,5 +28,7 @@ docker-build-backend-production:
     - docker build --pull -t "everrest/play-backend" -t everrest/play-backend:$CI_COMMIT_TAG backend/
     - docker push everrest/play-backend:$CI_COMMIT_TAG
     - docker push everrest/play-backend:latest
+  after_script:
+    - curl http://ci-cd.play.sylvan.ovh/deploy/frontend
   only:
     - tags
