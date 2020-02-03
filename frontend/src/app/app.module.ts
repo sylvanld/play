@@ -1,14 +1,14 @@
 import { HttpClientModule } from '@angular/common/http';
-import { MaterialModule } from './lib/material/material.module';
+import { MaterialModule } from './module/material/material.module';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import {YouTubePlayerModule} from '@angular/youtube-player';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearchbarComponent } from './component/search/search-bar/search-bar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigationComponent } from './component/navigation/navigation.component';
 import { NavItemComponent } from './component/navigation/nav-item/nav-item.component';
 import { HeadingComponent } from './component/navigation/heading/heading.component';
@@ -23,6 +23,11 @@ import { SearchResultsComponent } from './component/search/search-results/search
 import { BottomPlayerComponent } from './component/player/bottom-player/bottom-player.component';
 import { MatIconRegistry } from '@angular/material/icon';
 import { TimerPipePipe } from './pipes/timer-pipe.pipe';
+import { LoginComponent } from './view/login/login.component';
+import { RegisterComponent } from './view/register/register.component';
+import { FormComponent } from './component/core/form/form.component';
+import { SpotifyLoginButtonComponent } from './component/auth/spotify-login-button/spotify-login-button.component';
+import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button/deezer-login-button.component';
 
 @NgModule({
   declarations: [
@@ -40,11 +45,17 @@ import { TimerPipePipe } from './pipes/timer-pipe.pipe';
     ArtistItemComponent,
     SearchResultsComponent,
     TimerPipePipe,
-    BottomPlayerComponent
+    BottomPlayerComponent,
+    LoginComponent,
+    RegisterComponent,
+    FormComponent,
+    SpotifyLoginButtonComponent,
+    DeezerLoginButtonComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     AppRoutingModule,
     BrowserAnimationsModule,

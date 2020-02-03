@@ -5,14 +5,22 @@ import { BrowseComponent } from './view/browse/browse.component';
 import { ShareComponent } from './view/share/share.component';
 import { AccountsComponent } from './view/accounts/accounts.component';
 import { PlayerComponent } from './view/player/player.component';
+import { LoginComponent } from './view/login/login.component';
+import { RegisterComponent } from './view/register/register.component';
+import { AuthenticatedGuard } from './guard/authenticated.guard';
+import { NotAuthenticatedGuard } from './guard/not-authenticated.guard';
 
 
 const routes: Routes = [
-  { path: 'player', component: PlayerComponent },
-  { path: 'playtech', component: PlaytechComponent },
-  { path: 'browse', component: BrowseComponent },
-  { path: 'share', component: ShareComponent },
-  { path: 'accounts', component: AccountsComponent }
+  { path: 'player', component: PlayerComponent, canActivate: [AuthenticatedGuard] },
+  { path: 'playtech', component: PlaytechComponent, canActivate: [AuthenticatedGuard] },
+  { path: 'browse', component: BrowseComponent, canActivate: [AuthenticatedGuard] },
+  { path: 'share', component: ShareComponent, canActivate: [AuthenticatedGuard] },
+  { path: 'accounts', component: AccountsComponent, canActivate: [AuthenticatedGuard] },
+  { path: '', redirectTo: 'playtech', pathMatch: 'prefix' },
+  //
+  { path: 'login', component: LoginComponent, canActivate: [NotAuthenticatedGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [NotAuthenticatedGuard] }
 ];
 
 @NgModule({

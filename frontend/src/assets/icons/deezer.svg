@@ -1,0 +1,63 @@
+<svg width="250" height="250" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <style type="text/css">.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#40AB5D;}
+	.st1{fill-rule:evenodd;clip-rule:evenodd;fill:url(#rect8192_1_);}
+	.st2{fill-rule:evenodd;clip-rule:evenodd;fill:url(#rect8199_1_);}
+	.st3{fill-rule:evenodd;clip-rule:evenodd;fill:url(#rect8206_1_);}
+	.st4{fill-rule:evenodd;clip-rule:evenodd;fill:url(#rect8213_1_);}
+	.st5{fill-rule:evenodd;clip-rule:evenodd;fill:url(#rect8220_1_);}
+	.st6{fill-rule:evenodd;clip-rule:evenodd;fill:url(#rect8227_1_);}
+	.st7{fill-rule:evenodd;clip-rule:evenodd;fill:url(#rect8234_1_);}
+	.st8{fill-rule:evenodd;clip-rule:evenodd;fill:url(#rect8241_1_);}
+	.st9{fill-rule:evenodd;clip-rule:evenodd;fill:url(#rect8248_1_);}</style>
+ <g class="layer">
+  <title>Layer 1</title>
+  <g id="g8252">
+   <rect height="25.1" width="42.9" class="st0" y="66.48456" x="179.2037" id="rect8185"/>
+   <linearGradient transform="translate(-2.370370388031006,0) translate(26.074073791503906,4.740740776062012) translate(0,86.84381866455078) " gradientTransform="matrix(1.8318 0 0 -1.8318 381.8134 477.9528)" y2="255.8256" x2="-111.9427" y1="241.8037" x1="-111.7225" gradientUnits="userSpaceOnUse" id="rect8192_1_">
+    <stop stop-color="#358C7B" offset="0"/>
+    <stop stop-color="#33A65E" offset="0.5256"/>
+   </linearGradient>
+   <rect height="25.1" width="42.9" class="st1" y="101.28456" x="179.2037" id="rect8192"/>
+   <linearGradient transform="translate(-2.370370388031006,0) translate(26.074073791503906,4.740740776062012) translate(0,86.84381866455078) " gradientTransform="matrix(1.8318 0 0 -1.8318 381.8134 477.9528)" y2="235.9171" x2="-99.7725" y1="223.6279" x1="-123.8913" gradientUnits="userSpaceOnUse" id="rect8199_1_">
+    <stop stop-color="#222B90" offset="0"/>
+    <stop stop-color="#367B99" offset="1"/>
+   </linearGradient>
+   <rect height="25.1" width="42.9" class="st2" y="136.08456" x="179.2037" id="rect8199"/>
+   <linearGradient transform="translate(-2.370370388031006,0) translate(26.074073791503906,4.740740776062012) translate(0,86.84381866455078) " gradientTransform="matrix(1.8318 0 0 -1.8318 381.8134 477.9528)" y2="210.7725" x2="-185.0319" y1="210.7725" x1="-208.4319" gradientUnits="userSpaceOnUse" id="rect8206_1_">
+    <stop stop-color="#FF9900" offset="0"/>
+    <stop stop-color="#FF8000" offset="1"/>
+   </linearGradient>
+   <rect height="25.1" width="42.9" class="st3" y="170.88456" x="23.7037" id="rect8206"/>
+   <linearGradient transform="translate(-2.370370388031006,0) translate(26.074073791503906,4.740740776062012) translate(0,86.84381866455078) " gradientTransform="matrix(1.8318 0 0 -1.8318 381.8134 477.9528)" y2="210.7725" x2="-156.7319" y1="210.7725" x1="-180.1319" gradientUnits="userSpaceOnUse" id="rect8213_1_">
+    <stop stop-color="#FF8000" offset="0"/>
+    <stop stop-color="#CC1953" offset="1"/>
+   </linearGradient>
+   <rect height="25.1" width="42.9" class="st4" y="170.88456" x="75.5037" id="rect8213"/>
+   <linearGradient transform="translate(-2.370370388031006,0) translate(26.074073791503906,4.740740776062012) translate(0,86.84381866455078) " gradientTransform="matrix(1.8318 0 0 -1.8318 381.8134 477.9528)" y2="210.7725" x2="-128.4319" y1="210.7725" x1="-151.8319" gradientUnits="userSpaceOnUse" id="rect8220_1_">
+    <stop stop-color="#CC1953" offset="0"/>
+    <stop stop-color="#241284" offset="1"/>
+   </linearGradient>
+   <rect height="25.1" width="42.9" class="st5" y="170.88456" x="127.4037" id="rect8220"/>
+   <linearGradient transform="translate(-2.370370388031006,0) translate(26.074073791503906,4.740740776062012) translate(0,86.84381866455078) " gradientTransform="matrix(1.8318 0 0 -1.8318 381.8134 477.9528)" y2="210.7725" x2="-100.1596" y1="210.7725" x1="-123.5596" gradientUnits="userSpaceOnUse" id="rect8227_1_">
+    <stop stop-color="#222B90" offset="0"/>
+    <stop stop-color="#3559A6" offset="1"/>
+   </linearGradient>
+   <rect height="25.1" width="42.9" class="st6" y="170.88456" x="179.2037" id="rect8227"/>
+   <linearGradient transform="translate(-2.370370388031006,0) translate(26.074073791503906,4.740740776062012) translate(0,86.84381866455078) " gradientTransform="matrix(1.8318 0 0 -1.8318 381.8134 477.9528)" y2="233.4639" x2="-127.5083" y1="226.0811" x1="-152.7555" gradientUnits="userSpaceOnUse" id="rect8234_1_">
+    <stop stop-color="#CC1953" offset="0"/>
+    <stop stop-color="#241284" offset="1"/>
+   </linearGradient>
+   <rect height="25.1" width="42.9" class="st7" y="136.08456" x="127.4037" id="rect8234"/>
+   <linearGradient transform="translate(-2.370370388031006,0) translate(26.074073791503906,4.740740776062012) translate(0,86.84381866455078) " gradientTransform="matrix(1.8318 0 0 -1.8318 381.8134 477.9528)" y2="225.2108" x2="-155.899" y1="234.3341" x1="-180.9648" gradientUnits="userSpaceOnUse" id="rect8241_1_">
+    <stop stop-color="#FFCC00" offset="0.00267"/>
+    <stop stop-color="#CE1938" offset="0.9999"/>
+   </linearGradient>
+   <rect height="25.1" width="42.9" class="st8" y="136.08456" x="75.5037" id="rect8241"/>
+   <linearGradient transform="translate(-2.370370388031006,0) translate(26.074073791503906,4.740740776062012) translate(0,86.84381866455078) " gradientTransform="matrix(1.8318 0 0 -1.8318 381.8134 477.9528)" y2="239.791" x2="-158.6987" y1="257.7539" x1="-178.1651" gradientUnits="userSpaceOnUse" id="rect8248_1_">
+    <stop stop-color="#FFD100" offset="0.00267"/>
+    <stop stop-color="#FD5A22" offset="1"/>
+   </linearGradient>
+   <rect height="25.1" width="42.9" class="st9" y="101.28456" x="75.5037" id="rect8248"/>
+  </g>
+ </g>
+</svg>
