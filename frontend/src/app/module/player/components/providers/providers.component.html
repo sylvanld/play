@@ -1,6 +1,6 @@
 
 <youtube-player
-  *ngIf="player.config.default === 'youtube'"
+  *ngIf="player.config.selection === 'youtube'"
   videoId="0" [height]="200" [width]="300"
   (ready)="player.ready($event)"
   [style.display]="showVideo ? 'block' : 'none'"

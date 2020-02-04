@@ -40,7 +40,7 @@ export class PlayerService {
   }
 
   public provider: PlayerProviderExtends;
-  constructor(@Inject(PlayerConfigService) public config) { }
+  constructor(@Inject(PlayerConfigService) public config: PlayerConfig) { }
 
   _setProvider(target: YT.Player) {
     this.provider = PlayerFactory.make_player(target);
@@ -48,7 +48,8 @@ export class PlayerService {
 
   ready($event) {
     const vm = this;
-    if (this.config.default === 'youtube') {
+
+    if (this.config.selection === 'youtube') {
       this._setProvider($event.target);
 
       this.provider.addEventListener('onStateChange', ({ data }: YT.OnStateChangeEvent) => {
