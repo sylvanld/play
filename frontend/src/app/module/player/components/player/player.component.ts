@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerService } from '../../services/player.service';
-import { PlayerState } from '@player/services/player.types';
 
 @Component({
   selector: 'app-player',

@@ -1,7 +1,7 @@
 import { Injectable, Inject, InjectionToken } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { PlayerConfig, PlayerExtends, PlayerState, VolumeState } from './player.types';
+import { PlayerConfig, PlayerState, PlayerVolumeState, PlayerProviderExtends } from '~types/player';
 import PlayerFactory from './player.factory';
 
 // tslint:disable-next-line: variable-name
@@ -21,8 +21,8 @@ export class PlayerService {
   set state(val: PlayerState) { this._state.next(val); }
 
   // about the volume of the player
-  private _volume: BehaviorSubject<VolumeState> = new BehaviorSubject(VolumeState.HIGH);
-  public readonly volumeObs: Observable<VolumeState> = this._volume.asObservable();
+  private _volume: BehaviorSubject<PlayerVolumeState> = new BehaviorSubject(PlayerVolumeState.HIGH);
+  public readonly volumeObs: Observable<PlayerVolumeState> = this._volume.asObservable();
   get volume() { return this.provider ? this.provider.getVolume() : 0; }
   set volume(vol: number) {
     if (this.provider) {
@@ -30,17 +30,17 @@ export class PlayerService {
 
       // handle the state of the volume
       if (vol !== this._volume.getValue()) {
-        vol > VolumeState.OFF
-        ? vol > VolumeState.LOW
-        ? this._volume.next(VolumeState.HIGH)
-        : this._volume.next(VolumeState.LOW)
-        : this._volume.next(VolumeState.OFF);
+        vol > PlayerVolumeState.OFF
+          ? vol > PlayerVolumeState.LOW
+            ? this._volume.next(PlayerVolumeState.HIGH)
+            : this._volume.next(PlayerVolumeState.LOW)
+          : this._volume.next(PlayerVolumeState.OFF);
       }
     }
   }
 
-  public provider: PlayerExtends;
-  constructor(@Inject(PlayerConfigService) public config) {}
+  public provider: PlayerProviderExtends;
+  constructor(@Inject(PlayerConfigService) public config) { }
 
   _setProvider(target: YT.Player) {
     this.provider = PlayerFactory.make_player(target);
@@ -51,7 +51,7 @@ export class PlayerService {
     if (this.config.default === 'youtube') {
       this._setProvider($event.target);
 
-      this.provider.addEventListener('onStateChange', ({data}: YT.OnStateChangeEvent) => {
+      this.provider.addEventListener('onStateChange', ({ data }: YT.OnStateChangeEvent) => {
         // handle the state of the playing
         data === YT.PlayerState.ENDED
           ? vm._state.next(PlayerState.ENDED)
@@ -74,9 +74,9 @@ export class PlayerService {
     }
   }
   toggleVolume(): void {
-    if (this._volume.getValue() === VolumeState.HIGH || this._volume.getValue() === VolumeState.LOW) {
+    if (this._volume.getValue() === PlayerVolumeState.HIGH || this._volume.getValue() === PlayerVolumeState.LOW) {
       this.provider.mute();
-      this._volume.next(VolumeState.MUTED);
+      this._volume.next(PlayerVolumeState.MUTED);
     } else {
       this.provider.unMute();
       this.volume = this.volume;

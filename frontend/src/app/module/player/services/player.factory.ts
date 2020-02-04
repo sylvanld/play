@@ -1,18 +1,18 @@
-import { PlayerExtends, PlayerState } from './player.types';
+import { PlayerProviderExtends } from '~types/player';
 
 export default {
 
-  make_player(vm: YT.Player): PlayerExtends {
+  make_player(vm: YT.Player): PlayerProviderExtends {
     if (vm instanceof YT.Player) {
       return this._make_youtube(vm);
     }
   },
 
   /**
-   * Factory to build @class:PlayerExtends: linked to @class:YT.Player:
+   * Factory to build @class:PlayerProviderExtends: linked to @class:YT.Player:
    * @param target: The current player.
    */
-  _make_youtube(target: YT.Player): PlayerExtends {
+  _make_youtube(target: YT.Player): PlayerProviderExtends {
     return {
       // functions
       next(): void { target.nextVideo(); },
@@ -20,8 +20,8 @@ export default {
       prev(): void { target.previousVideo(); },
       play(idx?: number): void {
         idx === undefined
-        ? target.playVideo()
-        : target.playVideoAt(idx);
+          ? target.playVideo()
+          : target.playVideoAt(idx);
       },
 
       seekTo(seconds: number, reload: boolean): void {

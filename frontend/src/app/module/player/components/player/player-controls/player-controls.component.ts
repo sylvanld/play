@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy, Output } from '@angular/core';
-import { PlayerState } from '@player/services/player.types';
-import { PlayerService } from '@player/services/player.service';
-import { EventEmitter } from 'events';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { PlayerService } from '../../../services/player.service';
+import { PlayerState } from '~types/player';
 
 @Component({
   selector: 'app-player-controls',

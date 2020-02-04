@@ -1,6 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { PlayerService } from '@player/services/player.service';
-import { PlayerState, VolumeState } from '@player/services/player.types';
+import { Component, OnInit } from '@angular/core';
+import { PlayerService } from '../../../services/player.service';
+import { PlayerVolumeState } from '~types/player';
 
 @Component({
   selector: 'app-player-extra-controls',
@@ -9,13 +9,13 @@ import { PlayerState, VolumeState } from '@player/services/player.types';
 })
 export class PlayerExtraControlsComponent implements OnInit {
 
-  private muteState: VolumeState;
+  private muteState: PlayerVolumeState;
   private showVideo = false;
 
   constructor(private player: PlayerService) { }
 
   ngOnInit() {
-    this.player.volumeObs.subscribe((val: VolumeState) => { this.muteState = val; });
+    this.player.volumeObs.subscribe((val: PlayerVolumeState) => { this.muteState = val; });
     this.player.showVideo.subscribe((val: boolean) => { this.showVideo = val; });
   }
 

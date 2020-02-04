@@ -10,6 +10,8 @@ import { ProvidersComponent } from './components/providers/providers.component';
 import { PlayerConfig } from './services/player.types';
 import { PlayerControlsComponent } from './components/player/player-controls/player-controls.component';
 import { PlayerExtraControlsComponent } from './components/player/player-extra-controls/player-extra-controls.component';
+
+// custom pipes
 import { TimerPipePipe } from './pipes/timer-pipe.pipe';
 
 // angular material dependencies

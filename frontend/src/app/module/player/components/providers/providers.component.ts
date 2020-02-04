@@ -1,6 +1,5 @@
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { PlayerService } from '../../services/player.service';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-player-providers',
