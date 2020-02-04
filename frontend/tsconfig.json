@@ -10,7 +10,8 @@
     "module": "esnext",
     "moduleResolution": "node",
     "paths": {
-      "@player/*": ["src/app/module/player/*"]
+      "@player/*": ["src/app/module/player/*"],
+      "@types/*": ["src/app/types/*"],
     },
     "importHelpers": true,
     "target": "es2015",
