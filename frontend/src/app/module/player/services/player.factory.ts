@@ -1,4 +1,7 @@
 import { PlayerProviderExtends } from '~types/player';
+import { Playlist } from '~types/playlist';
+import { currentId } from 'async_hooks';
+import { Track } from '~types/track';
 
 export default {
 
@@ -27,11 +30,18 @@ export default {
       seekTo(seconds: number, reload: boolean): void {
         target.seekTo(seconds, reload);
       },
-      cueTracks(tracks: string | string[]): void {
-        target.cuePlaylist(tracks);
+
+      cueTracks(...tracks: Track[]): void {
+        target.cuePlaylist(tracks.map(track => track.external_ids.youtube));
       },
-      loadTracks(tracks: string | string[]): void {
-        target.loadPlaylist(tracks);
+      cuePlaylist({ tracks }: Playlist): void {
+        target.cuePlaylist(tracks.map(track => track.external_ids.youtube));
+      },
+      loadTracks(...tracks: Track[]): void {
+        target.loadPlaylist(tracks.map(track => track.external_ids.youtube));
+      },
+      loadPlaylist({ tracks }: Playlist): void {
+        target.loadPlaylist(tracks.map(track => track.external_ids.youtube));
       },
 
       currentTime(): number {
@@ -54,5 +64,3 @@ export default {
     };
   },
 };
-
-

@@ -1,3 +1,5 @@
+import { Track } from '~types/track';
+import { Playlist } from '~types/playlist';
 
 export interface Player {
 
@@ -8,11 +10,13 @@ export interface Player {
  */
 export interface PlayerProviderExtends {
 
-  cueTracks(tracks: string | string[]): void;
+  cuePlaylist(playlist: Playlist): void;
+  cueTracks(...tracks: Track[]): void;
   currentTime(): number;
   durationTime(): number;
   getVolume(): number;
-  loadTracks(tracks: string | string[]): void;
+  loadPlaylist(playlist: Playlist): void;
+  loadTracks(...tracks: Track[]): void;
   mute(): void;
   next(): void;
   pause(): void;
