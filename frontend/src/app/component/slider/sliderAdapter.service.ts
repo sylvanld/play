@@ -1,39 +1,60 @@
 import { Injectable } from '@angular/core';
+import { SliderBarComponent } from './slider-bar/slider-bar.component';
 import { SliderComponent } from './slider.component';
+import { of } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SliderAdapter {
-    private slider: SliderComponent;
+    private sliderBar: SliderBarComponent;
+    //private slider: SliderComponent;
+    private title: String = "";
+    private paramMenu: Object[] = null;
+    private backAction = () => { this.sliderBar.hide() }
+    //private backAction = () => { if (this.slider != null) this.slider.hide() }
 
-    becomeSlider(slider: SliderComponent) {
+    /*becomeSlider(slider: SliderComponent) {
         this.slider = slider;
-        this.slider.sliderBar
+    }*/
+
+    becomeSliderController(sliderBar: SliderBarComponent) {
+        this.sliderBar = sliderBar;
     }
 
     setBarTitle(title: string) {
-        if (this.slider != null) {
-            this.slider.sliderBar.title = title;
-        }
-        
+        this.title = title;
     }
 
     setBarParamMenu(paramMenu: any) {
-        if (this.slider != null) {
-            this.slider.sliderBar.paramMenu = paramMenu;
-        }
+        this.paramMenu = paramMenu;
     }
 
-    setBarBackAction(backAction: ()=>{}) {
-        if (this.slider != null) {
-            this.slider.sliderBar.backAction = backAction;
-        }
+    setBarBackAction(backAction: ()=>any) {
+        this.backAction = backAction;
     }
 
     hideSlider() {
-        if (this.slider != null) {
-            this.slider.sliderBar.hide();
+        if (this.sliderBar != null) {
+            this.sliderBar.hide();
         }
+    }
+
+    showSlider() {
+        if (this.sliderBar != null) {
+            this.sliderBar.show();
+        }
+    }
+
+    bindTitle()  {
+        return of(this.title);
+    }
+
+    bindParamMenu()  {
+        return of(this.paramMenu);
+    }
+
+    bindBackAction()  {
+        return of(this.backAction);
     }
 }

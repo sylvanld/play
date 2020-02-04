@@ -1,37 +1,34 @@
-<mat-horizontal-stepper linear="true" (selectionChange)="stepChange($event)" *ngIf="!genComplete" #stepper>
+<mat-horizontal-stepper linear="true" (selectionChange)="stepChange($event)" #stepper>
     <mat-step>
-        <ng-template matStepLabel>Création</ng-template>
-        <!-- <label id="playlist-type">Type de playlist</label> -->
-        <!-- [(ngModel)]="playlistType" (change)="playlistTypeChange($event)" -->
-        <mat-radio-group
-            class="radio-group-vertical"
-            [(ngModel)]="playlistType"
-        >
-            <mat-radio-button *ngFor="let choice of playlistTypeChoice()" [value]="choice">
-                {{ choice }}
-            </mat-radio-button>
-        </mat-radio-group>
-        <div>
-            <button mat-button (click)="checkGeneration()" matStepperNext>Suivant</button>
+        <ng-template matStepLabel>Création (1/2)</ng-template>
+        <div class="vertical-align">
+            <button mat-button (click)="modeNewPlaylist(true)">Nouveau</button>
+            <button mat-button (click)="modeNewPlaylist(false)">Importer</button>
         </div>
     </mat-step>
-    <mat-step *ngIf="!this.isManual()">
-        <ng-template matStepLabel>Génération de contenu</ng-template>
-        <app-filtered-playlist-gen *ngIf="isFiltered()" [playlistId]="playlistId" (completed)="step2Completed()"></app-filtered-playlist-gen>
-        <app-external-playlist-gen *ngIf="isExternal()" [playlistId]="playlistId" (completed)="step2Completed()"></app-external-playlist-gen>
-        <div>
-            <button mat-button matStepperPrevious>Précédent</button>
-            <button mat-button (click)="checkGeneration()" matStepperNext>Suivant</button>
+    <mat-step>
+        <ng-template matStepLabel>Création (2/2)</ng-template>
+        <div class="vertical-align" *ngIf="newPlaylist">
+            <mat-form-field>
+                <input matInput type="text" placeholder="Titre" [(ngModel)]="playlistTitle">
+                <button mat-button *ngIf="playlistTitle" matSuffix mat-icon-button aria-label="Clear" (click)="playlistTitle=''">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </mat-form-field>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button matStepperNext>Next</button>
+            </div>
+        </div>
+        <div class="vertical-align" *ngIf="!newPlaylist">
+            <button mat-button>Spotify</button>
+            <button mat-button>Youtube</button>
+            <button mat-button>Deezer</button>
         </div>
     </mat-step>
-    <!-- <mat-step *ngIf="showStep3()">
-        <ng-template matStepLabel>Edition</ng-template>
-        <app-playlist-edition locked="false"></app-playlist-edition>
-        <div>
-            <button mat-button matStepperPrevious>Précédent</button>
-            <button mat-button (click)="stepper.reset()">Reset</button>
-        </div>
-    </mat-step> -->
+    <mat-step>
+        <ng-template matStepLabel>Contenu</ng-template>
+        <!-- <app-filter-block (toAdd)="addSongs($event)"></app-filter-block> -->
+        <app-playlist-edition *ngIf="playlist" [locked]="false" [playlistId]="playlist.id"></app-playlist-edition>
+    </mat-step>
 </mat-horizontal-stepper>
-
-<app-playlist-edition [(locked)]="playlistLocker" [playlistId]="playlistId" *ngIf="genComplete"></app-playlist-edition>

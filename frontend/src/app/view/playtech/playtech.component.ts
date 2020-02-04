@@ -1,89 +1,90 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PlaylistsService } from '../../view/playtech/playlists.service';
-import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { SliderComponent } from 'src/app/component/slider/slider.component';
+import { Playlist } from 'src/app/classes/Playlist';
+import { ViewItem } from 'src/app/classes/ViewItem';
+import { SliderAdapter } from 'src/app/component/slider/sliderAdapter.service';
 
 @Component({
   selector: 'app-playtech',
   templateUrl: './playtech.component.html',
-  styleUrls: ['./playtech.component.scss'],
-  animations: [
-    trigger('slide', [
-      transition(':enter', [
-        query('.list-item', [
-          style({opacity: 0, transform: 'translateX(-100px)'}),
-          stagger(30, [
-            animate('0.2s cubic-bezier(0.35, 0, 0.25, 1)', style({ opacity: 1, transform: 'none' }))
-          ])
-        ])
-      ])
-    ])
-  ]
+  styleUrls: ['./playtech.component.scss']
 })
 
 export class PlaytechComponent implements OnInit {
-  public playlists = []; //:Playlist[];
-  switchMode:number = 0;  // 0: list ; 1: card
-  //sliderStatus = false;
-  @ViewChild(SliderComponent, {static: false}) slider:SliderComponent;
+  playlists: Playlist[] = [];
+  playlistsF: ViewItem[] = [];
+  switchMode: number = 0;  // 0: list ; 1: card
+  locked: boolean = false;
+  sliderPlaylistCreation: boolean = true;
+  selectedPlaylistId: string = null;
 
-  constructor(private data: PlaylistsService) { }
+  @ViewChild(SliderComponent, {static: false}) slider: SliderComponent;
+
+  constructor(private data: PlaylistsService, private sliderController: SliderAdapter) { }
 
   ngOnInit() {
-    this.data.getMyPlaylists().subscribe(
-      //playlists => this.playlists = playlists
-      playlists => {
-        for (let idx in playlists) {
-          this.playlists.push({
-            picture: playlists[idx].picture,
-            mainContent: playlists[idx].title,
-            secondaryContent: playlists[idx].author
-          })
-        }
+    let { observable, currentData } = this.data.getObservablePlaylist();
+    for (let p of currentData) {
+      this.playlists.push(p);
+      this.playlistsF.push(Playlist.toViewFormat(p));
+    }
+    observable.subscribe(event => {
+      //console.log('playtech playlist change detected:', event);
+      switch (event.action) {
+        case "flush":
+          this.playlists.splice(0, this.playlists.length);
+          this.playlistsF.splice(0, this.playlists.length);
+          break;
+        case "push":
+          this.playlists.push(event.data);
+          this.playlistsF.push(Playlist.toViewFormat(event.data));
+          break;
+        case "delete":
+          this.playlists.splice(event.data, 1);
+          this.playlistsF.splice(event.data, 1);
+          break;
+        case "update":
+          let index = Playlist.indexById(this.playlists, event.data.id)
+          if (index != -1) {
+            this.playlists[index] = event.data;
+            this.playlistsF[index] = Playlist.toViewFormat(event.data);
+          }
+          break;
+        case "swap":
+          moveItemInArray(this.playlists, event.data.oldIndex, event.data.newIndex);
+          moveItemInArray(this.playlistsF, event.data.oldIndex, event.data.newIndex);
+          break;
+        default:
+          break;
       }
-    );
+    });
   }
 
   addPlaylist() {
-    this.slider.show();
-    //TODO autosave
+    this.selectedPlaylistId = null;
+    this.sliderPlaylistCreation = true;
+    this.slider.setBarTitle('Nouvelle playlist');
+    this.sliderController.showSlider();
+  }
+
+  editPlaylist(index) {
+    this.selectedPlaylistId = this.playlists[index].id;
+    this.sliderPlaylistCreation = false;
+    this.slider.setBarTitle('Edition playlist');
+    this.sliderController.showSlider();
   }
 
   movePlaylist(event) {
-    moveItemInArray(this.playlists, event.oldIndex, event.newIndex);
-    //TODO autosave
+    if (event.oldIndex != event.newIndex) {
+      this.data.reorderPlaylistList(event.oldIndex, event.newIndex);
+    }
   }
 
   delPlaylist(index) {
-    this.playlists.splice(index, 1);
-    //TODO autosave
+    this.data.removePlaylist(index);
   }
-
-  /*newItem() {
-    let params = [
-      {
-        icon: 'dialpad',
-        label: 'param1',
-        onClick: () => { alert('clicked param 1') }
-      },
-      {
-        icon: 'voicemail',
-        label: 'param2',
-        onClick: () => { alert('clicked param 2') }
-      },
-      {
-        icon: 'notifications_off',
-        label: 'param3',
-        onClick: () => { alert('clicked param 3') }
-      }
-    ]
-    //this.slider.show("Nouvelle Playlist", "<strong>content</strong>", params);
-    this.slider.show("Nouvelle Playlist")
-    //this.sliderStatus = true;
-    //alert("menu new songs");
-    // TODO: then update serviceData and items lists
-  }*/
 
   onSwitchMode(mode) {
     this.switchMode = mode;

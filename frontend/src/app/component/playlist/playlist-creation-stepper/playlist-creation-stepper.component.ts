@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PlaylistTypeEnum } from 'src/app/classes/PlaylistType';
 import { PlaylistsService } from 'src/app/view/playtech/playlists.service';
+import { SliderAdapter } from '../../slider/sliderAdapter.service';
+import { Playlist } from 'src/app/classes/Playlist';
 
 @Component({
   selector: 'app-playlist-creation-stepper',
@@ -9,48 +10,39 @@ import { PlaylistsService } from 'src/app/view/playtech/playlists.service';
 })
 export class PlaylistCreationStepperComponent implements OnInit {
   @ViewChild('stepper', {static: false}) stepper;
-  playlistType: PlaylistTypeEnum;
-  playlistId: string;
-  genComplete: boolean = false;
-  playlistLocker: boolean = false;
+  playlist: Playlist;
+  newPlaylist: boolean = true;
+  playlistTitle: string;
+  private creationStep = 1;
 
-  constructor(private data: PlaylistsService) { }
+  constructor(private data: PlaylistsService, private sliderController: SliderAdapter) {}
 
   ngOnInit() {
-    this.playlistType = PlaylistTypeEnum.Manual;
+    let backAction = () => {
+      this.complete();
+      this.sliderController.hideSlider();
+    }
+    this.sliderController.setBarBackAction(backAction);
   }
 
-
-  isFiltered() {
-    return (this.playlistType == PlaylistTypeEnum.Filtered);
+  modeNewPlaylist(state: boolean) {
+    this.newPlaylist = state;
+    this.stepper.next();
   }
-
-  isExternal() {
-    return (this.playlistType == PlaylistTypeEnum.External);
-  }
-
-  isManual() {
-    return (this.playlistType == PlaylistTypeEnum.Manual);
-  }
-
-  checkGeneration() {
-    this.genComplete = (this.genComplete || this.isManual());
-    console.log('genComplete:', this.genComplete)
-  }
-
-  step2Completed() {
-    //TODO ...
-    this.genComplete = true;
+  
+  addSongs($event) {
+    // TODO: From filter
   }
 
   stepChange(event) {
-    if (event.selectedIndex == 0 && this.playlistType != null) {
-      console.log('generate playlist of type:', this.playlistType);
-      this.playlistId = this.data.createPlaylist(this.playlistType);
+    if (event.previouslySelectedIndex == this.creationStep && event.selectedIndex == this.creationStep+1) {
+      this.playlist = this.data.createPlaylist(this.playlistTitle);
     }
   }
 
-  playlistTypeChoice() {
-    return Object.values(PlaylistTypeEnum);
+  complete() {
+    this.stepper.reset();
+    this.playlist = undefined;
+    this.newPlaylist = true;
   }
 }

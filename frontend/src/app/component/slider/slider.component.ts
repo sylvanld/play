@@ -1,6 +1,6 @@
-import { Component, OnInit, HostBinding, ViewChild, ContentChild, Directive, Input, ContentChildren, ElementRef, QueryList } from '@angular/core';
+import { Component, OnInit, HostBinding, ViewChild } from '@angular/core';
 import { SliderBarComponent } from './slider-bar/slider-bar.component';
-import { SliderAdapter } from './sliderAdapter.service';
+//import { SliderAdapter } from './sliderAdapter.service';
 
 @Component({
   selector: 'app-slider',
@@ -17,10 +17,11 @@ export class SliderComponent implements OnInit {
 
   status: boolean = false;
   
-  constructor(private sliderAdapter: SliderAdapter) { }
+  constructor() { }
+  //constructor(private sliderAdapter: SliderAdapter) { }
 
   ngOnInit() {
-    this.sliderAdapter.becomeSlider(this);
+    //this.sliderAdapter.becomeSlider(this);
   }
 
   show() {
@@ -29,5 +30,9 @@ export class SliderComponent implements OnInit {
 
   hide() {
     this.status = false;
+  }
+
+  setBarTitle(title: string) {
+    this.sliderBar.title = title;
   }
 }

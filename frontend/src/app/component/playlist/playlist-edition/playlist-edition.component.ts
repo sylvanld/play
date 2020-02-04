@@ -2,7 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PlaylistsService } from '../../../view/playtech/playlists.service';
 import { Playlist } from '../../../classes/Playlist';
 import { Song } from '../../../classes/Song';
-import { PlaylistTypeEnum } from 'src/app/classes/PlaylistType';
+import { moveItemInArray } from '@angular/cdk/drag-drop';
+import { of } from 'rxjs';
+import { ViewItem } from 'src/app/classes/ViewItem';
 
 @Component({
   selector: 'app-playlist-edition',
@@ -10,18 +12,15 @@ import { PlaylistTypeEnum } from 'src/app/classes/PlaylistType';
   styleUrls: ['./playlist-edition.component.scss']
 })
 export class PlaylistEditionComponent implements OnInit {
-  @Input() playlistId:string;
-  @Input() locked:boolean = true;
+  @Input() playlistId: string;
+  @Input() locked: boolean = true;
   @Output() lockedChange: EventEmitter<any> = new EventEmitter();
-  
-  latOptsAVisible = [
-    {
-      icon: 'save',
-      label: null,
-      bgColor: 'blue',
-      onClick: () => { this.save() }
-    }
-  ];
+
+  titleEdition: string;
+  playlist: Playlist;
+  songsF: ViewItem[] = [];
+  switchMode: number = 0;  // 0: list ; 1: card
+
   latOpts = [
     {
       icon: 'keyboard_arrow_up',
@@ -30,6 +29,25 @@ export class PlaylistEditionComponent implements OnInit {
       onClick: () => { this.goToTop() }
     }
   ];
+  
+  constructor(private data: PlaylistsService) { }
+
+  ngOnInit() {
+    if (this.playlistId != null) {
+      this.playlist = this.data.getPlaylist(this.playlistId);
+      of(this.playlist).subscribe(
+        playlist => {
+          this.titleEdition = this.playlist.title;
+        }
+      );
+      //console.log('playlist-edition this.playlist:', this.playlist);
+    }
+  }
+
+  saveTitle() {
+    this.playlist.title = this.titleEdition;
+    this.data.savePlaylist(this.playlist);
+  }
 
   lock() {
     this.locked = true;
@@ -40,40 +58,45 @@ export class PlaylistEditionComponent implements OnInit {
     this.locked = false;
     this.lockedChange.emit(this.locked);
   }
-  
-  constructor(private data: PlaylistsService, private playlist: Playlist) { }
-
-  ngOnInit() {
-    this.playlist = new Playlist('playlist-abc', PlaylistTypeEnum.Manual, null, 'playlistMock', 'author', new Date(), []); //this.data.getPlaylist(this.playlistId);
-  }
-
 
   addSong() {
-    alert('add song');
-    //this.playlist.songList.push(song);
+    //console.log('add song');
+    let mockSongId = this.songsF.length.toString();
+    let mockSong: Song = new Song(mockSongId, '/assets/icons/default.svg', 'title'+mockSongId, ['artiste1'], new Date());
+    this.playlist.songList.push(mockSong);
+    this.songsF.push(Song.toViewFormat(mockSong));
+    this.data.savePlaylist(this.playlist);
   }
 
   moveSong(event) {
-    alert('move song: '+event.oldIndex+'->'+event.newIndex);
-    //moveItemInArray(this.playlist.songList, event.previousIndex, event.currentIndex);
+    //console.log('move song: '+event.oldIndex+'->'+event.newIndex);
+    moveItemInArray(this.playlist.songList, event.oldIndex, event.newIndex);
+    moveItemInArray(this.songsF, event.oldIndex, event.newIndex);
+    this.data.savePlaylist(this.playlist);
   }
 
   delSong(index) {
-    alert('delete song: '+index);
-    //moveItemInArray(this.playlist.songList, event.previousIndex, event.currentIndex);
+    //console.log('delete song: '+index);
+    this.playlist.songList.splice(index, 1);
+    this.songsF.splice(index, 1);
+    this.data.savePlaylist(this.playlist);
   }
 
-  getSongList(): Song[] {
-    return this.playlist.songList;
+  onSwitchMode(mode) {
+    this.switchMode = mode;
+  }
+
+  isListMode():boolean {
+    return this.switchMode === 0
+  }
+
+  isCardMode():boolean {
+    return this.switchMode === 1
   }
 
   clear() {
-    this.playlist.songList.splice(0, this.playlist.songList.length)
-  }
-
-  save() {
-    alert('save playlist');
-    //this.data.savePlaylist(this.playlist);
+    this.playlist.songList.splice(0, this.playlist.songList.length);
+    this.data.savePlaylist(this.playlist);
   }
 
   goToTop() {
