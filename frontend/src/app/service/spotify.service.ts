@@ -44,4 +44,28 @@ export class SpotifyService {
       return of(this.genres);
     }
   }
+
+  searchItems(query: string, types: Array<'track'|'album'|'artists'> = ['track', 'album', 'artists']){
+    const typesString = types.join(',');
+    return this.http.get(
+      environment.spotify_api_url + `/v1/search?q=${query}&type=${typesString}`,
+      this.spotifyAuthHeaders
+    ).pipe(
+      map(
+        (data) => {
+          return data['tracks']['items'].map(spotifyTrack=>({
+            id: spotifyTrack['external_ids']['isrc'],
+            title: spotifyTrack['name'],
+            artist: spotifyTrack['artists'][0]['name'],
+            album: spotifyTrack['album']['name'],
+            external_ids: {
+              spotify: spotifyTrack['id'],
+              youtube: null,
+              deezer: null
+            }
+          }));
+        }
+      )
+    );
+  }
 }
