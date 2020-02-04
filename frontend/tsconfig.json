@@ -16,6 +16,9 @@
       "~types/*": [
         "src/app/types/*"
       ],
+      "~deezer/*": [
+        "src/app/module/deezer/*"
+      ],
     },
     "importHelpers": true,
     "target": "es2015",

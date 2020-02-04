@@ -26,6 +26,7 @@ import { FormComponent } from './component/core/form/form.component';
 import { SpotifyLoginButtonComponent } from './component/auth/spotify-login-button/spotify-login-button.component';
 import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button/deezer-login-button.component';
 import { PlayerModule } from './module/player/player.module';
+import { DeezerModule } from '~deezer/deezer.module';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,10 @@ import { PlayerModule } from './module/player/player.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    PlayerModule.forRoot({default: 'youtube'})
+
+    // custom modules
+    DeezerModule,
+    PlayerModule.forRoot({ selection: 'youtube' })
   ],
   providers: [],
   bootstrap: [AppComponent]

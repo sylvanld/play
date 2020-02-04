@@ -1,13 +1,16 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PlayerComponent } from './components/player/player.component';
+// modules
+import { YouTubePlayerModule } from '@angular/youtube-player';
+
+// services
+import { PlayerConfig } from '~types/player';
 import { PlayerService, PlayerConfigService } from './services/player.service';
 
-import { YouTubePlayerModule } from '@angular/youtube-player';
+// components
+import { PlayerComponent } from './components/player/player.component';
 import { ProvidersComponent } from './components/providers/providers.component';
-
-import { PlayerConfig } from './services/player.types';
 import { PlayerControlsComponent } from './components/player/player-controls/player-controls.component';
 import { PlayerExtraControlsComponent } from './components/player/player-extra-controls/player-extra-controls.component';
 
