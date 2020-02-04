@@ -1,0 +1,46 @@
+$mobile-max-width: 768px;
+
+$player-primary: #e90000;
+$player-secondary: #b3b3b3;
+$player-background: #1F1F1F;
+
+:host {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+
+  height: 90px;
+  padding: 0 16px;
+
+  background-color: $player-background;
+}
+
+.player-container-controls {
+  flex: 1 1 auto;
+  width: 70%;
+  min-width: 20%;
+  max-width: 70%;
+
+  height: 100%;
+  background-color: brown;
+}
+
+.player-container-extraControls {
+  width: 30%;
+
+  height: 100%;
+  background-color: darkcyan;
+}
+
+.float-video {
+  position: fixed;
+  bottom: 90px;
+  right: 16px;
+  z-index: 5;
+
+  @media screen and (max-width: $mobile-max-width) {
+    bottom: 150px;
+    right: inherit;
+  }
+}

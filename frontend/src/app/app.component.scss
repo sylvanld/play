@@ -1,12 +1,14 @@
 @import 'src/app/constants.scss';
 
 :host {
+  position: relative;
   height: 100%;
   width: 100%;
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: 64px auto 90px;
   grid-template-areas: "navigation"  "content"  "player";
+  overflow-y: hidden;
 
 
   @media screen and (max-width: $mobile-max-width) {

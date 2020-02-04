@@ -1,0 +1,26 @@
+
+<!-- upper controls -->
+<div class="player-controls">
+  <button mat-button class="control-buttons" (click)="player.provider.prev()">
+    <mat-icon>skip_previous</mat-icon>
+  </button>
+  <button mat-button class="control-buttons" (click)="player.toggleState()">
+    <mat-icon *ngIf="playState === 1">pause_circle_outline</mat-icon>
+    <mat-icon *ngIf="!(playState === 1)">play_circle_outline</mat-icon>
+  </button>
+  <button mat-button class="control-buttons" (click)="player.provider.next()">
+    <mat-icon>skip_next</mat-icon>
+  </button>
+</div>
+
+<!-- TimeBar control -->
+<div class="player-bar">
+  {{ currentTime | timerPipe }}
+  <mat-slider
+  [value]="currentTime"
+  [min]="0" [max]="duration"
+  (input)="onMove($event)"
+  (change)="newValue($event)">
+  </mat-slider>
+  {{ duration | timerPipe }}
+</div>

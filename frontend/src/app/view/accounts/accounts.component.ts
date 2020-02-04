@@ -3,7 +3,6 @@ import { AuthenticationService } from 'src/app/service/authentication.service';
 import { AccountsService } from 'src/app/service/accounts.service';
 
 @Component({
-  selector: 'app-accounts',
   templateUrl: './accounts.component.html',
   styleUrls: ['./accounts.component.scss']
 })
