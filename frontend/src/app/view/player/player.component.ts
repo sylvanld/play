@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { YoutubeService } from 'src/app/service/youtube.service';
 import { PlayerService } from '~player/services/player.service';
+import { Track } from '~types/track';
 
 @Component({
   templateUrl: './player.component.html',
@@ -22,8 +23,8 @@ export class PlayerComponent implements OnInit {
           this.youtube.searchTrack(query)
             .subscribe((object: any) => {
               const id: string = object.items[0].id.videoId;
-              console.log(id);
-              this.player.provider.loadTracks([id]);
+              const track: Track = { irsc: 'n', title: 'n', artist: 'n', album: 'n', external_ids: { spotify: 'n', youtube: id } };
+              this.player.provider.loadTracks(track);
             });
         }
       );

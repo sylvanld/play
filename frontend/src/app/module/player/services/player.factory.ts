@@ -1,6 +1,5 @@
 import { PlayerProviderExtends } from '~types/player';
 import { Playlist } from '~types/playlist';
-import { currentId } from 'async_hooks';
 import { Track } from '~types/track';
 
 export default {
