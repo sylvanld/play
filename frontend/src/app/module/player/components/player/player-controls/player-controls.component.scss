@@ -1,37 +1,38 @@
-@import 'src/app/constants.scss';
+@import '../player.component.scss';
+
+:host {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .player-controls {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.player-controls-buttons {
-  display: flex;
-  width: 224px;
-  justify-content: space-between;
   flex-flow: row nowrap;
+  justify-content: space-between;
+
+  min-width: 220px;
   margin-top: 1%;
 }
 
-.control-buttons {
-  background-color: transparent;
-  border: none;
-  color: $player-secondary;
+.player-bar {
+  align-items: center;
+  display: inline-flex;
+
+  width: 100%;
+  font-size: 11px;
+  color: $player-primary;
 }
 
-.player-bar {
-  color: $player-primary;
-  display: inline-flex;
-  width: 100%;
-  align-items: center;
-  font-size: 11px;
+.control-buttons {
+  border: none;
+  color: $player-secondary;
+  background-color: transparent;
 }
 
 mat-slider {
   width: 100%;
-  min-width: 0px !important;
 }
 
 ::ng-deep .mat-slider-track-background,

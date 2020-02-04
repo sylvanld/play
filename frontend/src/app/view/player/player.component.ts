@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { YoutubeService } from 'src/app/service/youtube.service';
-import { PlayerService } from 'src/app/service/player.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { PlayerService } from '@player/services/player.service';
 
 @Component({
-  selector: 'app-player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss']
 })
@@ -24,7 +23,7 @@ export class PlayerComponent implements OnInit {
             .subscribe((object: any) => {
               const id: string = object.items[0].id.videoId;
               console.log(id);
-              this.player.loadPlaylist([id], 0);
+              this.player.provider.loadTracks([id]);
             });
         }
       );

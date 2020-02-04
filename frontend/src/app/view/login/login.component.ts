@@ -4,7 +4,6 @@ import { FormControl, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/service/notification.service';
 
 @Component({
-  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })

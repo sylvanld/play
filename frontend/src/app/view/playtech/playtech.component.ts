@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-playtech',
   templateUrl: './playtech.component.html',
   styleUrls: ['./playtech.component.scss']
 })
