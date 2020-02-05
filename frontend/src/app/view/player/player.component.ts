@@ -6,32 +6,34 @@ import { PlayerService } from '~player/services/player.service';
 import { Track } from '~types/track';
 
 @Component({
-  templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss']
+	templateUrl: './player.component.html',
+	styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-  query: string;
-  private modelChanged: Subject<string> = new Subject<string>();
+	query: string;
+	private modelChanged: Subject<string> = new Subject<string>();
 
-  constructor(private player: PlayerService, private youtube: YoutubeService) { }
+	constructor(private player: PlayerService, private youtube: YoutubeService) { }
 
-  ngOnInit() {
-    this.modelChanged.pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(
-        (query) => {
-          this.query = query;
-          this.youtube.searchTrack(query)
-            .subscribe((object: any) => {
-              const id: string = object.items[0].id.videoId;
-              const track: Track = { irsc: 'n', title: 'n', artist: 'n', album: 'n', external_ids: { spotify: 'n', youtube: id } };
-              this.player.provider.loadTracks(track);
-            });
-        }
-      );
-  }
+	ngOnInit() {
+		this.modelChanged.pipe(debounceTime(300), distinctUntilChanged()).subscribe((query) => {
+			this.query = query;
+			this.youtube.searchTrack(query).subscribe((object: any) => {
+				const id: string = object.items[0].id.videoId;
+				const track: Track = {
+					isrc: 'n',
+					title: 'n',
+					artist: 'n',
+					album: 'n',
+					release: null,
+					external_ids: { spotify: 'n', youtube: id }
+				};
+				this.player.provider.loadTracks(track);
+			});
+		});
+	}
 
-  changed(text: string) {
-    this.modelChanged.next(text);
-  }
-
+	changed(text: string) {
+		this.modelChanged.next(text);
+	}
 }

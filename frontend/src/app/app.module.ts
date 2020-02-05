@@ -33,7 +33,7 @@ import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button
 import { AlbumsListComponent } from './component/items/albums/albums-list/albums-list.component';
 import { AlbumItemComponent } from './component/items/albums/album-item/album-item.component';
 import { TracksListComponent } from './component/items/tracks/tracks-list/tracks-list.component';
-import { SelectItemTypeComponent } from './component/filters/select-item-type/select-item-type.component';
+import { SelectItemsTypes } from './component/filters/select-items-types/select-items-types.component';
 
 @NgModule({
 	declarations: [
@@ -58,7 +58,7 @@ import { SelectItemTypeComponent } from './component/filters/select-item-type/se
 		AlbumsListComponent,
 		AlbumItemComponent,
 		TracksListComponent,
-		SelectItemTypeComponent
+		SelectItemsTypes
 	],
 	imports: [
 		BrowserModule,
@@ -74,7 +74,7 @@ import { SelectItemTypeComponent } from './component/filters/select-item-type/se
 		PlayerModule.forRoot({ selection: 'youtube' })
 	],
 	providers: [],
-	bootstrap: [ AppComponent ]
+	bootstrap: [AppComponent]
 })
 export class AppModule {
 	constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
