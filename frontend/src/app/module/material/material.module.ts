@@ -10,24 +10,28 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatTableModule } from '@angular/material/table';
 
 const materialModules = [
-  MatInputModule,
-  MatFormFieldModule,
-  MatSelectModule,
-  MatButtonModule,
-  MatIconModule,
-  MatToolbarModule,
-  MatSliderModule,
-  MatSnackBarModule,
-  MatCardModule,
-  MatMenuModule
+	MatInputModule,
+	MatFormFieldModule,
+	MatSelectModule,
+	MatButtonModule,
+	MatIconModule,
+	MatToolbarModule,
+	MatSliderModule,
+	MatSnackBarModule,
+	MatCardModule,
+	MatMenuModule,
+	MatGridListModule,
+	MatTableModule
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [CommonModule, ...materialModules],
-  exports: materialModules
+	declarations: [],
+	imports: [ CommonModule, ...materialModules ],
+	exports: materialModules
 })
-export class MaterialModule { }
+export class MaterialModule {}

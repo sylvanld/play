@@ -1,2 +1,1 @@
-<span>artist list</span>
-<app-artist-item *ngFor="let artist of artists" [artist]="artist"></app-artist-item>
+<app-artist-item *ngFor="let artist of artists.slice(0, 6)" [artist]="artist"></app-artist-item>
