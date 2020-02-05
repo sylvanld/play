@@ -13,6 +13,7 @@ class UserAccounts(Resource):
         accounts = AccountDAO.accounts_for_user(user_id)
         return AccountDAO.dump(accounts, many=True)
 
+
 @accounts_ns.route('/users/me/accounts')
 class MyAccounts(Resource):
     @jwt_required
@@ -20,5 +21,6 @@ class MyAccounts(Resource):
         """
         Return third-party accounts for a current user
         """
+        print(current_user.id)
         accounts = AccountDAO.accounts_for_user(current_user.id)
         return AccountDAO.dump(accounts, many=True)
