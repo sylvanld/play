@@ -3,7 +3,7 @@ import { PlaylistsService } from '../../view/playtech/playlists.service';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Playlist } from 'src/app/classes/Playlist';
 import { ViewItem } from 'src/app/classes/ViewItem';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-playtech',
@@ -14,10 +14,10 @@ import { Router } from '@angular/router';
 export class PlaytechComponent implements OnInit {
   playlists: Playlist[] = [];
   playlistsF: ViewItem[] = [];
-  switchMode = 0;  // 0: list ; 1: card
+  switchMode = 1;  // 0: list ; 1: card
   locked = false;
 
-  constructor(private data: PlaylistsService, private router: Router) { }
+  constructor(private data: PlaylistsService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     const { observable, currentData } = this.data.getObservablePlaylist();
@@ -54,15 +54,24 @@ export class PlaytechComponent implements OnInit {
           break;
       }
     });
+    this.route.queryParams.subscribe(params => {
+      console.log('queryParams:', params);
+      const view = +params.view;
+      if (view >= 0 && view <= 1) {
+        this.switchMode = view;
+      }
+    });
   }
 
   addPlaylist() {
-    this.router.navigateByUrl('/playlist/create');
+    // this.router.navigateByUrl('/playlist/create', { queryParams: { view: this.switchMode } });
+    this.router.navigate(['/playlist/create'], { queryParams: { view: this.switchMode } });
   }
 
   editPlaylist(index) {
     const selectedPlaylistId = this.playlists[index].id;
-    this.router.navigateByUrl('/playlist/edit/?id=' + selectedPlaylistId);
+    // this.router.navigateByUrl('/playlist/edit/' + selectedPlaylistId, { queryParams: { view: this.switchMode } });
+    this.router.navigate(['/playlist/edit/' + selectedPlaylistId], { queryParams: { view: this.switchMode } });
   }
 
   movePlaylist(event) {

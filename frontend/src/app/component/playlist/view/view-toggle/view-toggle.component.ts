@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-view-toggle',
@@ -6,11 +7,11 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
   styleUrls: ['./view-toggle.component.scss']
 })
 export class ViewToggleComponent implements OnInit {
-  private switchMode = 0;
   @Input() hideLocker = false;
-  @Input() locker = false;
+  @Input() locker = true;
+  @Input() mode = 0;
   @Output() lockerChange = new EventEmitter<boolean>();
-  @Output() mode = new EventEmitter<number>();
+  @Output() modeChange = new EventEmitter<number>();
 
   constructor() { }
 
@@ -18,21 +19,21 @@ export class ViewToggleComponent implements OnInit {
   }
 
   isListMode(): boolean {
-    return this.switchMode === 0;
+    return this.mode === 0;
   }
 
   isCardMode(): boolean {
-    return this.switchMode === 1;
+    return this.mode === 1;
   }
 
   listMode() {
-    this.switchMode = 0;
-    this.mode.emit(this.switchMode);
+    this.mode = 0;
+    this.modeChange.emit(this.mode);
   }
 
   cardMode() {
-    this.switchMode = 1;
-    this.mode.emit(this.switchMode);
+    this.mode = 1;
+    this.modeChange.emit(this.mode);
   }
 
   swapLocker() {

@@ -1,6 +1,6 @@
-<app-browse></app-browse>
+<!-- <app-browse></app-browse> -->
 
-<app-view-toggle [(locker)]="locked" (mode)="onSwitchMode($event)"></app-view-toggle>
+<app-view-toggle [(locker)]="locked" [(mode)]="switchMode"></app-view-toggle>
 
 <div *ngIf="isListMode()">
     <app-listview addBtnLabel="Nouvelle playlist" [locked]="locked" (clicked)="editPlaylist($event)" (addItemEvent)="addPlaylist()" (delItemEvent)="delPlaylist($event)" 
@@ -9,7 +9,5 @@
 </div>
 
 <div *ngIf="isCardMode()">
-    <app-cardview addBtnLabel="Nouvelle playlist" [locked]="locked" (clicked)="editPlaylist($event)" (addItemEvent)="addPlaylist()" (delItemEvent)="delPlaylist($event)" 
-        (moveItemEvent)="movePlaylist($event)" [items]="playlistsF" addBtnPosition="start">
-    </app-cardview>
+    <app-cardview (clicked)="editPlaylist($event)" [items]="playlistsF"></app-cardview>
 </div>

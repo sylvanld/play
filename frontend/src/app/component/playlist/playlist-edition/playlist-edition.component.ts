@@ -16,31 +16,35 @@ export class PlaylistEditionComponent implements OnInit {
   @Input() locked = false;
   @Output() lockedChange: EventEmitter<any> = new EventEmitter();
   playlistId: string = null;
+  viewMode: string = null;
 
   titleEdition: string;
   playlist: Playlist;
   songsF: ViewItem[] = [];
-  switchMode = 0;  // 0: list ; 1: card
+  // switchMode = 0;  // 0: list ; 1: card
 
   constructor(private data: PlaylistsService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-    if (!this.playlist) {
-      this.route.queryParams.subscribe(params => {
-        this.playlistId = params.id;
-        this.playlist = this.data.getPlaylist(this.playlistId);
+    this.route.params.subscribe(params => {
+      this.playlistId = params.id;
+      this.playlist = this.data.getPlaylist(this.playlistId);
+      if (this.playlist != null) {
         for (const s of this.playlist.songList) {
           this.songsF.push(Song.toViewFormat(s));
         }
-      });
-      of(this.playlist).subscribe(
-        playlist => {
-          if (this.playlist != null) {
-            this.titleEdition = this.playlist.title;
-          }
+      }
+    });
+    this.route.queryParams.subscribe(params => {
+      this.viewMode = params.view;
+    });
+    of(this.playlist).subscribe(
+      playlist => {
+        if (this.playlist != null) {
+          this.titleEdition = this.playlist.title;
         }
-      );
-    }
+      }
+    );
   }
 
   saveTitle() {
@@ -78,7 +82,7 @@ export class PlaylistEditionComponent implements OnInit {
     this.data.savePlaylist(this.playlist);
   }
 
-  onSwitchMode(mode) {
+  /*onSwitchMode(mode) {
     this.switchMode = mode;
   }
 
@@ -88,7 +92,7 @@ export class PlaylistEditionComponent implements OnInit {
 
   isCardMode(): boolean {
     return this.switchMode === 1;
-  }
+  }*/
 
   clear() {
     this.playlist.songList.splice(0, this.playlist.songList.length);
@@ -96,6 +100,12 @@ export class PlaylistEditionComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigateByUrl('/playtech');
+    if (this.viewMode != null) {
+      // this.router.navigateByUrl('/playtech', { queryParams: { view: this.viewMode } });
+      this.router.navigate(['/playtech'], { queryParams: { view: this.viewMode } });
+    } else {
+      // this.router.navigateByUrl('/playtech');
+      this.router.navigate(['/playtech']);
+    }
   }
 }

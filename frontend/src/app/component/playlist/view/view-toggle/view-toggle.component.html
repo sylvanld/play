@@ -1,9 +1,9 @@
-<mat-icon (click)="listMode()" [ngClass]="{active: isListMode()}"
-    aria-hidden="false" aria-label="cardview"
->view_headline</mat-icon>
 <mat-icon (click)="cardMode()" [ngClass]="{active: isCardMode()}" 
     aria-hidden="false" aria-label="listview"
 >view_module</mat-icon>
+<mat-icon (click)="listMode()" [ngClass]="{active: isListMode()}"
+    aria-hidden="false" aria-label="cardview"
+>view_headline</mat-icon>
 <mat-icon (click)="swapLocker()" aria-hidden="false" 
-    aria-label="locker" *ngIf="!hideLocker"
+    aria-label="locker" *ngIf="!hideLocker && !isCardMode()"
 >{{ (locker) ? 'lock' : 'lock_open' }}</mat-icon>

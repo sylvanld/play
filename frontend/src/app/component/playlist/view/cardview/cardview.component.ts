@@ -24,37 +24,11 @@ enum Position { Start= 'start', End= 'end', Both= 'both'}
 })
 export class CardviewComponent implements OnInit {
   @Input() items: ViewItem[] = [];
-  @Input() locked = true;
-  @Input() addBtnPosition: Position = Position.Start;
-  @Input() addBtnLabel = 'Nouvel élément';
-  @Output() addItemEvent: EventEmitter<any> = new EventEmitter();
-  @Output() delItemEvent: EventEmitter<any> = new EventEmitter();
-  @Output() moveItemEvent: EventEmitter<any> = new EventEmitter();
   @Output() clicked: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
-  }
-
-  addItem() {
-    this.addItemEvent.emit();
-  }
-
-  delItem(item: ViewItem) {
-    this.delItemEvent.emit(item.id);
-  }
-
-  moveItem(event: CdkDragDrop<any[]>) {
-    this.moveItemEvent.emit({oldIndex: event.previousIndex, newIndex: event.currentIndex});
-  }
-
-  showStartAddBtn(): boolean {
-    return (!this.locked && (this.addBtnPosition === 'start' || this.addBtnPosition === 'both'));
-  }
-
-  showEndAddBtn(): boolean {
-    return (!this.locked && (this.addBtnPosition === 'end' || this.addBtnPosition === 'both'));
   }
 
   onClick(index) {
