@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { MaterialModule } from './lib/material/material.module';
+import { MaterialModule } from './module/material/material.module';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -11,6 +11,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatStepperModule } from '@angular/material/stepper';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,9 +32,14 @@ import { CardviewComponent } from './component/playlist/view/cardview/cardview.c
 import { ViewToggleComponent } from './component/playlist/view/view-toggle/view-toggle.component';
 import { PlaylistEditionComponent } from './component/playlist/playlist-edition/playlist-edition.component';
 import { FloatingMenuComponent } from './component/floating-menu/floating-menu.component';
-import { FilteredPlaylistGenComponent } from './component/playlist/filtered-playlist-gen/filtered-playlist-gen.component';
-import { ExternalPlaylistGenComponent } from './component/playlist/external-playlist-gen/external-playlist-gen.component';
 import { PlaylistCreationComponent } from './component/playlist/playlist-creation/playlist-creation.component';
+import { BottomPlayerComponent } from './component/player/bottom-player/bottom-player.component';
+import { TimerPipePipe } from './pipes/timer-pipe.pipe';
+import { LoginComponent } from './view/login/login.component';
+import { RegisterComponent } from './view/register/register.component';
+import { FormComponent } from './component/core/form/form.component';
+import { SpotifyLoginButtonComponent } from './component/auth/spotify-login-button/spotify-login-button.component';
+import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button/deezer-login-button.component';
 
 @NgModule({
   declarations: [
@@ -53,12 +59,16 @@ import { PlaylistCreationComponent } from './component/playlist/playlist-creatio
     ListviewComponent,
     CardviewComponent,
     ViewToggleComponent,
-    ViewToggleComponent,
     FloatingMenuComponent,
     PlaylistEditionComponent,
-    FilteredPlaylistGenComponent,
-    ExternalPlaylistGenComponent,
-    PlaylistCreationComponent
+    PlaylistCreationComponent,
+    TimerPipePipe,
+    BottomPlayerComponent,
+    LoginComponent,
+    RegisterComponent,
+    FormComponent,
+    SpotifyLoginButtonComponent,
+    DeezerLoginButtonComponent
   ],
   imports: [
     BrowserModule,
@@ -66,13 +76,14 @@ import { PlaylistCreationComponent } from './component/playlist/playlist-creatio
     MaterialModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     MatMenuModule,
     MatButtonModule,
     DragDropModule,
     MatStepperModule,
     ReactiveFormsModule,
-    MatRadioModule
+    MatRadioModule,
+    YouTubePlayerModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

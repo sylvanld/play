@@ -2,7 +2,7 @@
     <div class="horizontal-align space-between">
         <div><mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon></div>
 
-        <mat-form-field>
+        <mat-form-field *ngIf="!locked">
             <input matInput type="text" placeholder="Titre" [(ngModel)]="titleEdition" required>
             <button mat-button *ngIf="titleEdition" matSuffix mat-icon-button aria-label="Clear" (click)="titleEdition=''">
                 <mat-icon>close</mat-icon>

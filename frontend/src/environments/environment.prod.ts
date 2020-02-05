@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  deezer_api_url: 'https://api.deezer.com',
+  play_api_url: 'https://api.play.sylvan.ovh'
 };

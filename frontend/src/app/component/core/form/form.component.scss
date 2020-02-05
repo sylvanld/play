@@ -1,0 +1,14 @@
+@import 'src/app/constants.scss';
+
+:host{
+    display: block;
+    max-width: 35%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+@media screen and (max-width: $mobile-max-width){
+    :host{
+        max-width: 80%;
+    }
+}

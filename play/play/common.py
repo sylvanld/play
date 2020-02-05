@@ -9,6 +9,14 @@ def abort(message):
     sys.exit(0)
 
 
+def sanitize(string):
+    string = string.lower()
+    for sub, repl in [('_', '-')]:
+        string = string.replace(sub, repl)
+    string = string.strip('/')
+    return '-'.join(string.split())
+
+
 def find_root(path='.'):
     path = os_path.abspath(path)
     filename = os_path.join(path, 'package.json')

@@ -1,1 +1,22 @@
-<p>accounts works!</p>
+<aside>
+    <h2>Play account</h2>
+    <button mat-raised-button color="secondary" (click)="logout()">Logout</button>
+</aside>
+<aside>
+    <h2>Linked accounts</h2>
+
+    <mat-card *ngFor="let account of accounts">
+        <mat-card-header>
+            <div mat-card-avatar>
+                <i class="icon-deezer" *ngIf="account.provider=='DEEZER'"></i>
+                <i class="icon-spotify" *ngIf="account.provider=='SPOTIFY'"></i>
+            </div>
+            <mat-card-title>{{account.name}}</mat-card-title>
+            <mat-card-subtitle>{{account.email}}</mat-card-subtitle>
+        </mat-card-header>
+    </mat-card>
+
+    <h2>Add accounts</h2>
+    <app-spotify-login-button></app-spotify-login-button>
+    <app-deezer-login-button></app-deezer-login-button>
+</aside>

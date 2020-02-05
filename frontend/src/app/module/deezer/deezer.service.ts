@@ -8,13 +8,14 @@ import { DeezerTrack } from './deezer-track';
 import { DeezerAlbum } from './deezer-album';
 import { DeezerArtist } from './deezer-artist';
 import { DeezerGlobalSearchResult } from './deezer-global-search-result';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeezerService {
-  private DEEZER_API_URL = 'https://cors-anywhere.herokuapp.com/https://api.deezer.com';
+  private DEEZER_API_URL = environment.deezer_api_url;
   constructor(private http: HttpClient) { }
 
   search(query: string): Observable<DeezerGlobalSearchResult> {

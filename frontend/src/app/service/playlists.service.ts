@@ -4,7 +4,7 @@ import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
 import { Playlist } from 'src/app/classes/Playlist';
 import * as uuid from 'uuid';
 import * as moment from 'moment';
-import { PlaylistsMock } from '../../classes/playlists.mock';
+import { PlaylistsMock } from '../classes/playlists.mock';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Injectable({

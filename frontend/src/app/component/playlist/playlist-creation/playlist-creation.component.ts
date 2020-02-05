@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PlaylistsService } from 'src/app/view/playtech/playlists.service';
+import { PlaylistsService } from 'src/app/service/playlists.service';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { MatStepper } from '@angular/material/stepper';
 

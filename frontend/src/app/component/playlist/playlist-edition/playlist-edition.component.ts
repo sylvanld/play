@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
-import { PlaylistsService } from '../../../view/playtech/playlists.service';
+import { PlaylistsService } from '../../../service/playlists.service';
 import { Playlist } from '../../../classes/Playlist';
 import { Song } from '../../../classes/Song';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
@@ -37,6 +37,7 @@ export class PlaylistEditionComponent implements OnInit {
     });
     this.route.queryParams.subscribe(params => {
       this.viewMode = params.view;
+      this.locked = params.locked === 'true';
     });
     of(this.playlist).subscribe(
       playlist => {

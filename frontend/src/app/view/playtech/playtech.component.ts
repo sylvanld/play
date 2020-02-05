@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PlaylistsService } from '../../view/playtech/playlists.service';
+import { PlaylistsService } from '../../service/playlists.service';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Playlist } from 'src/app/classes/Playlist';
 import { ViewItem } from 'src/app/classes/ViewItem';
@@ -55,7 +55,6 @@ export class PlaytechComponent implements OnInit {
       }
     });
     this.route.queryParams.subscribe(params => {
-      console.log('queryParams:', params);
       const view = +params.view;
       if (view >= 0 && view <= 1) {
         this.switchMode = view;
@@ -71,7 +70,8 @@ export class PlaytechComponent implements OnInit {
   editPlaylist(index) {
     const selectedPlaylistId = this.playlists[index].id;
     // this.router.navigateByUrl('/playlist/edit/' + selectedPlaylistId, { queryParams: { view: this.switchMode } });
-    this.router.navigate(['/playlist/edit/' + selectedPlaylistId], { queryParams: { view: this.switchMode } });
+    const lock = this.locked || this.isCardMode();
+    this.router.navigate(['/playlist/edit/' + selectedPlaylistId], { queryParams: { view: this.switchMode, locked: lock } });
   }
 
   movePlaylist(event) {
