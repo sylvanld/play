@@ -33,7 +33,8 @@ import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button
 import { AlbumsListComponent } from './component/items/albums/albums-list/albums-list.component';
 import { AlbumItemComponent } from './component/items/albums/album-item/album-item.component';
 import { TracksListComponent } from './component/items/tracks/tracks-list/tracks-list.component';
-import { SelectItemsTypes } from './component/filters/select-items-types/select-items-types.component';
+import { SelectList } from './component/core/select-list/select-list.component';
+import { AdvancedSearchComponent } from './component/search/advanced-search/advanced-search.component';
 
 @NgModule({
 	declarations: [
@@ -58,7 +59,8 @@ import { SelectItemsTypes } from './component/filters/select-items-types/select-
 		AlbumsListComponent,
 		AlbumItemComponent,
 		TracksListComponent,
-		SelectItemsTypes
+		SelectList,
+		AdvancedSearchComponent
 	],
 	imports: [
 		BrowserModule,

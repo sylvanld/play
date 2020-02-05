@@ -13,6 +13,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 const materialModules = [
 	MatInputModule,
@@ -26,12 +27,13 @@ const materialModules = [
 	MatCardModule,
 	MatMenuModule,
 	MatGridListModule,
-	MatTableModule
+	MatTableModule,
+	MatCheckboxModule
 ];
 
 @NgModule({
 	declarations: [],
-	imports: [ CommonModule, ...materialModules ],
+	imports: [CommonModule, ...materialModules],
 	exports: materialModules
 })
-export class MaterialModule {}
+export class MaterialModule { }

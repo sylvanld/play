@@ -1,0 +1,12 @@
+<form (submit)="search()">
+    <h2>Advanced Search <mat-icon>filter_list</mat-icon>
+    </h2>
+    <div>
+        <select-list [(value)]="query.itemsTypes" [filters]="itemsTypes" placeholder="only"></select-list>
+
+        <button mat-raised-button color="secondary">
+            Advanced search
+            <mat-icon>search</mat-icon>
+        </button>
+    </div>
+</form>

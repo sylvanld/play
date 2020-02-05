@@ -9,11 +9,11 @@ interface ItemTypeFilter {
 }
 
 @Component({
-	selector: 'select-items-types',
-	templateUrl: `./select-items-types.component.html`,
-	styleUrls: ['./select-items-types.component.scss']
+	selector: 'select-list',
+	templateUrl: `./select-list.component.html`,
+	styleUrls: ['./select-list.component.scss']
 })
-export class SelectItemsTypes implements MatFormFieldControl<string[]> {
+export class SelectList implements MatFormFieldControl<string[]> {
 	required: boolean;
 	disabled: boolean;
 	errorState: boolean;
@@ -32,7 +32,7 @@ export class SelectItemsTypes implements MatFormFieldControl<string[]> {
 
 	// attribute unique id to this component
 	static nextId = 0;
-	@HostBinding() id = `select-items-type-${SelectItemsTypes.nextId++}`;
+	@HostBinding() id = `select-list-${SelectList.nextId++}`;
 
 	// required but useless
 	@HostBinding('class.floating')
