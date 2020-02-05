@@ -53,7 +53,7 @@ export class PlayerService implements Player {
   private timeInterval; // defined where player States are handled
   get duration(): number { return this.getDuration(); }
   get time(): number { return this._time; }
-  set time(val: number) { this.seekTo(val, this.playerState === PlayerState.PAUSED); }
+  set time(val: number) { this.seekTo(val, true); }
 
   private _tracks: Track[] = [];
   private _currentTrack = new Subject<Track>();
