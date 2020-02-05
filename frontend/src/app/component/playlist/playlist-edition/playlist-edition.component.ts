@@ -6,6 +6,9 @@ import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { of } from 'rxjs';
 import { ViewItem } from 'src/app/classes/ViewItem';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PlayerService } from '@play/player.service';
+import { YoutubeService } from '@youtube/youtube.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-playlist-edition',
@@ -23,7 +26,12 @@ export class PlaylistEditionComponent implements OnInit {
   songsF: ViewItem[] = [];
   // switchMode = 0;  // 0: list ; 1: card
 
-  constructor(private data: PlaylistsService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private data: PlaylistsService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private player: PlayerService,
+              private youtube: YoutubeService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -108,5 +116,20 @@ export class PlaylistEditionComponent implements OnInit {
       // this.router.navigateByUrl('/playtech');
       this.router.navigate(['/playtech']);
     }
+  }
+
+  openTrack(index) {
+    const selectedTrack = this.playlist.songList[index];
+    console.log('launch song:', selectedTrack);
+    const query = selectedTrack.title + ' - ' + selectedTrack.artists;
+    this.youtube.searchTrack(query)
+            .subscribe((object: any) => {
+              if (object.length > 0) {
+                const id: string = object.items[0].id.videoId;
+                this.player.loadPlaylist([id], 0);
+              } else {
+                this.snackBar.open('Aucun résultat pour ce titre.', null, { duration: 1500 });
+              }
+            });
   }
 }

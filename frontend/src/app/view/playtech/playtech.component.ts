@@ -25,11 +25,13 @@ export class PlaytechComponent implements OnInit {
       this.playlists.push(p);
       this.playlistsF.push(Playlist.toViewFormat(p));
     }
+    if (this.playlists.length === 0) { this.switchMode = 0; }
     observable.subscribe(event => {
       switch (event.action) {
         case 'flush':
           this.playlists.splice(0, this.playlists.length);
           this.playlistsF.splice(0, this.playlists.length);
+          if (this.playlists.length === 0) { this.switchMode = 0; }
           break;
         case 'push':
           this.playlists.push(event.data);
@@ -38,6 +40,7 @@ export class PlaytechComponent implements OnInit {
         case 'delete':
           this.playlists.splice(event.data, 1);
           this.playlistsF.splice(event.data, 1);
+          if (this.playlists.length === 0) { this.switchMode = 0; }
           break;
         case 'update':
           const index = Playlist.indexById(this.playlists, event.data.id);
@@ -69,8 +72,8 @@ export class PlaytechComponent implements OnInit {
 
   editPlaylist(index) {
     const selectedPlaylistId = this.playlists[index].id;
-    // this.router.navigateByUrl('/playlist/edit/' + selectedPlaylistId, { queryParams: { view: this.switchMode } });
     const lock = this.locked || this.isCardMode();
+    // this.router.navigateByUrl('/playlist/edit/' + selectedPlaylistId, { queryParams: { view: this.switchMode } });
     this.router.navigate(['/playlist/edit/' + selectedPlaylistId], { queryParams: { view: this.switchMode, locked: lock } });
   }
 
@@ -94,5 +97,9 @@ export class PlaytechComponent implements OnInit {
 
   isCardMode(): boolean {
     return this.switchMode === 1;
+  }
+
+  noPlaylist() {
+    return (this.playlists.length === 0);
   }
 }

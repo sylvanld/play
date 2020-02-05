@@ -26,7 +26,7 @@ export class ListviewComponent implements OnInit {
   @Input() items: ViewItem[] = [];
   @Input() locked = true;
   @Input() addBtnPosition: Position = Position.Start;
-  @Input() addBtnLabel = "Nouvel élément";
+  @Input() addBtnLabel = 'Nouvel élément';
   @Output() addItemEvent: EventEmitter<any> = new EventEmitter();
   @Output() delItemEvent: EventEmitter<any> = new EventEmitter();
   @Output() moveItemEvent: EventEmitter<any> = new EventEmitter();

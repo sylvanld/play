@@ -35,8 +35,9 @@
 .list-item {
     position: relative;
     display: inline-block; /* Make the width of box same as image */
-    border-right: 10px solid transparent;
-    border-bottom: 5px solid transparent;
+    border: 5px solid transparent;
+    //border-right: 10px solid transparent;
+    //border-bottom: 5px solid transparent;
 }
 
 .list-item:hover .picture {

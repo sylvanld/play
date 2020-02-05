@@ -3,7 +3,7 @@
         <div><mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon></div>
 
         <mat-form-field *ngIf="!locked">
-            <input matInput type="text" placeholder="Titre" [(ngModel)]="titleEdition" required>
+            <input matInput type="text" placeholder="Titre playlist" [(ngModel)]="titleEdition" required>
             <button mat-button *ngIf="titleEdition" matSuffix mat-icon-button aria-label="Clear" (click)="titleEdition=''">
                 <mat-icon>close</mat-icon>
             </button>
@@ -18,7 +18,7 @@
 
     <div>
         <app-listview addBtnLabel="Nouveau titre" [locked]="locked" (addItemEvent)="addSong()" (delItemEvent)="delSong($event)" 
-            (moveItemEvent)="moveSong($event)" [items]="songsF" addBtnPosition="start">
+            (moveItemEvent)="moveSong($event)" (clicked)="openTrack($event)" [items]="songsF" addBtnPosition="start">
         </app-listview>
     </div>
 

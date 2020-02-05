@@ -68,7 +68,7 @@ import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button
     RegisterComponent,
     FormComponent,
     SpotifyLoginButtonComponent,
-    DeezerLoginButtonComponent
+    DeezerLoginButtonComponent,
   ],
   imports: [
     BrowserModule,
