@@ -1,4 +1,4 @@
-<mat-horizontal-stepper linear="true" (selectionChange)="stepChange($event)" #stepper>
+<!-- <mat-horizontal-stepper linear="true" (selectionChange)="stepChange($event)" #stepper>
     <mat-step>
         <ng-template matStepLabel>Création (1/2)</ng-template>
         <div class="vertical-align">
@@ -28,7 +28,35 @@
     </mat-step>
     <mat-step>
         <ng-template matStepLabel>Contenu</ng-template>
-        <!-- <app-filter-block (toAdd)="addSongs($event)"></app-filter-block> -->
-        <app-playlist-edition *ngIf="playlist" [locked]="false" [playlistId]="playlist.id"></app-playlist-edition>
     </mat-step>
-</mat-horizontal-stepper>
+</mat-horizontal-stepper> -->
+
+<div *ngIf="step == 0">
+    <h2>Création</h2>
+    <div class="vertical-align">
+        <button mat-button (click)="goToNewPlaylist()">Nouveau</button>
+        <button mat-button (click)="nextStep()">Importer</button>
+    </div>
+</div>
+<div *ngIf="step == 1">
+    <h2>Importation</h2>
+    <mat-horizontal-stepper linear="true" (selectionChange)="stepChange($event)" #stepper>
+        <mat-step>
+            <ng-template matStepLabel>Source</ng-template>
+            <div class="vertical-align">
+                <button (click)="selectSource('spotify')" mat-button>Spotify</button>
+                <button (click)="selectSource('youtube')" mat-button>Youtube</button>
+                <button (click)="selectSource('deezer')" mat-button>Deezer</button>
+            </div>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Sélection</ng-template>
+            <div class="vertical-align">
+                <button mat-button>Importer</button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>
+
+
+

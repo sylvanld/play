@@ -7,7 +7,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 })
 export class FilteredPlaylistGenComponent implements OnInit {
   @Output() completed: EventEmitter<any> = new EventEmitter();
-  @Input() playlistId:string;
+  @Input() playlistId: string;
 
   constructor() { }
 

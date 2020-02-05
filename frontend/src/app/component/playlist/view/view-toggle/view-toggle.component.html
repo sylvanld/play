@@ -4,3 +4,6 @@
 <mat-icon (click)="cardMode()" [ngClass]="{active: isCardMode()}" 
     aria-hidden="false" aria-label="listview"
 >view_module</mat-icon>
+<mat-icon (click)="swapLocker()" aria-hidden="false" 
+    aria-label="locker" *ngIf="!hideLocker"
+>{{ (locker) ? 'lock' : 'lock_open' }}</mat-icon>

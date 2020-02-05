@@ -28,14 +28,12 @@ import { ArtistItemComponent } from './component/items/artists/artist-item/artis
 import { SearchResultsComponent } from './component/search/search-results/search-results.component';
 import { ListviewComponent } from './component/playlist/view/listview/listview.component';
 import { CardviewComponent } from './component/playlist/view/cardview/cardview.component';
-import { SliderComponent } from './component/slider/slider.component';
 import { ViewToggleComponent } from './component/playlist/view/view-toggle/view-toggle.component';
 import { PlaylistEditionComponent } from './component/playlist/playlist-edition/playlist-edition.component';
 import { FloatingMenuComponent } from './component/floating-menu/floating-menu.component';
 import { FilteredPlaylistGenComponent } from './component/playlist/filtered-playlist-gen/filtered-playlist-gen.component';
 import { ExternalPlaylistGenComponent } from './component/playlist/external-playlist-gen/external-playlist-gen.component';
-import { PlaylistCreationStepperComponent } from './component/playlist/playlist-creation-stepper/playlist-creation-stepper.component';
-import { SliderBarComponent } from './component/slider/slider-bar/slider-bar.component';
+import { PlaylistCreationComponent } from './component/playlist/playlist-creation/playlist-creation.component';
 
 @NgModule({
   declarations: [
@@ -54,15 +52,13 @@ import { SliderBarComponent } from './component/slider/slider-bar/slider-bar.com
     SearchResultsComponent,
     ListviewComponent,
     CardviewComponent,
-    SliderComponent,
     ViewToggleComponent,
     ViewToggleComponent,
     FloatingMenuComponent,
     PlaylistEditionComponent,
     FilteredPlaylistGenComponent,
     ExternalPlaylistGenComponent,
-    PlaylistCreationStepperComponent,
-    SliderBarComponent
+    PlaylistCreationComponent
   ],
   imports: [
     BrowserModule,

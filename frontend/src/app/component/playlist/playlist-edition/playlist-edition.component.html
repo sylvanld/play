@@ -1,15 +1,19 @@
-<ng-template [ngIf]="playlist != undefined">
-    <mat-form-field>
-        <input matInput type="text" placeholder="Titre" [(ngModel)]="titleEdition" required>
-        <button mat-button *ngIf="titleEdition" matSuffix mat-icon-button aria-label="Clear" (click)="titleEdition=''">
-            <mat-icon>close</mat-icon>
-        </button>
-        <button mat-button *ngIf="titleEdition && titleEdition != playlist.title" matSuffix mat-icon-button aria-label="Confirm" (click)="saveTitle()">
-            <mat-icon>done</mat-icon>
-        </button>
-    </mat-form-field>
-    
-    <app-view-toggle (mode)="onSwitchMode($event)"></app-view-toggle>
+<ng-template [ngIf]="playlist != undefined" [ngIfElse]="unknow">
+    <div class="horizontal-align space-between">
+        <div><mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon></div>
+
+        <mat-form-field>
+            <input matInput type="text" placeholder="Titre" [(ngModel)]="titleEdition" required>
+            <button mat-button *ngIf="titleEdition" matSuffix mat-icon-button aria-label="Clear" (click)="titleEdition=''">
+                <mat-icon>close</mat-icon>
+            </button>
+            <button mat-button *ngIf="titleEdition && titleEdition != playlist.title" matSuffix mat-icon-button aria-label="Confirm" (click)="saveTitle()">
+                <mat-icon>done</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <app-view-toggle [(locker)]="locked" (mode)="onSwitchMode($event)"></app-view-toggle>
+    </div>
 
     <div *ngIf="isListMode()">
         <app-listview addBtnLabel="Nouveau titre" [locked]="locked" (addItemEvent)="addSong()" (delItemEvent)="delSong($event)" 
@@ -21,6 +25,9 @@
             (moveItemEvent)="moveSong($event)" [items]="songsF" addBtnPosition="start">
         </app-cardview>
     </div>
+</ng-template>
 
-    <!-- <app-floating-menu [items]="latOpts" triggerLevel=200></app-floating-menu> -->
+<ng-template #unknow>
+    <div><mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon></div>
+    <p>La playlist n'existe pas</p>
 </ng-template>

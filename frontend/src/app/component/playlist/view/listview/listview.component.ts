@@ -3,7 +3,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ViewItem } from 'src/app/classes/ViewItem';
 import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
 
-enum Position { Start='start', End='end', Both='both'}
+enum Position { Start= 'start', End= 'end', Both= 'both'}
 
 @Component({
   selector: 'app-listview',
@@ -24,9 +24,9 @@ enum Position { Start='start', End='end', Both='both'}
 })
 export class ListviewComponent implements OnInit {
   @Input() items: ViewItem[] = [];
-  @Input() locked: boolean = true;
+  @Input() locked = true;
   @Input() addBtnPosition: Position = Position.Start;
-  @Input() addBtnLabel: string = "Nouvel élément";
+  @Input() addBtnLabel = "Nouvel élément";
   @Output() addItemEvent: EventEmitter<any> = new EventEmitter();
   @Output() delItemEvent: EventEmitter<any> = new EventEmitter();
   @Output() moveItemEvent: EventEmitter<any> = new EventEmitter();
@@ -45,16 +45,16 @@ export class ListviewComponent implements OnInit {
     this.delItemEvent.emit(item.id);
   }
 
-  moveItem(event: CdkDragDrop<Object[]>) {
+  moveItem(event: CdkDragDrop<any[]>) {
     this.moveItemEvent.emit({oldIndex: event.previousIndex, newIndex: event.currentIndex});
   }
 
   showStartAddBtn(): boolean {
-    return (this.addBtnPosition == 'start' || this.addBtnPosition == 'both');
+    return (!this.locked && (this.addBtnPosition === 'start' || this.addBtnPosition === 'both'));
   }
 
   showEndAddBtn(): boolean {
-    return (this.addBtnPosition == 'end' || this.addBtnPosition == 'both');
+    return (!this.locked && (this.addBtnPosition === 'end' || this.addBtnPosition === 'both'));
   }
 
   onClick(index) {
