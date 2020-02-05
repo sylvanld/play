@@ -8,7 +8,10 @@ export const environment = {
   deezer_api_url: 'https://cors-anywhere.herokuapp.com/https://api.deezer.com',
   play_api_url: 'http://localhost:8080',
 
-  spotify_api_url: 'https://api.spotify.com'
+  spotify_api_url: 'https://api.spotify.com',
+
+  youtube_api_url: 'https://www.googleapis.com/youtube/v3',
+  youtube_api_key: 'AIzaSyB-t7E-THHu2fG8nOhW9nuWUIAwQhjljbQ'
 };
 
 /*

@@ -1,37 +1,43 @@
 import { Track } from '~types/track';
 import { Playlist } from '~types/playlist';
+import { PlayerState, PlayerVolumeState } from './state';
+import { PlayerConfig } from '.';
 
 export interface Player {
+  // parameters
+  config: PlayerConfig;
+  provider: YT.Player;
 
-}
+  playerState: PlayerState;
+  volumeState: PlayerVolumeState;
 
-/**
- * An helper for factorization.
- */
-export interface PlayerProviderExtends {
+  volume: number;
 
-  cuePlaylist(playlist: Playlist): void;
-  cueTracks(...tracks: Track[]): void;
-  currentTime(): number;
-  durationTime(): number;
+  showVideo: boolean;
+  canVideo: boolean;
+
+  time: number;
+  duration: number;
+
+  // functions API
+  toggleState(): void;
+  toggleVolumeState(): void;
+  toggleDisplayVideo(): void;
+
+  nextTrack(): void;
+  prevTrack(): void;
+  pauseTrack(): void;
+  playTrack(id?: number): void;
+
+  setVolume(volume: number): void;
   getVolume(): number;
-  loadPlaylist(playlist: Playlist): void;
-  loadTracks(...tracks: Track[]): void;
   mute(): void;
-  next(): void;
-  pause(): void;
-
-  /**Plays the tracks.
-   * @param idx: Plays the track at the idx position.
-   */
-  play(idx?: number): void;
-  prev(): void;
-  seekTo(seconds: number, reload: boolean): void;
-  setVolume(vol: number): void;
   unMute(): void;
 
-  // tslint:disable-next-line: max-line-length
-  addEventListener(eventName: 'onReady' | 'onStateChange' | 'onPlaybackQualityChange' | 'onPlaybackRateChange' | 'onError' | 'onApiChange', listener: (event: YT.PlayerEvent) => void);
-  // tslint:disable-next-line: max-line-length
-  delEventListener(eventName: 'onReady' | 'onStateChange' | 'onPlaybackQualityChange' | 'onPlaybackRateChange' | 'onError' | 'onApiChange', listener: (event: YT.PlayerEvent) => void);
+  seekTo(time: number, reloadBuffer: boolean): void;
+
+  loadTracks(...tracks: Track[]): void;
+  queueTracks(...tracks: Track[]): void;
+  loadPlaylist(playlist: Playlist): void;
+  queuePlaylist(playlist: Playlist): void;
 }

@@ -6,12 +6,13 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
 
 // services
 import { PlayerConfig } from '~types/player';
-import { PlayerService, PlayerConfigService } from './services/player.service';
+import { PlayerService, PlayerConfigService } from './player.service';
 
 // components
 import { PlayerComponent } from './components/player/player.component';
 import { ProvidersComponent } from './components/providers/providers.component';
 import { PlayerControlsComponent } from './components/player/player-controls/player-controls.component';
+import { PlayerCurrentTrackComponent } from './components/player/player-current-track/player-current-track.component';
 import { PlayerExtraControlsComponent } from './components/player/player-extra-controls/player-extra-controls.component';
 
 // custom pipes
@@ -26,7 +27,14 @@ import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
-  declarations: [PlayerComponent, ProvidersComponent, PlayerControlsComponent, PlayerExtraControlsComponent, TimerPipePipe],
+  declarations: [
+    TimerPipePipe,
+    PlayerComponent,
+    ProvidersComponent,
+    PlayerControlsComponent,
+    PlayerCurrentTrackComponent,
+    PlayerExtraControlsComponent,
+  ],
   providers: [],
   exports: [PlayerComponent],
   imports: [CommonModule, YouTubePlayerModule, MatSliderModule, MatButtonModule, MatIconModule, MatMenuModule, FormsModule]

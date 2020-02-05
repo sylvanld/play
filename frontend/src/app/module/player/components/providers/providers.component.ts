@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { PlayerService } from '~player/services/player.service';
+import { PlayerService } from '../../player.service';
 
 @Component({
   selector: 'app-player-providers',
@@ -8,11 +8,6 @@ import { PlayerService } from '~player/services/player.service';
 })
 export class ProvidersComponent implements OnInit {
 
-  // tslint:disable-next-line: no-output-on-prefix
-  @Output() onReady = new EventEmitter();
-
-  private showVideo = false;
-
   constructor(private player: PlayerService) { }
 
   ngOnInit() {
@@ -20,13 +15,9 @@ export class ProvidersComponent implements OnInit {
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.body.appendChild(tag);
+  }
 
-    this.player.stateObs.subscribe(() => {
-      this.onReady.emit();
-    });
-
-    this.player.showVideo.subscribe((val: boolean) => {
-      this.showVideo = val;
-    });
+  onYTReady({ target }: YT.PlayerEvent) {
+    this.player.provider = target;
   }
 }
