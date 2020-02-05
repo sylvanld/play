@@ -3,6 +3,7 @@ import { YoutubeService } from '@youtube/youtube.service';
 import { PlayerService } from '@play/player.service';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-player',
@@ -13,7 +14,9 @@ export class PlayerComponent implements OnInit {
   query: string;
   private modelChanged: Subject<string> = new Subject<string>();
 
-  constructor(private player: PlayerService, private youtube: YoutubeService) { }
+  constructor(private player: PlayerService,
+              private youtube: YoutubeService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.modelChanged.pipe(debounceTime(300), distinctUntilChanged())
@@ -22,9 +25,12 @@ export class PlayerComponent implements OnInit {
           this.query = query;
           this.youtube.searchTrack(query)
             .subscribe((object: any) => {
-              const id: string = object.items[0].id.videoId;
-              console.log(id);
-              this.player.loadPlaylist([id], 0);
+              if (object.length > 0) {
+                const id: string = object.items[0].id.videoId;
+                this.player.loadPlaylist([id], 0);
+              } else {
+                this.snackBar.open('Aucun résultat pour ce titre.', null, { duration: 1500 });
+              }
             });
         }
       );
