@@ -10,8 +10,8 @@
     "module": "esnext",
     "moduleResolution": "node",
     "paths": {
-      "@youtube/*": ["src/app/youtube/*"],
-      "@play/*": ["src/app/play/*"],
+      "~types/*": ["src/app/types/*"],
+      "~*": ["src/app/module/*"]
     },
     "importHelpers": true,
     "target": "es2015",

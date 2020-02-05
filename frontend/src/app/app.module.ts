@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconRegistry } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -33,17 +32,31 @@ import { ViewToggleComponent } from './component/playlist/view/view-toggle/view-
 import { PlaylistEditionComponent } from './component/playlist/playlist-edition/playlist-edition.component';
 import { FloatingMenuComponent } from './component/floating-menu/floating-menu.component';
 import { PlaylistCreationComponent } from './component/playlist/playlist-creation/playlist-creation.component';
-import { BottomPlayerComponent } from './component/player/bottom-player/bottom-player.component';
-import { TimerPipePipe } from './pipes/timer-pipe.pipe';
+import { MatIconRegistry } from '@angular/material/icon';
 import { LoginComponent } from './view/login/login.component';
 import { RegisterComponent } from './view/register/register.component';
 import { FormComponent } from './component/core/form/form.component';
+
+import { PlayerModule } from './module/player/player.module';
+
 import { SpotifyLoginButtonComponent } from './component/auth/spotify-login-button/spotify-login-button.component';
 import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button/deezer-login-button.component';
+
+import { AlbumsListComponent } from './component/items/albums/albums-list/albums-list.component';
+import { AlbumItemComponent } from './component/items/albums/album-item/album-item.component';
+import { TracksListComponent } from './component/items/tracks/tracks-list/tracks-list.component';
+import { SelectList } from './component/core/select-list/select-list.component';
+import { AdvancedSearchComponent } from './component/search/advanced-search/advanced-search.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ListviewComponent,
+    CardviewComponent,
+    ViewToggleComponent,
+    FloatingMenuComponent,
+    PlaylistEditionComponent,
+    PlaylistCreationComponent,
     SearchbarComponent,
     NavigationComponent,
     NavItemComponent,
@@ -56,19 +69,16 @@ import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button
     ArtistsListComponent,
     ArtistItemComponent,
     SearchResultsComponent,
-    ListviewComponent,
-    CardviewComponent,
-    ViewToggleComponent,
-    FloatingMenuComponent,
-    PlaylistEditionComponent,
-    PlaylistCreationComponent,
-    TimerPipePipe,
-    BottomPlayerComponent,
     LoginComponent,
     RegisterComponent,
     FormComponent,
     SpotifyLoginButtonComponent,
     DeezerLoginButtonComponent,
+    AlbumsListComponent,
+    AlbumItemComponent,
+    TracksListComponent,
+    SelectList,
+    AdvancedSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -83,16 +93,15 @@ import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button
     ReactiveFormsModule,
     MatRadioModule,
     YouTubePlayerModule,
-    HttpClientModule
+    HttpClientModule,
+    // custom modules
+    PlayerModule.forRoot({ selection: 'youtube' })
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon(
-      'play_logo',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/play.svg')
-    );
+    iconRegistry.addSvgIcon('play_logo', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/play.svg'));
   }
 }

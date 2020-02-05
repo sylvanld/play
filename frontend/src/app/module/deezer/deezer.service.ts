@@ -1,19 +1,13 @@
-import { DeezerSearchResult } from './deezer-search-result';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { DeezerTrack } from './deezer-track';
-import { DeezerAlbum } from './deezer-album';
-import { DeezerArtist } from './deezer-artist';
-import { DeezerGlobalSearchResult } from './deezer-global-search-result';
+
+import { DeezerTrack, DeezerAlbum, DeezerArtist, DeezerGlobalSearchResult, DeezerSearchResult } from '~types/deezer';
 import { environment } from 'src/environments/environment';
 
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DeezerService {
   private DEEZER_API_URL = environment.deezer_api_url;
   constructor(private http: HttpClient) { }

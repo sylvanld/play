@@ -2,6 +2,7 @@
 
 :host {
   grid-area: navigation;
+  z-index: 3;
 }
 
 mat-toolbar{
@@ -21,7 +22,7 @@ mat-toolbar{
   }
 
   mat-toolbar > *{
-    flex: 1;
+    flex: 1 1 auto;
   }
 }
 

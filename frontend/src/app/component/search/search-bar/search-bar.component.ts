@@ -1,11 +1,7 @@
-import { DeezerService } from '../../../module/deezer/deezer.service';
-import { Component, OnInit, Input } from '@angular/core';
-import { DeezerGlobalSearchResult } from '../../../module/deezer/deezer-global-search-result';
-
-const ALL = 'ALL';
-const TRACKS = 'TRACKS';
-const ARTISTS = 'ARTISTS';
-const ALBUMS = 'ALBUMS';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { SpotifyService } from 'src/app/service/spotify.service';
+import { SearchResult } from '~types/search-result';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-search-bar',
@@ -14,23 +10,42 @@ const ALBUMS = 'ALBUMS';
 })
 export class SearchbarComponent implements OnInit {
   query = '';
-  placeholder = 'Search by ...';
-  filters = [ALL, TRACKS, ARTISTS, ALBUMS];
+  placeholder = 'Search';
 
-  @Input() appliedFilter = ARTISTS;
-  @Input() results: DeezerGlobalSearchResult = { tracks: [], artists: [], albums: [] };
+  // about filters
+  filterIcon = { track: 'audiotrack', album: 'album', artist: 'people' };
+  filtersList = ['track', 'album', 'artist'];
+  filters = new FormControl(['track', 'album', 'artist']);
 
-  constructor(private deezer: DeezerService) { }
+  @Output() results = new EventEmitter<SearchResult>();
 
-  ngOnInit() {
+  constructor(private spotify: SpotifyService) { }
 
+  validateFilters(formControl) {
+    return formControl.value && formControl.value.length
+      ? null
+      : {
+        requiredList: {
+          valid: false
+        }
+      };
   }
 
-  submitSearch() {
-    console.log(this.query);
-    this.deezer.search(this.query).subscribe((results: DeezerGlobalSearchResult) => {
-      console.log(results);
+  ngOnInit() {
+    this.filters.setValidators(this.validateFilters);
+    // update placeholder when filters change
+    this.filters.valueChanges.subscribe((filters) => {
+      this.placeholder = 'Search by ' + filters.join(',');
     });
   }
 
+  getFilters() {
+    return this.filters.value;
+  }
+
+  submitSearch() {
+    this.spotify.search(this.query, this.getFilters()).subscribe((results: SearchResult) => {
+      this.results.emit(results);
+    });
+  }
 }

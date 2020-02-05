@@ -1,6 +1,8 @@
 <p>player works!</p>
 
-<mat-form-field>
-  <input matInput placeholder="Title" [ngModel]="query" (ngModelChange)='changed($event)' >
-</mat-form-field>
-
+<form>
+  <mat-form-field>
+    <input matInput placeholder="Title" [ngModel]="query" (ngModelChange)='changed($event)'>
+  </mat-form-field>
+</form>
+<app-advanced-search></app-advanced-search>

@@ -1,0 +1,4 @@
+{
+  "tslint.configFile": "../frontend/tslint.json",
+  "editor.formatOnSave": true
+}

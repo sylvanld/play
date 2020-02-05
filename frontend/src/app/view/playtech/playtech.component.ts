@@ -6,7 +6,6 @@ import { ViewItem } from 'src/app/classes/ViewItem';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-playtech',
   templateUrl: './playtech.component.html',
   styleUrls: ['./playtech.component.scss']
 })

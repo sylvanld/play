@@ -37,8 +37,7 @@ export class AuthenticationService {
     private http: HttpClient,
     private router: Router,
     private storage: StorageService,
-    private notify: NotificationService,
-    private route: ActivatedRoute
+    private notify: NotificationService
   ) { }
 
   register(user: { email: string, password: string }) {
@@ -61,7 +60,7 @@ export class AuthenticationService {
   }
 
   login(email, password) {
-    this.http.post(environment.play_api_url + '/auth/token', {
+    this.http.post(environment.play_api_url + '/play/token', {
       email, password
     }).subscribe(
       (grant: { access_token: string }) => {
@@ -85,6 +84,7 @@ export class AuthenticationService {
   }
 
   logout() {
+    this.accessToken = null;
     this.storage.del(ACCESS_TOKEN);
     this._connected.next(false);
     this.router.navigateByUrl('/login');
@@ -102,12 +102,14 @@ export class AuthenticationService {
 
   loadTokenFromUrl() {
     const params: { access_token?: string } = getUrlParams();
+    console.log('token from url: ', params.access_token);
     return params.access_token;
   }
 
   reloadToken(): boolean {
     const accessToken = this.loadTokenFromUrl() || this.storage.get(ACCESS_TOKEN);
     if (accessToken) {
+      console.log('token found:', accessToken);
       this.setToken(accessToken);
     }
     return !!accessToken;
