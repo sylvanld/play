@@ -15,7 +15,7 @@ export class PlayerService {
   public readonly showVideo: Observable<boolean> = this._showVideo.asObservable();
 
   // about the state of the player
-  private _state: BehaviorSubject<PlayerState> = new BehaviorSubject(PlayerState.UNSTARTED);
+  private _state: BehaviorSubject<PlayerState> = new BehaviorSubject(PlayerState.UNLOADED);
   public readonly stateObs: Observable<PlayerState> = this._state.asObservable();
   get state() { return this._state.getValue(); }
   set state(val: PlayerState) { this._state.next(val); }
@@ -54,19 +54,16 @@ export class PlayerService {
 
       this.provider.addEventListener('onStateChange', ({ data }: YT.OnStateChangeEvent) => {
         // handle the state of the playing
-        data === YT.PlayerState.ENDED
-          ? vm._state.next(PlayerState.ENDED)
-          : data === YT.PlayerState.PAUSED
-            ? vm._state.next(PlayerState.PAUSED)
-            : data === YT.PlayerState.UNSTARTED
-              ? vm._state.next(PlayerState.UNSTARTED)
-              : vm._state.next(PlayerState.PLAYING);
+        // @ts-ignore
+        vm._state.next(data);
       });
+
+      this.state = PlayerState.UNSTARTED;
     }
   }
 
   toggleState(): void {
-    if (this.state === PlayerState.PLAYING) {
+    if (this.state === PlayerState.PLAYING || this.state === PlayerState.BUFFERING) {
       this.provider.pause();
       this.state = PlayerState.PAUSED;
     } else {

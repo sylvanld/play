@@ -1,9 +1,12 @@
 
 export const enum PlayerState {
-  UNSTARTED = 0,
+  UNLOADED = -2,
+  UNSTARTED = -1,
+  ENDED = 0,
   PLAYING = 1,
   PAUSED = 2,
-  ENDED = 3,
+  BUFFERING = 3,
+  CUED = 5
 }
 
 export const enum PlayerVolumeState {

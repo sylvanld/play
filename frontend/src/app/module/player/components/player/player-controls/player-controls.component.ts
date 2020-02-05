@@ -9,8 +9,6 @@ import { PlayerState } from '~types/player';
 })
 export class PlayerControlsComponent implements OnInit, OnDestroy {
 
-  private playState: PlayerState = undefined;
-
   private updateInterval;
   private currentTime: number;
   private duration: number;
@@ -18,11 +16,10 @@ export class PlayerControlsComponent implements OnInit, OnDestroy {
   constructor(private player: PlayerService) { }
 
   ngOnInit() {
-    this.player.stateObs.subscribe((val: PlayerState) => { this.playState = val; });
 
     // refresh times
     this.updateInterval = setInterval(() => {
-      if (this.playState !== PlayerState.UNSTARTED) {
+      if (this.player.state !== PlayerState.UNLOADED) {
         this.currentTime = this.player.provider.currentTime();
         this.duration = this.player.provider.durationTime();
       }
@@ -30,7 +27,7 @@ export class PlayerControlsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.currentTime);
+    clearInterval(this.updateInterval);
   }
 
   newValue({ value }) {
