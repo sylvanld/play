@@ -1,16 +1,18 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DeezerGlobalSearchResult } from '~types/deezer';
+import { SearchResult } from '~types/search-result';
 
 @Component({
-  templateUrl: './browse.component.html',
-  styleUrls: ['./browse.component.scss']
+	templateUrl: './browse.component.html',
+	styleUrls: [ './browse.component.scss' ]
 })
 export class BrowseComponent implements OnInit {
-  results: DeezerGlobalSearchResult = { tracks: [], artists: [], albums: [] };
+	results: SearchResult = { tracks: [], artists: [], albums: [] };
 
-  constructor() { }
+	constructor() {}
 
-  ngOnInit() {
-  }
+	ngOnInit() {}
 
+	onResultsChange(results: SearchResult) {
+		this.results = results;
+	}
 }

@@ -23,53 +23,61 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { LoginComponent } from './view/login/login.component';
 import { RegisterComponent } from './view/register/register.component';
 import { FormComponent } from './component/core/form/form.component';
-import { SpotifyLoginButtonComponent } from './component/auth/spotify-login-button/spotify-login-button.component';
-import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button/deezer-login-button.component';
+
 import { PlayerModule } from './module/player/player.module';
 import { DeezerModule } from '~deezer/deezer.module';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    SearchbarComponent,
-    NavigationComponent,
-    NavItemComponent,
-    HeadingComponent,
-    PlayerComponent,
-    ShareComponent,
-    AccountsComponent,
-    BrowseComponent,
-    PlaytechComponent,
-    ArtistsListComponent,
-    ArtistItemComponent,
-    SearchResultsComponent,
-    LoginComponent,
-    RegisterComponent,
-    FormComponent,
-    SpotifyLoginButtonComponent,
-    DeezerLoginButtonComponent,
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
+import { SpotifyLoginButtonComponent } from './component/auth/spotify-login-button/spotify-login-button.component';
+import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button/deezer-login-button.component';
 
-    // custom modules
-    DeezerModule,
-    PlayerModule.forRoot({ selection: 'youtube' })
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+import { AlbumsListComponent } from './component/items/albums/albums-list/albums-list.component';
+import { AlbumItemComponent } from './component/items/albums/album-item/album-item.component';
+import { TracksListComponent } from './component/items/tracks/tracks-list/tracks-list.component';
+import { SelectItemTypeComponent } from './component/filters/select-item-type/select-item-type.component';
+
+@NgModule({
+	declarations: [
+		AppComponent,
+		SearchbarComponent,
+		NavigationComponent,
+		NavItemComponent,
+		HeadingComponent,
+		PlayerComponent,
+		ShareComponent,
+		AccountsComponent,
+		BrowseComponent,
+		PlaytechComponent,
+		ArtistsListComponent,
+		ArtistItemComponent,
+		SearchResultsComponent,
+		LoginComponent,
+		RegisterComponent,
+		FormComponent,
+		SpotifyLoginButtonComponent,
+		DeezerLoginButtonComponent,
+		AlbumsListComponent,
+		AlbumItemComponent,
+		TracksListComponent,
+		SelectItemTypeComponent
+	],
+	imports: [
+		BrowserModule,
+		FormsModule,
+		ReactiveFormsModule,
+		MaterialModule,
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		HttpClientModule,
+
+		// custom modules
+		DeezerModule,
+		PlayerModule.forRoot({ selection: 'youtube' })
+	],
+	providers: [],
+	bootstrap: [ AppComponent ]
 })
 export class AppModule {
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon(
-      'play_logo',
-      this.sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/play.svg')
-    );
-  }
+	constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+		iconRegistry.addSvgIcon('play_logo', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/play.svg'));
+	}
 }

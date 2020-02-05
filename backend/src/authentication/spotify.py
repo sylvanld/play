@@ -1,4 +1,4 @@
-import requests
+import requests, base64
 from flask import redirect, request
 from urllib.parse import urlencode
 
@@ -56,4 +56,25 @@ class Spotify(IdentityProvider):
             'lang': user_info['country'],
             'email': user_info['email']
         }
+
+    @classmethod
+    def get_generic_token(cls):
+        credentials = base64.b64encode(
+            f'{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}'.encode('utf-8')
+        ).decode('utf-8')
+
+        # get token for this application
+        r = requests.post(
+            'https://accounts.spotify.com/api/token',
+            headers={
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic %s'%credentials
+            },
+            data={
+                'grant_type': 'client_credentials'
+            }
+        )
+
+        assert r.status_code == 200, "Error while retrieving access_token"
+        return r.json()
 
