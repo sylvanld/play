@@ -38,3 +38,23 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
   </tr>
 </table>
+
+<mat-menu #actionsMenu="matMenu">
+  <button mat-menu-item (click)="playSelection()">
+    <span>Play selected</span>
+    <mat-icon style="left: 0">play_arrow</mat-icon>
+  </button>
+  <button mat-menu-item>
+    <span>Add to queue</span>
+    <mat-icon>queue</mat-icon>
+  </button>
+  <button mat-menu-item>
+    <span>Add to playlist</span>
+    <mat-icon>queue_music</mat-icon>
+  </button>
+</mat-menu>
+
+<button mat-fab *ngIf="selection.hasValue()" color="accent" [matMenuTriggerFor]="actionsMenu"
+  style="position: fixed; right: 24px; bottom: 100px; z-index: 9999">
+  <mat-icon>more_vert</mat-icon>
+</button>

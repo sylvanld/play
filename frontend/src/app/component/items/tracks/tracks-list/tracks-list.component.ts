@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Track } from '~types/track';
 import { SelectionModel } from '@angular/cdk/collections';
+import { PlayerService } from '~player/services/player.service';
 
 @Component({
 	selector: 'app-tracks-list',
@@ -12,7 +13,7 @@ export class TracksListComponent implements OnInit {
 	displayedColumns: string[] = ['select', 'title', 'artist', 'album', 'release'];
 	selection = new SelectionModel<Track>(true, []);
 
-	constructor() { }
+	constructor(private player: PlayerService) { }
 
 	ngOnInit() { }
 
@@ -36,5 +37,9 @@ export class TracksListComponent implements OnInit {
 			return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
 		}
 		return `${this.selection.isSelected(track) ? 'deselect' : 'select'} select ${track.title + 1}`;
+	}
+
+	playSelection() {
+		this.player.provider.cueTracks(...this.selection.selected);
 	}
 }
