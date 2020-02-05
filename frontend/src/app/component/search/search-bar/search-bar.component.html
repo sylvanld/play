@@ -1,11 +1,16 @@
-<form (submit)="submitSearch()" style="display:flex; height:45px; width:40em">
-  <mat-form-field style="flex: 1">
-    <input matInput [placeholder]="placeholder" [(ngModel)]="query" name="query">
+<form (submit)="submitSearch()" style="display: flex; align-items: center; justify-content: center">
+  <mat-form-field style="flex: 1; max-width: 400px">
+    <input matInput [placeholder]="placeholder" [(ngModel)]="query" name="query" required>
   </mat-form-field>
 
   <mat-form-field>
-    <mat-select [value]="appliedFilter">
-      <mat-option *ngFor="let filter of filters" [value]="filter">
+    <mat-label>Item</mat-label>
+    <mat-select [formControl]="filters" multiple>
+      <mat-select-trigger>
+        <mat-icon *ngFor="let filter of getFilters()">{{ filterIcon[filter] }}</mat-icon>
+      </mat-select-trigger>
+      <mat-option *ngFor="let filter of filtersList" [value]="filter">
+        <mat-icon>{{filterIcon[filter]}}</mat-icon>
         {{filter}}
       </mat-option>
     </mat-select>

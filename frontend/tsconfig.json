@@ -10,15 +10,8 @@
     "module": "esnext",
     "moduleResolution": "node",
     "paths": {
-      "~player/*": [
-        "src/app/module/player/*"
-      ],
-      "~types/*": [
-        "src/app/types/*"
-      ],
-      "~deezer/*": [
-        "src/app/module/deezer/*"
-      ],
+      "@player/*": ["src/app/module/player/*"],
+      "~types/*": ["src/app/types/*"],
     },
     "importHelpers": true,
     "target": "es2015",

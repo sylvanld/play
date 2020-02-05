@@ -61,7 +61,7 @@ export class AuthenticationService {
   }
 
   login(email, password) {
-    this.http.post(environment.play_api_url + '/auth/token', {
+    this.http.post(environment.play_api_url + '/auth/token/play', {
       email, password
     }).subscribe(
       (grant: { access_token: string }) => {
