@@ -40,7 +40,8 @@ const materialModules = [
 	MatDatepickerModule,
 	MatNativeDateModule,
 	MatTabsModule,
-	MatDialogModule
+	MatDialogModule,
+	MatCheckboxModule
 ];
 
 @NgModule({

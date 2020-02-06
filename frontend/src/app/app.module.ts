@@ -77,7 +77,8 @@ import { SimpleFiltersComponent } from './component/search/advanced-search/simpl
 		InputDatesComponent,
 		InputTempoComponent,
 		ProsodicsFiltersComponent,
-		SimpleFiltersComponent
+		SimpleFiltersComponent,
+		AdvancedSearchComponent
 	],
 	imports: [
 		BrowserModule,
