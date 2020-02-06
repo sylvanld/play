@@ -25,7 +25,7 @@ import { RegisterComponent } from './view/register/register.component';
 import { FormComponent } from './component/core/form/form.component';
 
 import { PlayerModule } from './module/player/player.module';
-import { DeezerModule } from '~deezer/deezer.module';
+import { DeezerModule } from './module/deezer/deezer.module';
 
 import { SpotifyLoginButtonComponent } from './component/auth/spotify-login-button/spotify-login-button.component';
 import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button/deezer-login-button.component';
@@ -33,7 +33,17 @@ import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button
 import { AlbumsListComponent } from './component/items/albums/albums-list/albums-list.component';
 import { AlbumItemComponent } from './component/items/albums/album-item/album-item.component';
 import { TracksListComponent } from './component/items/tracks/tracks-list/tracks-list.component';
-import { SelectItemTypeComponent } from './component/filters/select-item-type/select-item-type.component';
+import { SelectList } from './component/core/select-list/select-list.component';
+import { AdvancedSearchComponent } from './component/search/advanced-search/advanced-search.component';
+import { InputArtistsComponent } from './component/search/filters/input-artists/input-artists.component';
+import { AutocompleteChipListComponent } from './component/core/autocomplete-chip-list/autocomplete-chip-list.component';
+import { InputAlbumsComponent } from './component/search/filters/input-albums/input-albums.component';
+import { InputGenresComponent } from './component/search/filters/input-genres/input-genres.component';
+import { InputDatesComponent } from './component/search/filters/input-dates/input-dates.component';
+import { PrimengModule } from './module/primeng/primeng.module';
+import { InputTempoComponent } from './component/search/filters/input-tempo/input-tempo.component';
+import { ProsodicsFiltersComponent } from './component/search/advanced-search/prosodics-filters/prosodics-filters.component';
+import { SimpleFiltersComponent } from './component/search/advanced-search/simple-filters/simple-filters.component';
 
 @NgModule({
 	declarations: [
@@ -58,23 +68,36 @@ import { SelectItemTypeComponent } from './component/filters/select-item-type/se
 		AlbumsListComponent,
 		AlbumItemComponent,
 		TracksListComponent,
-		SelectItemTypeComponent
+		SelectList,
+		AdvancedSearchComponent,
+		InputArtistsComponent,
+		AutocompleteChipListComponent,
+		InputAlbumsComponent,
+		InputGenresComponent,
+		InputDatesComponent,
+		InputTempoComponent,
+		ProsodicsFiltersComponent,
+		SimpleFiltersComponent
 	],
 	imports: [
 		BrowserModule,
 		FormsModule,
 		ReactiveFormsModule,
-		MaterialModule,
-		AppRoutingModule,
 		BrowserAnimationsModule,
 		HttpClientModule,
+
+		AppRoutingModule,
+
+		MaterialModule.forRoot(),
+		PrimengModule,
 
 		// custom modules
 		DeezerModule,
 		PlayerModule.forRoot({ selection: 'youtube' })
 	],
+	entryComponents: [AdvancedSearchComponent],
 	providers: [],
-	bootstrap: [ AppComponent ]
+	bootstrap: [AppComponent]
 })
 export class AppModule {
 	constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
