@@ -32,8 +32,10 @@ export class AccountsComponent implements OnInit {
 
   forgetAccountDialog() {
     const dialog = this._dialog.open(ForgetAccountDialogComponent);
-    dialog.afterClosed().subscribe( () => {
-      this.playlistService.flushData();
+    dialog.afterClosed().subscribe( (response) => {
+      if (response) {
+        this.playlistService.flushData();
+      }
     });
   }
 }
