@@ -161,5 +161,6 @@ export class PlaylistEditionComponent implements OnInit {
     for (const t of tracks) {
       this.playlistService.addTrack(this.playlistId, t);
     }
+    this.selection.clear();
   }
 }
