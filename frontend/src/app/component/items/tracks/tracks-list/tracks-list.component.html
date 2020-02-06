@@ -8,7 +8,7 @@
       </mat-checkbox>
     </th>
     <td mat-cell *matCellDef="let row">
-      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? toggleSelection(row) : null"
         [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
       </mat-checkbox>
     </td>
@@ -35,26 +35,28 @@
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="toggleSelection(row)">
   </tr>
 </table>
 
-<mat-menu #actionsMenu="matMenu">
-  <button mat-menu-item (click)="playSelection()">
-    <span>Play selected</span>
-    <mat-icon style="left: 0">play_arrow</mat-icon>
-  </button>
-  <button mat-menu-item>
-    <span>Add to queue</span>
-    <mat-icon>queue</mat-icon>
-  </button>
-  <button mat-menu-item>
-    <span>Add to playlist</span>
-    <mat-icon>queue_music</mat-icon>
-  </button>
-</mat-menu>
+<ng-template [ngIf]="!noActionBtn">
+  <mat-menu #actionsMenu="matMenu">
+    <button mat-menu-item (click)="playSelection()">
+      <span>Play selected</span>
+      <mat-icon style="left: 0">play_arrow</mat-icon>
+    </button>
+    <button mat-menu-item>
+      <span>Add to queue</span>
+      <mat-icon>queue</mat-icon>
+    </button>
+    <button mat-menu-item>
+      <span>Add to playlist</span>
+      <mat-icon>queue_music</mat-icon>
+    </button>
+  </mat-menu>
 
-<button mat-fab *ngIf="selection.hasValue()" color="accent" [matMenuTriggerFor]="actionsMenu"
-  style="position: fixed; right: 24px; bottom: 100px; z-index: 9999">
-  <mat-icon>more_vert</mat-icon>
-</button>
+  <button mat-fab *ngIf="selection.hasValue()" color="accent" [matMenuTriggerFor]="actionsMenu"
+    style="position: fixed; right: 24px; bottom: 100px; z-index: 9999">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</ng-template>

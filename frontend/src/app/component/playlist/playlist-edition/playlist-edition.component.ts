@@ -1,45 +1,61 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { PlaylistsService } from '../../../service/playlists.service';
-import { moveItemInArray } from '@angular/cdk/drag-drop';
-import { of, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { PlayerService } from 'src/app/module/player/services/player.service';
-import { YoutubeService } from 'src/app/service/youtube.service';
 import { Track } from 'src/app/types/track';
 import { map } from 'rxjs/operators';
 import { ViewItem } from 'src/app/types/view-item';
 import { Playlist } from 'src/app/types/playlist';
-import { Artist } from '~types/artist';
-import { Album } from '~types/album';
+import { PlayerService } from '~player/player.service';
+import { SearchResult } from '~types/search-result';
+import { Position } from '../view/listview/listview.component';
+import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+enum SearchStep {
+  Initial = 0,
+  ShowBar = 1,
+  ShowResults = 2
+}
 
 @Component({
   selector: 'app-playlist-edition',
   templateUrl: './playlist-edition.component.html',
-  styleUrls: ['./playlist-edition.component.scss']
+  styleUrls: ['./playlist-edition.component.scss'],
+  animations: [
+    trigger('slide', [
+      transition(':enter', [
+        query('.vertical-align', [
+          style({opacity: 0, transform: 'translateX(-500px)'}),
+          stagger(30, [
+            animate('3s cubic-bezier(0.35, 0, 0.25, 1)', style({ opacity: 1, transform: 'none' }))
+          ])
+        ], { optional: true })
+      ])
+    ])
+  ]
 })
 export class PlaylistEditionComponent implements OnInit {
   @Input() locked = false;
   @Output() lockedChange: EventEmitter<any> = new EventEmitter();
   playlistId: string = null;
-  viewMode: string = null;
-
   titleEdition: string;
   playlist: Observable<Playlist>;
   songsF: ViewItem[] = [];
-  // switchMode = 0;  // 0: list ; 1: card
+  searchStep = SearchStep.Initial;
+  results: SearchResult = { tracks: [], artists: [], albums: [] };
+  selection = new SelectionModel<Track>(true, []);
 
   constructor(private playlistService: PlaylistsService,
               private route: ActivatedRoute,
               private router: Router,
               private player: PlayerService,
-              private youtube: YoutubeService,
-              private snackBar: MatSnackBar) { }
+              private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
     // router params
     this.route.queryParams.subscribe(params => {
-      this.viewMode = params.view;
       this.locked = params.locked === 'true';
     });
     this.route.params.subscribe(params => {
@@ -71,8 +87,13 @@ export class PlaylistEditionComponent implements OnInit {
   }
 
   saveTitle() {
-    // this.playlist.title = this.titleEdition;
-    this.playlistService.renamePlaylist(this.playlistId, this.titleEdition);
+    if (this.titleEdition && this.titleEdition.length > 0) {
+      this.playlistService.renamePlaylist(this.playlistId, this.titleEdition);
+      this._snackBar.open('playlist renommée', null, {
+        duration: 1000,
+        verticalPosition: 'top'
+      });
+    }
   }
 
   addSong() {
@@ -85,65 +106,60 @@ export class PlaylistEditionComponent implements OnInit {
       release: '2020',
       external_ids: { spotify: 'spotify-id' }
     };
-    /*const vItem: ViewItem = {
-      id: mockSongId,
-      picture: '',
-      mainContent: mockSong.title,
-      secondaryContent: mockSong.artist + ' - ' + mockSong.album
-    }
-    this.songsF.push(vItem);*/
     this.playlistService.addTrack(this.playlistId, mockSong);
   }
 
   moveSong(event) {
     this.playlistService.swapTracks(this.playlistId, event.oldIndex, event.newIndex);
-    /*moveItemInArray(this.playlist.songList, event.oldIndex, event.newIndex);
-    moveItemInArray(this.songsF, event.oldIndex, event.newIndex);
-    this.data.savePlaylist(this.playlist);*/
   }
 
   delSong(id: string) {
     this.playlistService.delTrack(this.playlistId, +id);
-    /*this.playlist.songList.splice(index, 1);
-    this.songsF.splice(index, 1);
-    this.data.savePlaylist(this.playlist);*/
   }
 
-  /*clear() {
-    this.playlist.songList.splice(0, this.playlist.songList.length);
-    this.data.savePlaylist(this.playlist);
-  }*/
-
   goBack() {
-    if (this.viewMode != null) {
-      // this.router.navigateByUrl('/playtech', { queryParams: { view: this.viewMode } });
-      this.router.navigate(['/playtech'], { queryParams: { view: this.viewMode } });
-    } else {
-      // this.router.navigateByUrl('/playtech');
-      this.router.navigate(['/playtech']);
-    }
+    this.router.navigate(['/playtech'], { queryParamsHandling: 'preserve' });
   }
 
   openTrack(id: string) {
     const selectedTrack = this.playlistService.getTrack(this.playlistId, +id);
-    console.log('launch song:', selectedTrack);
-    const query = selectedTrack.title + ' - ' + selectedTrack.artist;
-    this.youtube.searchTrack(query)
-            .subscribe((object: any) => {
-              if (object.length > 0) {
-                const idV: string = object.items[0].id.videoId;
-                const track: Track = {
-                  isrc: 'n',
-                  title: 'n',
-                  artist: 'n',
-                  album: 'n',
-                  release: null,
-                  external_ids: { spotify: 'n', youtube: id }
-                };
-                this.player.provider.loadTracks(track);
-              } else {
-                this.snackBar.open('Aucun résultat pour ce titre.', null, { duration: 1500 });
-              }
-            });
+    this.player.loadTracks(selectedTrack);
+  }
+
+  onResultsChange(results: SearchResult) {
+    this.results = results;
+    this.searchStep = SearchStep.ShowResults;
+  }
+
+  openSearch() {
+    this.searchStep = SearchStep.ShowBar;
+  }
+
+  closeSearch() {
+    this.searchStep = SearchStep.Initial;
+    this.results = { tracks: [], artists: [], albums: [] };
+  }
+
+  showAddBtn(): string {
+    return (this.searchStep === SearchStep.Initial) ? Position.Start : Position.None;
+  }
+
+  showSearchBar(): boolean {
+    return (this.searchStep === SearchStep.ShowBar || this.searchStep === SearchStep.ShowResults);
+  }
+
+  showSearchResults(): boolean {
+    return (this.searchStep === SearchStep.ShowResults);
+  }
+
+  onSelected(row) {
+    this.selection.toggle(row);
+  }
+
+  selectionToPlaylist() {
+    const tracks: Track[] = this.selection.selected;
+    for (const t of tracks) {
+      this.playlistService.addTrack(this.playlistId, t);
+    }
   }
 }

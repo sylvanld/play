@@ -33,6 +33,7 @@
 }
 
 .list-item {
+    cursor: pointer;
     position: relative;
     display: inline-block; /* Make the width of box same as image */
     border: 5px solid transparent;
@@ -40,10 +41,19 @@
     //border-bottom: 5px solid transparent;
 }
 
-.list-item:hover .picture {
-    //border: 5px solid #eae9e9;
-    box-shadow: inset 0px 0px 0px 5px #eae9e9;
-    cursor: pointer;
+.list-item.disabled {
+    cursor: default;
+
+    .picture {
+        filter: brightness(0.3);
+    }
+}
+
+.list-item:hover {
+    .picture {
+        //border: 5px solid #eae9e9;
+        box-shadow: inset 0px 0px 0px 5px #eae9e9;
+    }
 }
 
 .list-item:active .picture {

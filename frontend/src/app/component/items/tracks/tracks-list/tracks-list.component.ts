@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Track } from '~types/track';
 import { SelectionModel } from '@angular/cdk/collections';
 import { PlayerService } from '~player/player.service';
@@ -10,12 +10,15 @@ import { PlayerService } from '~player/player.service';
 })
 export class TracksListComponent implements OnInit {
   @Input() tracks: Track[] = [];
+  @Input() noActionBtn = false;
+  @Output() selected: EventEmitter<any> = new EventEmitter();
   displayedColumns: string[] = ['select', 'title', 'artist', 'album', 'release'];
   selection = new SelectionModel<Track>(true, []);
 
   constructor(private player: PlayerService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+   }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -41,5 +44,10 @@ export class TracksListComponent implements OnInit {
 
   playSelection() {
     this.player.loadTracks(...this.selection.selected);
+  }
+
+  toggleSelection(row) {
+    this.selection.toggle(row);
+    this.selected.emit(row);
   }
 }

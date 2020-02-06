@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "@angular/youtube-player": "^8.2.3",
+    "@material/dialog": "^4.0.0",
     "hammerjs": "^2.0.8",
     "moment": "^2.24.0",
     "ngx-webstorage-service": "^4.1.0",

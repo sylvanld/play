@@ -2,6 +2,11 @@
     display: flex;
     flex-direction: column;
     margin: 15px 0;
+    grid-area: content;
+
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
 }
 
 :host>*:not(:nth-child(1)) {
@@ -12,6 +17,7 @@ mat-icon {
     cursor: pointer;
 }
 
+.playlist-management,
 .horizontal-align {
     display: flex;
     flex-direction: row;
@@ -19,8 +25,20 @@ mat-icon {
     margin: 15px 0;
 }
 
+.playlist-management .horizontal-align {
+    align-items: center;
+}
+
+.playlist-management>* {
+    order: 0;
+    flex: 1 1 0;
+    align-self: auto;
+    width: 100%;
+    transition: all 1s;
+}
+
 .horizontal-align>*:not(:nth-child(1)) {
-    margin-left: 5px;;
+    margin-left: 5px;
 }
 
 .space-between {

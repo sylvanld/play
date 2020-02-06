@@ -10,6 +10,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatStepperModule } from '@angular/material/stepper';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatIconRegistry } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -32,7 +34,6 @@ import { ViewToggleComponent } from './component/playlist/view/view-toggle/view-
 import { PlaylistEditionComponent } from './component/playlist/playlist-edition/playlist-edition.component';
 import { FloatingMenuComponent } from './component/floating-menu/floating-menu.component';
 import { PlaylistCreationComponent } from './component/playlist/playlist-creation/playlist-creation.component';
-import { MatIconRegistry } from '@angular/material/icon';
 import { LoginComponent } from './view/login/login.component';
 import { RegisterComponent } from './view/register/register.component';
 import { FormComponent } from './component/core/form/form.component';
@@ -47,6 +48,7 @@ import { AlbumItemComponent } from './component/items/albums/album-item/album-it
 import { TracksListComponent } from './component/items/tracks/tracks-list/tracks-list.component';
 import { SelectList } from './component/core/select-list/select-list.component';
 import { AdvancedSearchComponent } from './component/search/advanced-search/advanced-search.component';
+import { ForgetAccountDialogComponent } from './component/forget-account-dialog/forget-account-dialog.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +80,8 @@ import { AdvancedSearchComponent } from './component/search/advanced-search/adva
     AlbumItemComponent,
     TracksListComponent,
     SelectList,
-    AdvancedSearchComponent
+    AdvancedSearchComponent,
+    ForgetAccountDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -94,9 +97,11 @@ import { AdvancedSearchComponent } from './component/search/advanced-search/adva
     MatRadioModule,
     YouTubePlayerModule,
     HttpClientModule,
+    MatDialogModule,
     // custom modules
     PlayerModule.forRoot({ selection: 'youtube' })
   ],
+  entryComponents: [ForgetAccountDialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

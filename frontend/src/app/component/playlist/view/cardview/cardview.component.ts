@@ -2,8 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
 import { ViewItem } from '~types/view-item';
 
-enum Position { Start= 'start', End= 'end', Both= 'both'}
-
 @Component({
   selector: 'app-cardview',
   templateUrl: './cardview.component.html',
@@ -31,6 +29,8 @@ export class CardviewComponent implements OnInit {
   }
 
   onClick(index) {
-    this.clicked.emit(index);
+    if (!this.items[index].ro_diasabled) {
+      this.clicked.emit(index);
+    }
   }
 }

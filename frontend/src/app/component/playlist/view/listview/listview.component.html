@@ -7,7 +7,7 @@
 
 <div [@slide]>
     <div *ngIf="locked">
-        <div class="list-item disable-text-selection" (click)="onClick(index)" *ngFor="let item of items; let index = index">
+        <div class="list-item disable-text-selection" [ngClass]="{disabled: item.ro_diasabled}" (click)="onClick(index)" *ngFor="let item of items; let index = index">
             <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="!noPicture">
             <div class="description">
                 <div class="main-content">{{ item.mainContent }}</div>

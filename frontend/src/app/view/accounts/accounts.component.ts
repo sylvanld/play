@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { AccountsService } from 'src/app/service/accounts.service';
+import { PlaylistsService } from 'src/app/service/playlists.service';
+import { ForgetAccountDialogComponent } from 'src/app/component/forget-account-dialog/forget-account-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   templateUrl: './accounts.component.html',
@@ -11,7 +14,9 @@ export class AccountsComponent implements OnInit {
 
   constructor(
     private auth: AuthenticationService,
-    private accountsService: AccountsService
+    private accountsService: AccountsService,
+    private playlistService: PlaylistsService,
+    private _dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -25,4 +30,10 @@ export class AccountsComponent implements OnInit {
     this.auth.logout();
   }
 
+  forgetAccountDialog() {
+    const dialog = this._dialog.open(ForgetAccountDialogComponent);
+    dialog.afterClosed().subscribe( () => {
+      this.playlistService.flushData();
+    });
+  }
 }

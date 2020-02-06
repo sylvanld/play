@@ -3,7 +3,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
 import { ViewItem } from '~types/view-item';
 
-enum Position { Start= 'start', End= 'end', Both= 'both'}
+export enum Position { Start= 'start', End= 'end', Both= 'both', None= 'none' }
 
 @Component({
   selector: 'app-listview',
@@ -51,14 +51,16 @@ export class ListviewComponent implements OnInit {
   }
 
   showStartAddBtn(): boolean {
-    return (!this.locked && (this.addBtnPosition === 'start' || this.addBtnPosition === 'both'));
+    return (!this.locked && (this.addBtnPosition === Position.Start || this.addBtnPosition === Position.Both));
   }
 
   showEndAddBtn(): boolean {
-    return (!this.locked && (this.addBtnPosition === 'end' || this.addBtnPosition === 'both'));
+    return (!this.locked && (this.addBtnPosition === Position.End || this.addBtnPosition === Position.Both));
   }
 
   onClick(index) {
-    this.clicked.emit(index);
+    if (!(this.locked && this.items[index].ro_diasabled)) {
+      this.clicked.emit(index);
+    }
   }
 }

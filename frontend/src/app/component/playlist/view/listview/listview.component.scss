@@ -34,6 +34,7 @@
 }
 
 .list-item {
+    cursor: pointer;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -41,11 +42,22 @@
     align-content: stretch;
     align-items: stretch;
     padding: 5px;
+
+    .disabled {
+        filter: brightness(0.5);
+    }
+}
+
+.list-item.disabled {
+    cursor: default;
+
+    .picture {
+        filter: brightness(0.3);
+    }
 }
 
 .list-item:hover {
     background-color: #eae9e9;
-    cursor: pointer;
 }
 
 .list-item:active {

@@ -3,4 +3,5 @@ export interface ViewItem {
     picture: string;
     mainContent: string;
     secondaryContent: string;
+    ro_diasabled?: boolean;
 }

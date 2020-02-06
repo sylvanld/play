@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SearchResult } from '~types/search-result';
 
 @Component({
@@ -8,8 +8,14 @@ import { SearchResult } from '~types/search-result';
 })
 export class SearchResultsComponent implements OnInit {
   @Input() results: SearchResult = { tracks: [], artists: [], albums: [] };
-
+  @Input() noActionBtn = false;
+  @Output() selected: EventEmitter<any> = new EventEmitter();
+  
   constructor() {}
 
   ngOnInit() {}
+
+  onSelected(row) {
+    this.selected.emit(row);
+  }
 }

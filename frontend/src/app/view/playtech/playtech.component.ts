@@ -22,7 +22,9 @@ export class PlaytechComponent implements OnInit {
     // route params
     this.route.queryParams.subscribe(params => {
       const view: ViewType = params.view;
-      if (view in ViewType) { this.switchMode = view; }
+      if(view != null) {
+        this.switchMode = view;
+      }
     });
 
     // playlists data
@@ -35,9 +37,13 @@ export class PlaytechComponent implements OnInit {
           id: p.id,
           picture: p.cover,
           mainContent: p.title,
-          secondaryContent: p.author
+          secondaryContent: p.author,
+          ro_diasabled: (p.tracks.length == 0)
         };
         this.playlistsF.push(vItem);
+      }
+      if (this.playlistsF.length == 0) {
+        this.switchMode = ViewType.List;
       }
     });
   }
@@ -57,19 +63,11 @@ export class PlaytechComponent implements OnInit {
   }
 
   delPlaylist(id: string) {
-    /*const playlist = this.playlistsF[index];
-    if (playlist) {
-      this.playlistService.remove(playlist.id);
-    }*/
     this.playlistService.remove(id);
   }
 
-  onSwitchMode(mode: ViewType) {
-    this.switchMode = mode;
-  }
-
   isReadOnly(): boolean {
-    return this.switchMode === ViewType.Card;
+    return this.switchMode == ViewType.Card;
   }
 
   noPlaylist() {
