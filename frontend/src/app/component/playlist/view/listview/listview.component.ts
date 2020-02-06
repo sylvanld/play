@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { ViewItem } from 'src/app/classes/ViewItem';
 import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
+import { ViewItem } from '~types/view-item';
 
 enum Position { Start= 'start', End= 'end', Both= 'both'}
 
@@ -23,6 +23,7 @@ enum Position { Start= 'start', End= 'end', Both= 'both'}
   ]
 })
 export class ListviewComponent implements OnInit {
+  @Input() noPicture = false;
   @Input() items: ViewItem[] = [];
   @Input() locked = true;
   @Input() addBtnPosition: Position = Position.Start;

@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { ViewItem } from 'src/app/classes/ViewItem';
 import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
+import { ViewItem } from '~types/view-item';
 
 enum Position { Start= 'start', End= 'end', Both= 'both'}
 

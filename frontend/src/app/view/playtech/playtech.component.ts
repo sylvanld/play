@@ -1,104 +1,79 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { PlaylistsService } from '../../service/playlists.service';
-import { moveItemInArray } from '@angular/cdk/drag-drop';
-import { Playlist } from 'src/app/classes/Playlist';
-import { ViewItem } from 'src/app/classes/ViewItem';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Playlist } from 'src/app/types/playlist';
+import { PlaylistsService } from 'src/app/service/playlists.service';
+import { Observable } from 'rxjs';
+import { ViewType } from 'src/app/types/view-type';
+import { ViewItem } from 'src/app/types/view-item';
 
 @Component({
   templateUrl: './playtech.component.html',
   styleUrls: ['./playtech.component.scss']
 })
-
 export class PlaytechComponent implements OnInit {
-  playlists: Playlist[] = [];
+  playlists: Observable<Playlist[]>;
   playlistsF: ViewItem[] = [];
-  switchMode = 1;  // 0: list ; 1: card
+  switchMode: ViewType = ViewType.Card;  // 0: list ; 1: card
   locked = false;
 
-  constructor(private data: PlaylistsService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private playlistService: PlaylistsService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-    const { observable, currentData } = this.data.getObservablePlaylist();
-    for (const p of currentData) {
-      this.playlists.push(p);
-      this.playlistsF.push(Playlist.toViewFormat(p));
-    }
-    if (this.playlists.length === 0) { this.switchMode = 0; }
-    observable.subscribe(event => {
-      switch (event.action) {
-        case 'flush':
-          this.playlists.splice(0, this.playlists.length);
-          this.playlistsF.splice(0, this.playlists.length);
-          if (this.playlists.length === 0) { this.switchMode = 0; }
-          break;
-        case 'push':
-          this.playlists.push(event.data);
-          this.playlistsF.push(Playlist.toViewFormat(event.data));
-          break;
-        case 'delete':
-          this.playlists.splice(event.data, 1);
-          this.playlistsF.splice(event.data, 1);
-          if (this.playlists.length === 0) { this.switchMode = 0; }
-          break;
-        case 'update':
-          const index = Playlist.indexById(this.playlists, event.data.id);
-          if (index !== -1) {
-            this.playlists[index] = event.data;
-            this.playlistsF[index] = Playlist.toViewFormat(event.data);
-          }
-          break;
-        case 'swap':
-          moveItemInArray(this.playlists, event.data.oldIndex, event.data.newIndex);
-          moveItemInArray(this.playlistsF, event.data.oldIndex, event.data.newIndex);
-          break;
-        default:
-          break;
-      }
-    });
+    // route params
     this.route.queryParams.subscribe(params => {
-      const view = +params.view;
-      if (view >= 0 && view <= 1) {
-        this.switchMode = view;
+      const view: ViewType = params.view;
+      if (view in ViewType) { this.switchMode = view; }
+    });
+
+    // playlists data
+    this.playlists = this.playlistService.playlists;
+    this.playlistService.loadAll();
+    this.playlists.subscribe(data => {
+      this.playlistsF.splice(0, this.playlistsF.length);
+      for (const p of data) {
+        const vItem: ViewItem = {
+          id: p.id,
+          picture: p.cover,
+          mainContent: p.title,
+          secondaryContent: p.author
+        };
+        this.playlistsF.push(vItem);
       }
     });
   }
 
   addPlaylist() {
-    // this.router.navigateByUrl('/playlist/create', { queryParams: { view: this.switchMode } });
     this.router.navigate(['/playlist/create'], { queryParams: { view: this.switchMode } });
   }
 
   editPlaylist(index) {
-    const selectedPlaylistId = this.playlists[index].id;
-    const lock = this.locked || this.isCardMode();
-    // this.router.navigateByUrl('/playlist/edit/' + selectedPlaylistId, { queryParams: { view: this.switchMode } });
-    this.router.navigate(['/playlist/edit/' + selectedPlaylistId], { queryParams: { view: this.switchMode, locked: lock } });
+    const id = this.playlistsF[index].id;
+    const lock = this.locked || this.isReadOnly();
+    this.router.navigate([`/playlist/edit/${id}`], { queryParams: { view: this.switchMode, locked: lock } });
   }
 
   movePlaylist(event) {
-    if (event.oldIndex !== event.newIndex) {
-      this.data.reorderPlaylistList(event.oldIndex, event.newIndex);
-    }
+    this.playlistService.swapPlaylists(event.oldIndex, event.newIndex);
   }
 
-  delPlaylist(index) {
-    this.data.removePlaylist(index);
+  delPlaylist(id: string) {
+    /*const playlist = this.playlistsF[index];
+    if (playlist) {
+      this.playlistService.remove(playlist.id);
+    }*/
+    this.playlistService.remove(id);
   }
 
-  onSwitchMode(mode) {
+  onSwitchMode(mode: ViewType) {
     this.switchMode = mode;
   }
 
-  isListMode(): boolean {
-    return this.switchMode === 0;
-  }
-
-  isCardMode(): boolean {
-    return this.switchMode === 1;
+  isReadOnly(): boolean {
+    return this.switchMode === ViewType.Card;
   }
 
   noPlaylist() {
-    return (this.playlists.length === 0);
+    return (this.playlistsF.length === 0);
   }
+
 }

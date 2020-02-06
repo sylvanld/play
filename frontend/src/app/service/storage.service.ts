@@ -18,4 +18,8 @@ export class StorageService {
   del(key: string) {
     localStorage.removeItem(key);
   }
+
+  clear() {
+    localStorage.clear();
+  }
 }

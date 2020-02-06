@@ -1,56 +1,131 @@
 import { Injectable, Inject } from '@angular/core';
-import { Subject } from 'rxjs';
-import { LOCAL_STORAGE, StorageService } from 'ngx-webstorage-service';
-import { Playlist } from 'src/app/classes/Playlist';
 import * as uuid from 'uuid';
 import * as moment from 'moment';
-import { PlaylistsMock } from '../classes/playlists.mock';
 import { moveItemInArray } from '@angular/cdk/drag-drop';
+import { Playlist } from '../types/playlist';
+import { BehaviorSubject } from 'rxjs';
+import { PlaylistsMock } from '../classes/playlists.mock';
+import { StorageService } from './storage.service';
+import { Track } from '~types/track';
+
+interface PlaylistDataStore {
+  playlistIds: string[];
+  playlistsData: Playlist[];
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaylistsService {
   private PLAYLISTS_KEY = 'playlists';
+  private dataStore: PlaylistDataStore = { playlistIds: [], playlistsData: [] };
+  private _playlists = new BehaviorSubject<Playlist[]>([]);
+  readonly playlists = this._playlists.asObservable();
 
-  private playlistIdList: string[];
-  private playlists: Playlist[] = [];
-  private observablePlaylist = new Subject<any>();
-
-  constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) {
+  constructor(private storage: StorageService) {
     // this.flushLocalstorage();
-    this.loadData();
   }
 
-  private loadData() {
-    // load data from localstorage
-    this.playlists = [];
-    this.observablePlaylist.next({ action: 'flush', data: null });
-    this.playlistIdList = JSON.parse(JSON.parse((localStorage.getItem(this.PLAYLISTS_KEY)))) || [];
-    for (const playlistId of this.playlistIdList) {
-      const playlistJson = JSON.parse(JSON.parse(localStorage.getItem(playlistId)));
-      if (playlistJson != null) {
-        const playlist = Playlist.fromJson(playlistJson);
-        this.playlists.push(playlist);
-        this.observablePlaylist.next({ action: 'push', data: playlist });
+  flushLocalstorage() {
+    this.storage.clear();
+  }
+
+  loadAll() {
+    // loads ID list
+    this.dataStore.playlistIds = JSON.parse(JSON.parse((localStorage.getItem(this.PLAYLISTS_KEY)))) || [];
+
+    // load data
+    this.dataStore.playlistsData.splice(0, this.dataStore.playlistsData.length);
+    const playlistIds = this.dataStore.playlistIds;
+    for (let i = 0; i < playlistIds.length; i++) {
+      const playlistJson = JSON.parse(JSON.parse(localStorage.getItem(playlistIds[i])));
+      if (playlistJson) {
+        this.dataStore.playlistsData.push(playlistJson);
+        // push a new copy of our list to all Subscribers
+        this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
+      } else {
+        playlistIds[i] = null;
       }
+    }
+
+    // remove invalid indexes
+    this.dataStore.playlistIds = playlistIds.filter((el) => el != null);
+  }
+
+  load(id: string) {
+    const existantPlaylistIndex = this.dataStore.playlistsData.findIndex(p => {
+      return p.id === id;
+    });
+    /*if (existantPlaylistIndex !== -1) {
+      return;
+    }*/
+
+    const playlist = JSON.parse(JSON.parse(localStorage.getItem(id)));
+    if (playlist) {
+      if (existantPlaylistIndex !== -1) {
+        this.dataStore.playlistsData[existantPlaylistIndex] = playlist;
+      } else {
+        this.dataStore.playlistIds.push(playlist.id);
+        this.dataStore.playlistsData.push(playlist);
+      }
+      this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
+
+      /*let notFound = true;
+      this.dataStore.playlistIds.forEach((item, index) => {
+        if (item === id) {
+          this.dataStore.playlistsData[index] = playlist;
+          notFound = false;
+        }
+      });
+      if (notFound) {
+        this.dataStore.playlistIds.push(playlist.id);
+        this.dataStore.playlistsData.push(playlist);
+      }*/
     }
   }
 
-  public getObservablePlaylist(): any {
-    return { observable: this.observablePlaylist, currentData: this.playlists };
+  create(playlist: Playlist) {
+    this.dataStore.playlistIds.push(playlist.id);
+    this.dataStore.playlistsData.push(playlist);
+    this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
+
+    // update localstorage
+    this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
+    this.storage.set(playlist.id, JSON.stringify(playlist));
   }
 
-  public getPlaylist(playlistId: string): Playlist {
-    for (const p of this.playlists) {
-      if (p.id === playlistId) {
-        return p;
-      }
+  update(playlist: Playlist) {
+    const playlistIndex = this.dataStore.playlistsData.findIndex(p => {
+      return p.id === playlist.id;
+    });
+    if (playlistIndex !== -1) {
+      this.dataStore.playlistsData[playlistIndex] = playlist;
+      this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
+
+      // update localstorage
+      this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
+      this.storage.set(playlist.id, JSON.stringify(playlist));
+    } else {
+      this.create(playlist);
     }
-    return null;
   }
 
-  public createPlaylist(title: string= null): Playlist {
+  remove(id: string) {
+    const playlistIndex = this.dataStore.playlistsData.findIndex(p => {
+      return p.id === id;
+    });
+    if (playlistIndex !== -1) {
+      this.dataStore.playlistIds.splice(playlistIndex, 1);
+      this.dataStore.playlistsData.splice(playlistIndex, 1);
+      this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
+
+      // update localstorage
+      this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
+      this.storage.del(id);
+    }
+  }
+
+  playlistGen(title: string= null): string {
     const date = new Date();
     if (title == null) {
       const dateISO = date.toISOString();
@@ -58,55 +133,100 @@ export class PlaylistsService {
       title = 'New Playlist ' + formattedDate;
     }
     const id = 'playlist-' + uuid.v4();
-    const newPlaylist = new Playlist(id, '/assets/icons/default.svg', title, PlaylistsMock.currentUserMock, date, []);
-    this.savePlaylist(newPlaylist);
-    return newPlaylist;
+    const newPlaylist: Playlist = {
+      id,
+      cover: '/assets/icons/default.svg',
+      title,
+      author: PlaylistsMock.currentUserMock,
+      tracks: []
+    };
+    this.create(newPlaylist);
+    return id;
   }
 
+  swapPlaylists(oldIndex: number, newIndex: number) {
+    if (oldIndex !== newIndex) {
+      moveItemInArray(this.dataStore.playlistIds, oldIndex, newIndex);
+      moveItemInArray(this.dataStore.playlistsData, oldIndex, newIndex);
+      this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
 
-  public savePlaylist(playlist: Playlist) {
-    // update caching
-    const index = Playlist.indexById(this.playlists, playlist.id);
-    if (index === -1) {
-      this.playlists.push(playlist);
-      this.playlistIdList.push(playlist.id);
-      this.observablePlaylist.next({ action: 'push', data: playlist });
-    } else {
-      this.playlists[index] = playlist;
-      this.observablePlaylist.next({ action: 'update', data: playlist });
+      // update localstorage
+      this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
     }
+  }
+
+  renamePlaylist(id: string, title: string) {
+    const playlist = this.dataStore.playlistsData.find(p => {
+      return p.id === id;
+    });
+    playlist.title = title;
+    this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
 
     // update localstorage
-    this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.playlistIdList));
-    this.storage.set(playlist.id, JSON.stringify(Playlist.toJson(playlist)));
+    this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
+    this.storage.set(id, JSON.stringify(playlist));
+
+    /*this.dataStore.playlistsData.forEach((p, i) => {
+      if (p.id === id) {
+        this.dataStore.playlistsData[i].title = title;
+        // update localstorage
+        this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
+        this.storage.set(id, JSON.stringify(p));
+      }
+    });
+    this._playlists.next(Object.assign({}, this.dataStore).playlistsData);*/
   }
 
-  public removePlaylist(playlistId: string) { // playlistId: string) {
-    const index = Playlist.indexById(this.playlists, playlistId);
-    if (index !== -1) {
-      // update caching
-      this.playlists.splice(index, 1);
-      this.playlistIdList.splice(index, 1);
-      this.observablePlaylist.next({ action: 'delete', data: index });
+  getTrack(id: string, index: number): Track {
+    const playlistIndex = this.dataStore.playlistsData.findIndex(p => {
+      return p.id === id;
+    });
+    if (playlistIndex !== -1) {
+      const tracks = this.dataStore.playlistsData[playlistIndex].tracks;
+      const track = tracks[index];
+      if (track) {
+        return track;
+      }
+    }
+    return null;
+  }
+
+  addTrack(id: string, track: Track) {
+    const playlist = this.dataStore.playlistsData.find(p => {
+      return p.id === id;
+    });
+    playlist.tracks.push(track);
+    this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
+
+    // update localstorage
+    this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
+    this.storage.set(id, JSON.stringify(playlist));
+  }
+
+  delTrack(id: string, index: number) {
+    const playlistIndex = this.dataStore.playlistsData.findIndex(p => {
+      return p.id === id;
+    });
+    if (playlistIndex !== -1) {
+      const playlist = this.dataStore.playlistsData[playlistIndex];
+      playlist.tracks.splice(index, 1);
+      this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
 
       // update localstorage
-      this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.playlistIdList));
-      this.storage.remove(playlistId);
+      this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
+      this.storage.set(id, JSON.stringify(playlist));
     }
   }
 
-  public reorderPlaylistList(oldIndex: number, newIndex: number) {
-    if (oldIndex !== newIndex) {
-      // update caching
-      moveItemInArray(this.playlistIdList, oldIndex, newIndex);
-      this.observablePlaylist.next({ action: 'swap', data: { oldIndex, newIndex } });
+  swapTracks(id: string, oldIndex: number, newIndex: number) {
+    const playlist = this.dataStore.playlistsData.find(p => {
+      return p.id === id;
+    });
+    moveItemInArray(playlist.tracks, oldIndex, newIndex);
+    this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
 
-      // update localstorage
-      this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.playlistIdList));
-    }
-  }
-
-  private flushLocalstorage() {
-    this.storage.clear();
+    // update localstorage
+    this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
+    this.storage.set(id, JSON.stringify(playlist));
   }
 }

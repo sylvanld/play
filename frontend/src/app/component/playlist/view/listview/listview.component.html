@@ -8,7 +8,7 @@
 <div [@slide]>
     <div *ngIf="locked">
         <div class="list-item disable-text-selection" (click)="onClick(index)" *ngFor="let item of items; let index = index">
-            <img class="picture" [src]="item.picture" [alt]="item.mainContent">
+            <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="!noPicture">
             <div class="description">
                 <div class="main-content">{{ item.mainContent }}</div>
                 <div class="secondary-content">{{ item.secondaryContent }}</div>
@@ -16,10 +16,10 @@
         </div>
     </div>
 
-    <div cdkDropList (cdkDropListDropped)="moveItem($event)" *ngIf="!locked" [@slide]>
+    <div cdkDropList (cdkDropListDropped)="moveItem($event)" *ngIf="!locked">
         <div class="list-item disable-text-selection" (click)="onClick(index)" *ngFor="let item of items; let index = index" cdkDrag>
             <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
-            <img class="picture" [src]="item.picture" [alt]="item.mainContent">
+            <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="!noPicture">
             <div class="description">
                 <div class="main-content">{{ item.mainContent }}</div>
                 <div class="secondary-content">{{ item.secondaryContent }}</div>

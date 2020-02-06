@@ -15,7 +15,7 @@ export class PlaylistCreationComponent implements OnInit {
   private step = 0;
   private sectionTitle = 'Création';
 
-  constructor(private data: PlaylistsService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private playlistService: PlaylistsService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -24,12 +24,10 @@ export class PlaylistCreationComponent implements OnInit {
   }
 
   goToNewPlaylist() {
-    const playlistId = this.data.createPlaylist().id;
+    const playlistId = this.playlistService.playlistGen();
     if (this.viewMode != null) {
-      // this.router.navigateByUrl('/playlist/edit/' + playlistId, { queryParams: { view: this.viewMode} });
       this.router.navigate(['/playlist/edit/' + playlistId], { queryParams: { view: this.viewMode } });
     } else {
-      // this.router.navigateByUrl('/playlist/edit/' + playlistId);
       this.router.navigate(['/playlist/edit/' + playlistId]);
     }
   }
@@ -58,15 +56,12 @@ export class PlaylistCreationComponent implements OnInit {
   stepChange(event) {
     // event.previouslySelectedIndex
     // event.selectedIndex
-
   }
 
   goBack() {
     if (this.viewMode != null) {
-      // this.router.navigateByUrl('/playtech', { queryParams: { view: this.viewMode} });
       this.router.navigate(['/playtech'], { queryParams: { view: this.viewMode } });
     } else {
-      // this.router.navigateByUrl('/playtech');
       this.router.navigate(['/playtech']);
     }
   }

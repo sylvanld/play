@@ -13,25 +13,14 @@
         </mat-form-field>
 
         <div></div>
-        <!-- <app-view-toggle [(locker)]="locked" (mode)="onSwitchMode($event)"></app-view-toggle> -->
     </div>
 
     <div>
-        <app-listview addBtnLabel="Nouveau titre" [locked]="locked" (addItemEvent)="addSong()" (delItemEvent)="delSong($event)" 
-            (moveItemEvent)="moveSong($event)" (clicked)="openTrack($event)" [items]="songsF" addBtnPosition="start">
+        <app-listview [noPicture]="true" [locked]="locked" [items]="songsF" (addItemEvent)="addSong()" (delItemEvent)="delSong($event)" 
+            (moveItemEvent)="moveSong($event)" (clicked)="openTrack($event)" addBtnLabel="Nouveau titre" addBtnPosition="start">
         </app-listview>
     </div>
 
-    <!-- <div *ngIf="isListMode()">
-        <app-listview addBtnLabel="Nouveau titre" [locked]="locked" (addItemEvent)="addSong()" (delItemEvent)="delSong($event)" 
-            (moveItemEvent)="moveSong($event)" [items]="songsF" addBtnPosition="start">
-        </app-listview>
-    </div>
-    <div *ngIf="isCardMode()">
-        <app-cardview addBtnLabel="Nouveau titre" [locked]="locked" (addItemEvent)="addSong()" (delItemEvent)="delSong($event)" 
-            (moveItemEvent)="moveSong($event)" [items]="songsF" addBtnPosition="start">
-        </app-cardview>
-    </div> -->
 </ng-template>
 
 <ng-template #unknow>

@@ -2,12 +2,14 @@
 
 <app-view-toggle [(locker)]="locked" [(mode)]="switchMode" hideLocker="true" *ngIf="!noPlaylist()"></app-view-toggle>
 
-<div *ngIf="isListMode()">
-    <app-listview addBtnLabel="Nouvelle playlist" [locked]="locked" (clicked)="editPlaylist($event)" (addItemEvent)="addPlaylist()" (delItemEvent)="delPlaylist($event)" 
-        (moveItemEvent)="movePlaylist($event)" [items]="playlistsF" addBtnPosition="start">
-    </app-listview>
-</div>
-
-<div *ngIf="isCardMode()">
+<div *ngIf="isReadOnly(); else editionMode">
     <app-cardview (clicked)="editPlaylist($event)" [items]="playlistsF"></app-cardview>
 </div>
+
+<ng-template #editionMode>
+    <div>
+        <app-listview addBtnLabel="Nouvelle playlist" (clicked)="editPlaylist($event)" (addItemEvent)="addPlaylist()" (delItemEvent)="delPlaylist($event)" 
+            (moveItemEvent)="movePlaylist($event)" [locked]="locked" [items]="playlistsF" addBtnPosition="start">
+        </app-listview>
+    </div>
+</ng-template>

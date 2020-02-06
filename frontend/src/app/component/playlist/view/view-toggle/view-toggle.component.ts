@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { of } from 'rxjs';
+import { ViewType } from '~types/view-type';
 
 @Component({
   selector: 'app-view-toggle',
@@ -9,7 +10,7 @@ import { of } from 'rxjs';
 export class ViewToggleComponent implements OnInit {
   @Input() hideLocker = false;
   @Input() locker = true;
-  @Input() mode = 0;
+  @Input() mode: ViewType = ViewType.Card;
   @Output() lockerChange = new EventEmitter<boolean>();
   @Output() modeChange = new EventEmitter<number>();
 
@@ -19,20 +20,20 @@ export class ViewToggleComponent implements OnInit {
   }
 
   isListMode(): boolean {
-    return this.mode === 0;
+    return this.mode === ViewType.List;
   }
 
   isCardMode(): boolean {
-    return this.mode === 1;
+    return this.mode === ViewType.Card;
   }
 
   listMode() {
-    this.mode = 0;
+    this.mode = ViewType.List;
     this.modeChange.emit(this.mode);
   }
 
   cardMode() {
-    this.mode = 1;
+    this.mode = ViewType.Card;
     this.modeChange.emit(this.mode);
   }
 
