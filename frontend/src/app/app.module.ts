@@ -39,6 +39,7 @@ import { RegisterComponent } from './view/register/register.component';
 import { FormComponent } from './component/core/form/form.component';
 
 import { PlayerModule } from './module/player/player.module';
+import { DeezerModule } from './module/deezer/deezer.module';
 
 import { SpotifyLoginButtonComponent } from './component/auth/spotify-login-button/spotify-login-button.component';
 import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button/deezer-login-button.component';
@@ -49,64 +50,83 @@ import { TracksListComponent } from './component/items/tracks/tracks-list/tracks
 import { SelectList } from './component/core/select-list/select-list.component';
 import { AdvancedSearchComponent } from './component/search/advanced-search/advanced-search.component';
 import { ForgetAccountDialogComponent } from './component/forget-account-dialog/forget-account-dialog.component';
+import { PrimengModule } from '~primeng/primeng.module';
+import { InputArtistsComponent } from './component/search/filters/input-artists/input-artists.component';
+import { AutocompleteChipListComponent } from './component/core/autocomplete-chip-list/autocomplete-chip-list.component';
+import { InputAlbumsComponent } from './component/search/filters/input-albums/input-albums.component';
+import { InputGenresComponent } from './component/search/filters/input-genres/input-genres.component';
+import { InputDatesComponent } from './component/search/filters/input-dates/input-dates.component';
+import { InputTempoComponent } from './component/search/filters/input-tempo/input-tempo.component';
+import { ProsodicsFiltersComponent } from './component/search/advanced-search/prosodics-filters/prosodics-filters.component';
+import { SimpleFiltersComponent } from './component/search/advanced-search/simple-filters/simple-filters.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ListviewComponent,
-    CardviewComponent,
-    ViewToggleComponent,
-    FloatingMenuComponent,
-    PlaylistEditionComponent,
-    PlaylistCreationComponent,
-    SearchbarComponent,
-    NavigationComponent,
-    NavItemComponent,
-    HeadingComponent,
-    PlayerComponent,
-    ShareComponent,
-    AccountsComponent,
-    BrowseComponent,
-    PlaytechComponent,
-    ArtistsListComponent,
-    ArtistItemComponent,
-    SearchResultsComponent,
-    LoginComponent,
-    RegisterComponent,
-    FormComponent,
-    SpotifyLoginButtonComponent,
-    DeezerLoginButtonComponent,
-    AlbumsListComponent,
-    AlbumItemComponent,
-    TracksListComponent,
-    SelectList,
-    AdvancedSearchComponent,
-    ForgetAccountDialogComponent
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    MaterialModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatMenuModule,
-    MatButtonModule,
-    DragDropModule,
-    MatStepperModule,
-    ReactiveFormsModule,
-    MatRadioModule,
-    YouTubePlayerModule,
-    HttpClientModule,
-    MatDialogModule,
-    // custom modules
-    PlayerModule.forRoot({ selection: 'youtube' })
-  ],
-  entryComponents: [ForgetAccountDialogComponent],
-  providers: [],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent,
+		ListviewComponent,
+		CardviewComponent,
+		ViewToggleComponent,
+		FloatingMenuComponent,
+		PlaylistEditionComponent,
+		PlaylistCreationComponent,
+		SearchbarComponent,
+		NavigationComponent,
+		NavItemComponent,
+		HeadingComponent,
+		PlayerComponent,
+		ShareComponent,
+		AccountsComponent,
+		BrowseComponent,
+		PlaytechComponent,
+		ArtistsListComponent,
+		ArtistItemComponent,
+		SearchResultsComponent,
+		LoginComponent,
+		RegisterComponent,
+		FormComponent,
+		SpotifyLoginButtonComponent,
+		DeezerLoginButtonComponent,
+		AlbumsListComponent,
+		AlbumItemComponent,
+		TracksListComponent,
+		SelectList,
+		AdvancedSearchComponent,
+		ForgetAccountDialogComponent,
+		InputArtistsComponent,
+		AutocompleteChipListComponent,
+		InputAlbumsComponent,
+		InputGenresComponent,
+		InputDatesComponent,
+		InputTempoComponent,
+		ProsodicsFiltersComponent,
+		SimpleFiltersComponent,
+	],
+	imports: [
+		BrowserModule,
+		FormsModule,
+		MaterialModule,
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		MatMenuModule,
+		MatButtonModule,
+		DragDropModule,
+		MatStepperModule,
+		ReactiveFormsModule,
+		MatRadioModule,
+		YouTubePlayerModule,
+		HttpClientModule,
+		MatDialogModule,
+		PrimengModule,
+		// custom modules
+		DeezerModule,
+		PlayerModule.forRoot({ selection: 'youtube' })
+	],
+	entryComponents: [ForgetAccountDialogComponent, AdvancedSearchComponent],
+	providers: [],
+	bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
-    iconRegistry.addSvgIcon('play_logo', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/play.svg'));
-  }
+	constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
+		iconRegistry.addSvgIcon('play_logo', this.sanitizer.bypassSecurityTrustResourceUrl('../assets/icons/play.svg'));
+	}
 }

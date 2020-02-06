@@ -1,7 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { SpotifyService } from 'src/app/service/spotify.service';
-import { SearchResult } from '~types/search-result';
+import { SearchResult } from '../../../types/search-result';
 import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { AdvancedSearchComponent } from '../advanced-search/advanced-search.component';
 
 @Component({
   selector: 'app-search-bar',
@@ -22,8 +24,7 @@ export class SearchbarComponent implements OnInit {
   @Input() noArtist = false;
   @Output() results = new EventEmitter<SearchResult>();
 
-
-  constructor(private spotify: SpotifyService) { }
+  constructor(private spotify: SpotifyService, private dialog: MatDialog) { }
 
   validateFilters(formControl) {
     return formControl.value && formControl.value.length
@@ -57,4 +58,11 @@ export class SearchbarComponent implements OnInit {
       this.results.emit(results);
     });
   }
+
+  openFilters(event) {
+		console.log(event);
+		this.dialog.open(AdvancedSearchComponent, {
+			width: '500px'
+		});
+	}
 }
