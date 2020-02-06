@@ -1,8 +1,6 @@
-<p>player works!</p>
-
-<form>
+<form (ngSubmit)="onSubmit()">
   <mat-form-field>
-    <input matInput placeholder="Title" [ngModel]="query" (ngModelChange)='changed($event)'>
+    <input matInput placeholder="Title" [(ngModel)]="query" [ngModelOptions]="{standalone: true}">
   </mat-form-field>
 </form>
 <app-advanced-search></app-advanced-search>

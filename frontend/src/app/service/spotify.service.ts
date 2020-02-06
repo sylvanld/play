@@ -85,7 +85,7 @@ export class SpotifyService {
 
   search(
     query: string,
-    types: Array<'track' | 'album' | 'artist'> = [ 'track', 'album', 'artist' ]
+    types: Array<'track' | 'album' | 'artist'> = ['track', 'album', 'artist']
   ): Observable<SearchResult> {
     const typesString = types.join(',');
     return this.http

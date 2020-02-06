@@ -10,8 +10,12 @@
     "module": "esnext",
     "moduleResolution": "node",
     "paths": {
-      "~types/*": ["src/app/types/*"],
-      "~*": ["src/app/module/*"]
+      "~*": [
+        "src/app/module/*"
+      ],
+      "~types/*": [
+        "src/app/types/*"
+      ],
     },
     "importHelpers": true,
     "target": "es2015",

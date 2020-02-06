@@ -1,26 +1,30 @@
-
 <!-- upper controls -->
 <div class="player-controls">
-  <button mat-button class="control-buttons" (click)="player.provider.prev()">
+
+  <!-- Current track played -->
+  <app-player-current-track></app-player-current-track>
+
+  <!-- State controls -->
+  <button mat-button class="control-buttons" (click)="player.prevTrack()">
     <mat-icon>skip_previous</mat-icon>
   </button>
   <button mat-button class="control-buttons" (click)="player.toggleState()">
-    <mat-icon *ngIf="playState === 1">pause_circle_outline</mat-icon>
-    <mat-icon *ngIf="!(playState === 1)">play_circle_outline</mat-icon>
+    <ng-template [ngIf]="player.playerState === 1" [ngIfElse]="elseIconPlayState">
+      <mat-icon>pause_circle_outline</mat-icon>
+    </ng-template>
+    <ng-template #elseIconPlayState>
+      <mat-icon>play_circle_outline</mat-icon>
+    </ng-template>
   </button>
-  <button mat-button class="control-buttons" (click)="player.provider.next()">
+  <button mat-button class="control-buttons" (click)="player.nextTrack()">
     <mat-icon>skip_next</mat-icon>
   </button>
 </div>
 
 <!-- TimeBar control -->
 <div class="player-bar">
-  {{ currentTime | timerPipe }}
-  <mat-slider
-  [value]="currentTime"
-  [min]="0" [max]="duration"
-  (input)="onMove($event)"
-  (change)="newValue($event)">
+  {{ player.time | timerPipe }}
+  <mat-slider [(ngModel)]="player.time" [min]="0" [max]="player.duration">
   </mat-slider>
-  {{ duration | timerPipe }}
+  {{ player.duration | timerPipe }}
 </div>

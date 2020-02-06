@@ -1,6 +1,7 @@
 
 export const enum PlayerState {
-  UNSTARTED = 0,
+  UNSTARTED = -1,
+  LOADING = 0,
   PLAYING = 1,
   PAUSED = 2,
   ENDED = 3,

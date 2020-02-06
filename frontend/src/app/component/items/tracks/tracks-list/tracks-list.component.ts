@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Track } from '~types/track';
 import { SelectionModel } from '@angular/cdk/collections';
-import { PlayerService } from '~player/services/player.service';
+import { PlayerService } from '~player/player.service';
 
 @Component({
   selector: 'app-tracks-list',
@@ -40,6 +40,6 @@ export class TracksListComponent implements OnInit {
   }
 
   playSelection() {
-    this.player.provider.cueTracks(...this.selection.selected);
+    this.player.loadTracks(...this.selection.selected);
   }
 }
