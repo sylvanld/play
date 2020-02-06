@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from './service/authentication.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: [ './app.component.scss' ]
+	selector: 'app-root',
+	templateUrl: './app.component.html',
+	styleUrls: [ './app.component.scss' ]
 })
 export class AppComponent implements OnInit {
-  title = 'frontend';
+	title = 'frontend';
+	connected = false;
 
-  constructor() {}
+	constructor(private auth: AuthenticationService) { }
 
-  ngOnInit() {}
+	ngOnInit() {
+		this.auth.connected.subscribe(connected => this.connected = connected);
+	}
 }
