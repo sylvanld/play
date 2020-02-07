@@ -22,6 +22,7 @@ import { NavItemComponent } from './component/navigation/nav-item/nav-item.compo
 import { HeadingComponent } from './component/navigation/heading/heading.component';
 import { PlayerComponent } from './view/player/player.component';
 import { ShareComponent } from './view/share/share.component';
+import { ExportComponent } from './view/export/export.component';
 import { AccountsComponent } from './view/accounts/accounts.component';
 import { BrowseComponent } from './view/browse/browse.component';
 import { PlaytechComponent } from './view/playtech/playtech.component';
@@ -75,6 +76,7 @@ import { SimpleFiltersComponent } from './component/search/advanced-search/simpl
 		HeadingComponent,
 		PlayerComponent,
 		ShareComponent,
+		ExportComponent,
 		AccountsComponent,
 		BrowseComponent,
 		PlaytechComponent,
