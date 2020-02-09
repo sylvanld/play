@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, Blueprint
 from flask_restplus import Namespace, Resource
 from ..dao.user import UserDAO
 
@@ -6,6 +6,10 @@ from src.authentication.spotify import Spotify
 from src.authentication.deezer import Deezer
 
 auth_ns = Namespace('auth', 'third-party (spotify, deezer) oauth and play authentication methods', path='/')
+auth_bp = Blueprint('auth', __name__)
+
+
+# get token for desired provider
 
 
 @auth_ns.route('/play/token')
@@ -38,25 +42,24 @@ class TokenResource(Resource):
         raise NotImplementedError #Deezer.get_generic_token()
 
 
-@auth_ns.route('/auth/spotify')
-class SpotifyAuthRequired(Resource):
-    def get(self):
-        return Spotify.require_authorization()
+
+# Third party authorization follow
+
+@auth_bp.route('/auth/spotify')
+def require_spotify_authorization():
+    return Spotify.require_authorization()
 
 
-@auth_ns.route('/auth/deezer')
-class SpotifyAuthRequired(Resource):
-    def get(self):
-        return Deezer.require_authorization()
+@auth_bp.route('/auth/deezer')
+def require_deezer_authorization():
+    return Deezer.require_authorization()
 
 
-@auth_ns.route('/authorized/spotify')
-class SpotifyAuthHandler(Resource):
-    def get(self):
-        return Spotify.handle_authorization(request.args['code'])
+@auth_bp.route('/authorized/spotify')
+def handle_spotify_authorization():
+    return Spotify.handle_authorization(request.args['code'])
 
 
-@auth_ns.route('/authorized/deezer')
-class DeezerAuthHandler(Resource):
-    def get(self):
-        return Deezer.handle_authorization(request.args['code'])
+@auth_bp.route('/authorized/deezer')
+def handle_deezer_authorization():
+    return Deezer.handle_authorization(request.args['code'])

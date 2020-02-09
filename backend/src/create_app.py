@@ -21,7 +21,7 @@ def create_app():
         return error.make_response()
 
     create_db(app)
-    create_endpoints(api)
+    create_endpoints(app, api)
     configure_jwt(jwt)
 
     ma.init_app(app)
