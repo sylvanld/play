@@ -40,7 +40,7 @@ export class SearchbarComponent implements OnInit {
     if (this.noTrack) { this.filtersList.splice(this.filtersList.indexOf('track'), 1); }
     if (this.noAlbum) { this.filtersList.splice(this.filtersList.indexOf('album'), 1); }
     if (this.noArtist) { this.filtersList.splice(this.filtersList.indexOf('artist'), 1); }
-    this.filters = new FormControl( this.filtersList.slice() );
+    this.filters = new FormControl(this.filtersList.slice());
 
     this.filters.setValidators(this.validateFilters);
     // update placeholder when filters change
@@ -59,10 +59,22 @@ export class SearchbarComponent implements OnInit {
     });
   }
 
+  submitAdvancedSearch(filtersQueryParams: string) {
+    this.spotify.suggestions(filtersQueryParams).subscribe(
+      (results: SearchResult) => {
+        this.results.emit(results);
+      }
+    );
+  }
+
   openFilters(event) {
-		console.log(event);
-		this.dialog.open(AdvancedSearchComponent, {
-			width: '500px'
-		});
-	}
+    console.log(event);
+    const dialog = this.dialog.open(AdvancedSearchComponent, {
+      width: '500px'
+    });
+    //
+    dialog.afterClosed().subscribe(
+      filtersQueryParams => this.submitAdvancedSearch(filtersQueryParams)
+    );
+  }
 }

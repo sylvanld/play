@@ -53,7 +53,7 @@ import { ForgetAccountDialogComponent } from './component/forget-account-dialog/
 import { PrimengModule } from '~primeng/primeng.module';
 import { InputArtistsComponent } from './component/search/filters/input-artists/input-artists.component';
 import { AutocompleteChipListComponent } from './component/core/autocomplete-chip-list/autocomplete-chip-list.component';
-import { InputAlbumsComponent } from './component/search/filters/input-albums/input-albums.component';
+import { InputTracksComponent } from './component/search/filters/input-tracks/input-tracks.component';
 import { InputGenresComponent } from './component/search/filters/input-genres/input-genres.component';
 import { InputDatesComponent } from './component/search/filters/input-dates/input-dates.component';
 import { InputTempoComponent } from './component/search/filters/input-tempo/input-tempo.component';
@@ -94,7 +94,7 @@ import { SimpleFiltersComponent } from './component/search/advanced-search/simpl
     ForgetAccountDialogComponent,
     InputArtistsComponent,
     AutocompleteChipListComponent,
-    InputAlbumsComponent,
+    InputTracksComponent,
     InputGenresComponent,
     InputDatesComponent,
     InputTempoComponent,
