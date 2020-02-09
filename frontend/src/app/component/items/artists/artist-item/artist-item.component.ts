@@ -3,14 +3,14 @@ import { Artist } from '~types/artist';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
-	selector: 'app-artist-item',
-	templateUrl: './artist-item.component.html',
-	styleUrls: [ './artist-item.component.scss' ]
+  selector: 'app-artist-item',
+  templateUrl: './artist-item.component.html',
+  styleUrls: [ './artist-item.component.scss' ]
 })
 export class ArtistItemComponent implements OnInit {
-	@Input() artist: Artist;
+  @Input() artist: Artist;
 
-	constructor() {}
+  constructor() {}
 
-	ngOnInit() {}
+  ngOnInit() {}
 }

@@ -1,0 +1,21 @@
+<svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+ <title>logo_play</title>
+ <defs>
+  <polygon fill="rosybrown" stroke="black" stroke-width="1px" id="svgEditorShapeDefs"/>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <g id="g_e1_svg">
+   <svg y="34.856449" x="50.598106" id="svg_1" preserveAspectRatio="xMidYMid meet" viewBox="0 0 496 496" height="347.440186" width="347.440186" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+    <path id="svg_29" fill="#939598" d="m120.010898,145.898604c0,2.242694 -1.818346,4.06104 -4.06104,4.06104s-4.06104,-1.818346 -4.06104,-4.06104s1.818346,-4.06104 4.06104,-4.06104s4.06104,1.818346 4.06104,4.06104zm0,0"/>
+    <g id="svg_30" fill="#231f20"/>
+   </svg>
+  </g>
+  <g fill="rosybrown" stroke="black" stroke-width="1px" transform="matrix(0.843743,0,0,0.843743,248,161) " id="e12_shape"/>
+  <g fill="rosybrown" stroke="black" stroke-width="1px" transform="matrix(0.781244,0,0,0.781244,242,149) " id="e13_shape"/>
+  <g fill="rosybrown" stroke="black" stroke-width="1px" transform="matrix(1.22656,0,0,1.22656,488.585,108) " id="e14_shape"/>
+  <g fill="rosybrown" stroke="black" stroke-width="1px" transform="matrix(0.572917,0,0,0.572917,334.843,148.833) " id="e20_shape"/>
+  <path fill="#D93936" stroke="#231F20" stroke-width="5px" id="e41_shape" d="m72.648593,262.008261l102.387129,-79.2541c0.161558,-0.123188 0.296862,-0.26657 0.450342,-0.393797l0,67.848134c0,13.64152 15.862937,21.141831 26.40659,12.488402l96.900229,-79.542884c7.904206,-6.488557 7.867855,-18.59528 -0.07472,-25.03537l-96.900229,-78.575558c-10.559809,-8.564572 -26.331869,-1.048105 -26.331869,12.546967l0,65.505548c-0.179733,-0.149441 -0.337251,-0.310998 -0.527082,-0.454381l-102.387129,-78.290813c-10.559809,-8.562553 -26.331869,-1.046085 -26.331869,12.548987l0,158.118443c0,13.6395 15.862937,21.141831 26.40659,12.486383l0.002019,0.004039z"/>
+  <path fill="transparent" stroke="#231F20" stroke-width="10px" stroke-linecap="round" id="e43_path" d="m20.738593,168.857494l54.300184,1.615514l8.122983,-47.260992l7.38453,85.660548l6.646077,-66.46077l5.169171,27.322761l29.53812,-0.738453l3.692265,-21.415137l3.692265,39.138009l3.692265,-31.753479l2.953812,14.030607l62.030052,0.738453l2.215359,-15.507513l4.430718,27.322761l3.692265,-44.30718l8.122983,59.07624l2.953812,-49.476351l4.430718,24.368949l88.014441,-0.807757"/>
+ </g>
+</svg>

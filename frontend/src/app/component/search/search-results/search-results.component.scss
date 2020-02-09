@@ -1,24 +1,24 @@
 @import 'src/app/constants.scss';
 
 :host {
-	display: flex;
+  display: flex;
 }
 
 app-artists-list,
 app-albums-list {
-	flex: 1;
+  flex: 1;
 }
 app-tracks-list {
-	flex: 4;
+  flex: 4;
 }
 
 @media screen and (max-width: $mobile-max-width) {
-	:host {
-		flex-direction: column;
-	}
-	app-artists-list,
-	app-albums-list,
-	app-tracks-list {
-		flex: 1;
-	}
+  :host {
+    flex-direction: column;
+  }
+  app-artists-list,
+  app-albums-list,
+  app-tracks-list {
+    flex: 1;
+  }
 }

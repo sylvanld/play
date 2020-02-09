@@ -10,8 +10,8 @@
         <mat-icon *ngFor="let filter of getFilters()">{{ filterIcon[filter] }}</mat-icon>
       </mat-select-trigger>
       <mat-option *ngFor="let filter of filtersList" [value]="filter">
-        <mat-icon>{{filterIcon[filter]}}</mat-icon>
-        {{filter}}
+        <mat-icon>{{ filterIcon[filter] }}</mat-icon>
+        {{ filter }}
       </mat-option>
     </mat-select>
   </mat-form-field>

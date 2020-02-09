@@ -4,7 +4,7 @@ import { AuthenticationService } from './service/authentication.service';
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss']
+	styleUrls: [ './app.component.scss' ]
 })
 export class AppComponent implements OnInit {
 	title = 'frontend';
@@ -13,6 +13,6 @@ export class AppComponent implements OnInit {
 	constructor(private auth: AuthenticationService) { }
 
 	ngOnInit() {
-		this.auth.connected.subscribe(connected => this.connected = connected)
+		this.auth.connected.subscribe(connected => this.connected = connected);
 	}
 }
