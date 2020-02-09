@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, EventEmitter, ViewChild, ElementRef, Output } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Track } from 'src/app/types/track';
 import { Album } from 'src/app/types/album';
@@ -13,6 +13,20 @@ import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material
   styleUrls: ['./autocomplete-chip-list.component.scss']
 })
 export class AutocompleteChipListComponent<ObjectType> {
+  /* about items io */
+  @Input()
+  get items() {
+    return this._items;
+  }
+
+  @Output() itemsChange = new EventEmitter();
+
+  set items(_items: ObjectType[]) {
+    this._items = _items;
+    this.itemsChange.emit(this._items);
+  }
+
+  /* core attributes */
   @Input() placeholder = "Replace me...";
   @ViewChild('itemInput', { static: false }) itemInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
@@ -20,7 +34,7 @@ export class AutocompleteChipListComponent<ObjectType> {
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
   itemCtrl = new FormControl();
-  items: ObjectType[] = [];
+  _items: ObjectType[] = [];
   itemsIds: string[] = [];
   filteredItems: ObjectType[] = [];
 
@@ -71,6 +85,7 @@ export class AutocompleteChipListComponent<ObjectType> {
     if (!!this.matAutocomplete.isOpen && this.filteredItems.length > 0) {
       this.addItem(this.filteredItems[0]);
       this.clearInput();
+      this.itemsChange.emit(this._items);
     }
   }
 
@@ -80,6 +95,7 @@ export class AutocompleteChipListComponent<ObjectType> {
     if (!!item) {
       this.addItem(item);
       this.clearInput();
+      this.itemsChange.emit(this._items);
     }
   }
 
@@ -91,6 +107,7 @@ export class AutocompleteChipListComponent<ObjectType> {
 
     if (position !== -1) {
       this.items.splice(position, 1);
+      this.itemsChange.emit(this._items);
     }
   }
 

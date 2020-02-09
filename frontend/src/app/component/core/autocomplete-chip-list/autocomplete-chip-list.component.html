@@ -1,6 +1,6 @@
 <mat-form-field style="width: 100%">
     <mat-chip-list #chipList [attr.aria-label]="placeholder">
-        <mat-chip *ngFor="let item of items" selectable="true" removable="true" (removed)="remove(item)">
+        <mat-chip *ngFor="let item of _items" selectable="true" removable="true" (removed)="remove(item)">
             {{display(item).title}}
             <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>

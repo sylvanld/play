@@ -126,6 +126,16 @@ export class SpotifyService {
         )
     }
 
+    searchTrack(query: string): Observable<Track[]> {
+        return this.search(query, ['track']).pipe(
+            map(
+                (results: SearchResult) => {
+                    return results.tracks || [];
+                }
+            )
+        )
+    }
+
     search(
         query: string,
         types: Array<'track' | 'album' | 'artist'> = ['track', 'album', 'artist']
