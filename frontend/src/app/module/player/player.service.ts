@@ -57,6 +57,7 @@ export class PlayerService implements Player {
 
   private _tracks: Track[] = [];
   private _currentTrack = new Subject<Track>();
+  public readonly currentTrack = this._currentTrack.asObservable();
   public position = 0;
 
   constructor(
@@ -102,7 +103,7 @@ export class PlayerService implements Player {
       }
     });
 
-    this._currentTrack.asObservable().subscribe((track: Track) => {
+    this.currentTrack.subscribe((track: Track) => {
       if (this.provider && this.config.selection === 'youtube') {
         this.youtube.completeId(track).subscribe((track: Track) => {
           this.provider.loadPlaylist(track.external_ids.youtube);

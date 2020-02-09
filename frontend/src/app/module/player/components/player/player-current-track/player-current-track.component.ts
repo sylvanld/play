@@ -14,11 +14,9 @@ export class PlayerCurrentTrackComponent implements OnInit {
   constructor(private player: PlayerService) { }
 
   ngOnInit() {
-    /*this.player.currentTrackObs.subscribe((track: Track) => {
-      if (track !== undefined) {
-        this.title = track.title;
-      }
-    });*/
+    this.player.currentTrack.subscribe((track: Track) => {
+      this.title = track.title;
+    });
   }
 
 }
