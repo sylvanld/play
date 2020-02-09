@@ -51,7 +51,7 @@ export class SpotifyService {
     }
 
     convertTrack(spotifyTrack): Track {
-        return {
+        const track = {
             isrc: spotifyTrack['external_ids']['isrc'],
             title: spotifyTrack['name'],
             artist: spotifyTrack['artists'][0]['name'],
@@ -63,6 +63,8 @@ export class SpotifyService {
                 deezer: null
             }
         };
+        console.log('track');
+        return track;
     }
 
     convertArtist(spotifyArtist): Artist {
@@ -134,6 +136,21 @@ export class SpotifyService {
                 }
             )
         )
+    }
+
+    suggestions(queryParams: string): Observable<SearchResult> {
+        return this.http.get<{ tracks }>(
+            environment.spotify_api_url + '/v1/recommendations?' + queryParams,
+            this.spotifyAuthHeaders
+        ).pipe(map(
+            ({ tracks }) => {
+                return {
+                    artists: [],
+                    albums: [],
+                    tracks: tracks.map(track => this.convertTrack(track))
+                }
+            }
+        ));
     }
 
     search(

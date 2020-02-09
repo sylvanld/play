@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Artist } from '~types/artist';
 import { Track } from '~types/track';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-advanced-search',
@@ -31,7 +32,7 @@ export class AdvancedSearchComponent implements OnInit {
     genres: []
   };
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<AdvancedSearchComponent>) { }
 
   ngOnInit() {
   }
@@ -73,10 +74,10 @@ export class AdvancedSearchComponent implements OnInit {
     this.appendArtists(filters);
     this.appendTracks(filters);
     this.appendGenres(filters);
-    console.log('filters', filters);
+    return filters.join('&');
   }
 
-  notify() {
-    this.filtersToUrl();
+  onSubmit() {
+    this.dialogRef.close(this.filtersToUrl());
   }
 }

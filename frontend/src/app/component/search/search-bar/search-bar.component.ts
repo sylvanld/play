@@ -21,7 +21,10 @@ export class SearchbarComponent implements OnInit {
 
 	@Output() results = new EventEmitter<SearchResult>();
 
-	constructor(private spotify: SpotifyService, private dialog: MatDialog) { }
+	constructor(
+		private spotify: SpotifyService,
+		private dialog: MatDialog
+	) { }
 
 	validateFilters(formControl) {
 		return formControl.value && formControl.value.length
@@ -51,10 +54,22 @@ export class SearchbarComponent implements OnInit {
 		});
 	}
 
+	submitAdvancedSearch(filtersQueryParams: string) {
+		this.spotify.suggestions(filtersQueryParams).subscribe(
+			(results: SearchResult) => {
+				this.results.emit(results);
+			}
+		);
+	}
+
 	openFilters(event) {
 		console.log(event);
-		this.dialog.open(AdvancedSearchComponent, {
+		const dialog = this.dialog.open(AdvancedSearchComponent, {
 			width: '500px'
 		});
+		//
+		dialog.afterClosed().subscribe(
+			filtersQueryParams => this.submitAdvancedSearch(filtersQueryParams)
+		);
 	}
 }
