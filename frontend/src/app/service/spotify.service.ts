@@ -7,6 +7,7 @@ import { Track } from '../types/track';
 import { Artist } from 'src/app/types/artist';
 import { SearchResult } from '../types/search-result';
 import { Album } from '../types/album';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
     providedIn: 'root'
@@ -17,12 +18,15 @@ export class SpotifyService {
     private availableGenres: string[] = null;
 
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private auth: AuthenticationService) {
         this.getApplicationToken();
     }
 
     getApplicationToken() {
-        this.http.get(environment.play_api_url + '/spotify/token').subscribe((resp: { access_token: string }) => {
+        this.http.get(
+            environment.play_api_url + '/spotify/token',
+            { headers: { 'Authorization': 'Bearer ' + this.auth.getToken() } }
+        ).subscribe((resp: { access_token: string }) => {
             this.spotifyAuthHeaders = {
                 headers: {
                     Authorization: 'Bearer ' + resp.access_token

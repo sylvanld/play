@@ -2,13 +2,14 @@ import requests
 from urllib.parse import urlencode
 from flask import redirect, request
 
-from src.authentication._provider import IdentityProvider
+from src.database import Account
+from src.authentication.provider import Provider
 from src.environment import (
     DEEZER_CLIENT_ID, DEEZER_CLIENT_SECRET, DEEZER_PERMISSIONS, PLAY_AUTHORIZED_URI)
 
 DEEZER_REDIRECT_URI = PLAY_AUTHORIZED_URI + '/deezer'
 
-class Deezer(IdentityProvider):
+class Deezer(Provider):
     @classmethod
     def require_authorization(cls):
         state = {'state': request.args['token']} if request.args.get('token') else {}
@@ -21,24 +22,38 @@ class Deezer(IdentityProvider):
         }))
 
     @classmethod
-    def get_token(cls, authorization_code):
+    def get_token_for_user(cls, user):
+        # Dans deezer, les tokens ont une duree de vie illimitee et pas de refresh token
+        # La conception de l'oauth2 la plus WTF...
+        account = Account.query.filter_by(user_id=user.id, provider='DEEZER').first()
+        assert account is not None
+        return {'access_token': account.refresh_token}
+
+
+    @classmethod
+    def get_token_from_code(cls, code):
         # exchange authorization code for an access token
         response = requests.post('https://connect.deezer.com/oauth/access_token.php?' + urlencode({
             'app_id': DEEZER_CLIENT_ID,
             'secret': DEEZER_CLIENT_SECRET,
-            'code': authorization_code,
+            'code': code,
             'output': 'json'
         }))
 
         # make sure that we got a valid response from token endpoint
         assert response.status_code == 200
-        access_token = response.json()['access_token']
-        return access_token
+        data = response.json()
+
+        return {
+            'access_token': data['access_token'], 
+            'refresh_token': data['access_token'], 
+            'expires': 0
+        }
         
     @classmethod
-    def get_identity(cls, access_token):
+    def get_identity_from_token(cls, user_access_token):
         # get current user identity from access_token
-        response = requests.get('https://api.deezer.com/user/me?access_token=' + access_token)
+        response = requests.get('https://api.deezer.com/user/me?access_token=' + user_access_token)
     
         # make sure that we got a valid response from id endpoint
         assert response.status_code == 200

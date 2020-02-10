@@ -16,4 +16,4 @@ class Account(db.Model):
     external_id = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     provider = db.Column(db.Enum(Provider), nullable=False)
-    code = db.Column(db.String)
+    refresh_token = db.Column(db.String)

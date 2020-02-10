@@ -1,9 +1,11 @@
 from flask import request, Blueprint
 from flask_restplus import Namespace, Resource
+from flask_jwt_extended import jwt_required, current_user
 from ..dao.user import UserDAO
 
 from src.authentication.spotify import Spotify
 from src.authentication.deezer import Deezer
+
 
 auth_ns = Namespace('auth', 'third-party (spotify, deezer) oauth and play authentication methods', path='/')
 auth_bp = Blueprint('auth', __name__)
@@ -14,32 +16,52 @@ auth_bp = Blueprint('auth', __name__)
 
 @auth_ns.route('/play/token')
 class TokenResource(Resource):
-    @auth_ns.expect()
     def post(self):
         """
         Return play access token
         """
-        return UserDAO.get_token_resource()
+        if (request.json and request.json.get('email') and request.json.get('password')):
+            user = UserDAO.login(request.json['email'], request.json['password'])
+            if user is None:
+                return {"message": "Bad credentials."}, 401
+            
+        elif request.headers.get('Authorization'):
+            auth_header = request.headers['Authorization']
+
+            if not auth_header.startswith('Bearer '):
+                return 'Invalid token type. Please provide Bearer token.'
+
+            user = UserDAO.user_from_token(auth_header[7:])
+            if user is None:
+                return {"message": "We are unable to determine your identity from token."}, 404
+
+        else:
+            return {
+                "message": "Can't verify your identity. Please either provider (email/password) or Bearer token"
+            }, 400
+
+        return UserDAO.get_token(user)
+
 
 
 @auth_ns.route('/spotify/token')
 class TokenResource(Resource):
-    @auth_ns.expect()
+    @jwt_required
     def get(self):
         """
         Return spotify application access token
         """
-        return Spotify.get_generic_token()
+        return Spotify.get_token(current_user)
 
 
 @auth_ns.route('/deezer/token')
 class TokenResource(Resource):
-    @auth_ns.expect()
+    @jwt_required
     def get(self):
         """
         Return deezer application access token
         """
-        raise NotImplementedError #Deezer.get_generic_token()
+        raise Deezer.get_token(current_user)
 
 
 
