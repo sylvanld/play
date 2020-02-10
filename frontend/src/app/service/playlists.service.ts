@@ -109,7 +109,7 @@ export class PlaylistsService {
     }
   }
 
-  playlistGen(title: string= null): string {
+  playlistGen(title: string = null): string {
     const date = new Date();
     if (title == null) {
       const dateISO = date.toISOString();
