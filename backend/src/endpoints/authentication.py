@@ -33,31 +33,42 @@ class TokenResource(Resource):
 
             user = UserDAO.user_from_token(auth_header[7:])
             if user is None:
-                return {"message": "We are unable to determine your identity from token."}, 404
+                return {"message": "We are unable to determine your identity from token."}, 401
 
         else:
             return {
                 "message": "Can't verify your identity. Please either provider (email/password) or Bearer token"
-            }, 400
+            }, 401
 
         return UserDAO.get_token(user)
 
 
 
 @auth_ns.route('/spotify/token')
-class TokenResource(Resource):
+class SpotifyTokenResource(Resource):
     @jwt_required
-    def get(self):
+    def post(self):
         """
         Return spotify application access token
         """
-        return Spotify.get_token(current_user)
+        print('wesh user', current_user)
+        return Spotify.get_application_token()
 
 
-@auth_ns.route('/deezer/token')
-class TokenResource(Resource):
+@auth_ns.route('/spotify/token/me')
+class SpotifyUserTokenResource(Resource):
     @jwt_required
-    def get(self):
+    def post(self):
+        """
+        return user token
+        """
+        return Spotify.get_token_for_user(user)
+
+
+@auth_ns.route('/deezer/token/me')
+class SpotifyTokenResource(Resource):
+    @jwt_required
+    def post(self):
         """
         Return deezer application access token
         """
@@ -70,6 +81,7 @@ class TokenResource(Resource):
 @auth_bp.route('/auth/spotify')
 def require_spotify_authorization():
     return Spotify.require_authorization()
+    
 
 
 @auth_bp.route('/auth/deezer')

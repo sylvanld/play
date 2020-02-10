@@ -40,17 +40,19 @@ export abstract class ProviderService {
    */
   request<T>(method: 'GET' | 'POST' | 'PUT' | 'DELETE', params: RequestParameters, original = true) {
     let url = this.baseUrl + params.relativeUrl;
-    const headers = { responseType: 'json', Authorization: '' };
+    let headers: { Authorization?: string } = {};
 
     // cache last request to replay it in case of token expiration
-    this.lastRequest = { method: 'GET', params };
+    this.lastRequest = { method: method, params };
 
+    console.log(this.accessToken);
     if (this.accessToken) {
       if (this.tokenType.type === 'queryparam') {
         // append token to url in case it should be provided as a query param
         url += (url.indexOf('?') === -1 ? '?' : '&') + this.tokenType.key + '=' + this.accessToken;
-      } else if (this.tokenType.type === 'bearer') {
+      } else if (this.tokenType.type === 'bearer' && !!this.accessToken) {
         // add authorization headers if token has bearer type
+        console.log('add bearer token to request headers');
         headers.Authorization = 'Bearer ' + this.accessToken;
       }
     }
@@ -69,6 +71,7 @@ export abstract class ProviderService {
         if (original) {
           return this.handleTokenExpiration(error);
         } else {
+          console.log('already done');
           throw error;
         }
       }
@@ -91,7 +94,7 @@ export abstract class ProviderService {
     return this.request<T>('DELETE', { relativeUrl, headers });
   }
 
-  abstract getToken(): Observable<string>;
+  abstract renewToken(): Observable<string>;
 
   setToken(accessToken: string) {
     this.accessToken = accessToken;
@@ -109,13 +112,14 @@ export abstract class ProviderService {
 
 
   handleTokenExpiration(error: HttpErrorResponse) {
+    console.log('error during request to third party');
     if (error.status === 401) {
       // return an observable that will resolve the value of the previous
       // request after having update this provider's accessToken
       return Observable.create(
         (observer: Observer<any>) => {
           // ask for a new access token using provider specific method
-          this.getToken().subscribe(
+          this.renewToken().subscribe(
             accessToken => {
               // set the new access token in the provider store
               this.setToken(accessToken);

@@ -1,10 +1,11 @@
 from flask import request
+from datetime import timedelta
 from flask_jwt_extended import create_access_token, create_refresh_token, decode_token
 
-from src.environment import JWT_ACCESS_TOKEN_EXPIRES
 from src.database import User
 from src.schemas import UserSchema
 from src.dao._dao import DAO
+from src.environment import JWT_ACCESS_TOKEN_EXPIRES
 
 class UserDAO(DAO):
     model = User

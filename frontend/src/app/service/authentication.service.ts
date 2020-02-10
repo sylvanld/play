@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, of, Observable, Observer } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { StorageService } from './storage.service';
 import { NotificationService } from './notification.service';
 import { map, catchError } from 'rxjs/operators';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 /**
  * load query params as an object
@@ -78,16 +77,9 @@ export class AuthenticationService {
       email, password
     }).subscribe(
       (token: Token) => {
-        this.setToken(token).subscribe(
-          result => {
-            if (result) {
-              this.router.navigateByUrl('/');
-            }
-          }
-        )
-
-      }
-      ,
+        this.setToken(token);
+        this.router.navigateByUrl('/');
+      },
       error => {
         let message: string = null;
         switch (error.status) {
@@ -113,10 +105,24 @@ export class AuthenticationService {
     this.router.navigateByUrl('/login');
   }
 
+  getToken() {
+    return this.accessToken;
+  }
+
+  setToken(token: Token) {
+    // set access token for use in application
+    this.accessToken = token.access_token;
+    // set refresh token to keep user authenticated
+    this.storage.set(REFRESH_TOKEN, token.refresh_token);
+
+    // change application state to display features that require auth
+    this._connected.next(true);
+  }
+
   /**
    * Set token from response and verify its validity
    */
-  setToken(partialToken: Token): Observable<boolean> {
+  setAndVerifyToken(partialToken: Token): Observable<boolean> {
     if (!partialToken || !partialToken.refresh_token) {
       return of(false);
     }
@@ -128,10 +134,9 @@ export class AuthenticationService {
     )
       .pipe(
         map((token: Token) => {
-          // set access token for use in application
-          this.accessToken = token.access_token;
-          // set refresh token to keep user authenticated
-          this.storage.set(REFRESH_TOKEN, token.refresh_token);
+          // after tocken has been verified, set fresh token
+          this.setToken(token);
+
           // remove potential token in query params
           // Remove query params
           this.router.navigate([], {
@@ -141,8 +146,6 @@ export class AuthenticationService {
             },
             queryParamsHandling: 'merge'
           })
-          // change application state to display features that require auth
-          this._connected.next(true);
           return true;
         }), catchError(error => {
           // if an error occured, this token is not valid, user is logged out
@@ -151,22 +154,17 @@ export class AuthenticationService {
         }));
   }
 
-  /* TODO: replace this shit (with an observable?) */
-  getToken() {
-    return this.accessToken || null;
-  }
-
   loadTokenFromUrl(): Observable<boolean> {
     console.log('call load token from url')
     const token = <Token>getUrlParams();
-    return this.setToken(token);
+    return this.setAndVerifyToken(token);
   }
 
   refreshToken(): Observable<boolean> {
     /* utilise le refresh token pour obtenir un nouvel accessToken */
     console.log('call refresh token')
     const refresh = this.storage.get(REFRESH_TOKEN);
-    return this.setToken({ refresh_token: refresh });
+    return this.setAndVerifyToken({ refresh_token: refresh });
   }
 
   loadToken() {

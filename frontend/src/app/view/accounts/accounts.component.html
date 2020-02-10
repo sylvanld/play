@@ -18,6 +18,6 @@
     </mat-card>
 
     <h2>Add accounts</h2>
-    <app-spotify-login-button></app-spotify-login-button>
-    <app-deezer-login-button></app-deezer-login-button>
+    <app-spotify-login-button *ngIf="!isSpotifyAccountBound()"></app-spotify-login-button>
+    <app-deezer-login-button *ngIf="!isDeezerAccountBound()"></app-deezer-login-button>
 </aside>

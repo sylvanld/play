@@ -22,6 +22,23 @@ class Spotify(Provider):
             **state
         }))
 
+
+    @classmethod
+    def get_application_token(cls):
+        auth_header = 'Basic ' + base64.b64encode(
+            f'{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}'.encode('utf-8')
+        ).decode('utf-8')
+
+        # either use refresh token
+        response = requests.post('https://accounts.spotify.com/api/token', data={
+            'grant_type': 'client_credentials',
+        }, headers={'Authorization': auth_header})
+       
+        assert response.status_code == 200
+        # TODO: store new refresh token
+        return {'access_token': response.json()['access_token']}
+
+
     @classmethod
     def get_token_for_user(cls, user):
         account = Account.query.filter_by(user_id=user.id, provider='SPOTIFY').first()

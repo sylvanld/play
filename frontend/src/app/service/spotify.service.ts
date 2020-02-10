@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Observer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
@@ -8,40 +8,36 @@ import { Artist } from 'src/app/types/artist';
 import { SearchResult } from '../types/search-result';
 import { Album } from '../types/album';
 import { AuthenticationService } from './authentication.service';
+import { ProviderService } from './provider.service';
+import { PlayService } from './play.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SpotifyService {
+export class SpotifyService extends ProviderService {
     private spotifyAuthHeaders: { headers: { Authorization: string } } = null;
     private genres: Array<string> = null;
     private availableGenres: string[] = null;
 
 
-    constructor(private http: HttpClient, private auth: AuthenticationService) {
-        this.getApplicationToken();
+    constructor(
+        protected http: HttpClient,
+        private auth: AuthenticationService,
+        private play: PlayService
+    ) {
+        super(http, environment.spotify_api_url, { type: 'bearer' });
     }
 
-    getApplicationToken() {
-        this.http.get(
-            environment.play_api_url + '/spotify/token',
-            { headers: { 'Authorization': 'Bearer ' + this.auth.getToken() } }
-        ).subscribe((resp: { access_token: string }) => {
-            this.spotifyAuthHeaders = {
-                headers: {
-                    Authorization: 'Bearer ' + resp.access_token
-                }
-            };
-        });
+    renewToken(): Observable<string> {
+        return this.play.getSpotifyToken();
     }
 
     getGenres(): Observable<Array<string>> {
         if (this.genres === null) {
-            return this.http
-                .get<Array<string>>(
-                    environment.spotify_api_url + '/v1/recommendations/available-genre-seeds',
-                    this.spotifyAuthHeaders
-                )
+            return this.get<Array<string>>(
+                environment.spotify_api_url + '/v1/recommendations/available-genre-seeds',
+                this.spotifyAuthHeaders
+            )
                 .pipe(
                     map((genres: Array<string>) => {
                         this.genres = genres;
@@ -67,7 +63,6 @@ export class SpotifyService {
                 deezer: null
             }
         };
-        console.log('track');
         return track;
     }
 
@@ -96,7 +91,7 @@ export class SpotifyService {
             return of(this.availableGenres);
         }
 
-        return this.http.get<{ genres: string[] }>(
+        return this.get<{ genres: string[] }>(
             'https://api.spotify.com/v1/recommendations/available-genre-seeds',
             this.spotifyAuthHeaders
         ).pipe(
@@ -143,7 +138,7 @@ export class SpotifyService {
     }
 
     suggestions(queryParams: string): Observable<SearchResult> {
-        return this.http.get<{ tracks }>(
+        return this.get<{ tracks }>(
             environment.spotify_api_url + '/v1/recommendations?' + queryParams,
             this.spotifyAuthHeaders
         ).pipe(map(
@@ -162,9 +157,8 @@ export class SpotifyService {
         types: Array<'track' | 'album' | 'artist'> = ['track', 'album', 'artist']
     ): Observable<SearchResult> {
         const typesString = types.join(',');
-        return this.http
-            .get(environment.spotify_api_url + `/v1/search?q=${query}&type=${typesString}`, this.spotifyAuthHeaders)
-            .pipe(
+        return this.get(
+            `/v1/search?q=${query}&type=${typesString}`, { headers: { Bearer: 'ta daronne' } }).pipe(
                 map((data) => {
                     return {
                         tracks: !data['tracks'] ? [] : data['tracks']['items'].map(this.convertTrack),
