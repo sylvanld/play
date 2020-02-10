@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Observable, Observer } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import { StorageService } from './storage.service';
 import { NotificationService } from './notification.service';
+import { map, catchError } from 'rxjs/operators';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
+/**
+ * load query params as an object
+ */
 function getUrlParams() {
   const params = {};
+
   const paramsPosition = window.location.href.indexOf('?');
 
   if (paramsPosition === -1) {
@@ -18,11 +24,19 @@ function getUrlParams() {
     const d = item.split('=');
     params[d[0]] = d[1];
   }
+
   return params;
+}
+
+interface Token {
+  access_token?: string;
+  refresh_token: string;
+  expires?: number;
 }
 
 // key use to set/get item in store
 const ACCESS_TOKEN = 'ACCESS_TOKEN';
+const REFRESH_TOKEN = 'REFRESH_TOKEN';
 
 @Injectable({
   providedIn: 'root'
@@ -63,9 +77,15 @@ export class AuthenticationService {
     this.http.post(environment.play_api_url + '/play/token', {
       email, password
     }).subscribe(
-      (grant: { access_token: string }) => {
-        this.setToken(grant.access_token);
-        this.router.navigateByUrl('/');
+      (token: Token) => {
+        this.setToken(token).subscribe(
+          result => {
+            if (result) {
+              this.router.navigateByUrl('/');
+            }
+          }
+        )
+
       }
       ,
       error => {
@@ -83,35 +103,92 @@ export class AuthenticationService {
     );
   }
 
+  /**
+   * Remove refresh token from cookies and change connected state to false.
+   */
   logout() {
     this.accessToken = null;
-    this.storage.del(ACCESS_TOKEN);
+    this.storage.del(REFRESH_TOKEN);
     this._connected.next(false);
     this.router.navigateByUrl('/login');
   }
 
-  setToken(accessToken: string) {
-    this.accessToken = accessToken;
-    this.storage.set(ACCESS_TOKEN, this.accessToken);
-    this._connected.next(true);
+  /**
+   * Set token from response and verify its validity
+   */
+  setToken(partialToken: Token): Observable<boolean> {
+    if (!partialToken || !partialToken.refresh_token) {
+      return of(false);
+    }
+
+    // access a protected resource to ensure token is valid
+    return this.http.post(
+      environment.play_api_url + '/play/token', {},
+      { headers: { Authorization: 'Bearer ' + partialToken.refresh_token } }
+    )
+      .pipe(
+        map((token: Token) => {
+          // set access token for use in application
+          this.accessToken = token.access_token;
+          // set refresh token to keep user authenticated
+          this.storage.set(REFRESH_TOKEN, token.refresh_token);
+          // remove potential token in query params
+          // Remove query params
+          this.router.navigate([], {
+            queryParams: {
+              yourParamName: null,
+              youCanRemoveMultiple: null,
+            },
+            queryParamsHandling: 'merge'
+          })
+          // change application state to display features that require auth
+          this._connected.next(true);
+          return true;
+        }), catchError(error => {
+          // if an error occured, this token is not valid, user is logged out
+          this.logout();
+          return of(false)
+        }));
   }
 
+  /* TODO: replace this shit (with an observable?) */
   getToken() {
     return this.accessToken || null;
   }
 
-  loadTokenFromUrl() {
-    const params: { access_token?: string } = getUrlParams();
-    console.log('token from url: ', params.access_token);
-    return params.access_token;
+  loadTokenFromUrl(): Observable<boolean> {
+    console.log('call load token from url')
+    const token = <Token>getUrlParams();
+    return this.setToken(token);
   }
 
-  reloadToken(): boolean {
-    const accessToken = this.loadTokenFromUrl() || this.storage.get(ACCESS_TOKEN);
-    if (accessToken) {
-      console.log('token found:', accessToken);
-      this.setToken(accessToken);
-    }
-    return !!accessToken;
+  refreshToken(): Observable<boolean> {
+    /* utilise le refresh token pour obtenir un nouvel accessToken */
+    console.log('call refresh token')
+    const refresh = this.storage.get(REFRESH_TOKEN);
+    return this.setToken({ refresh_token: refresh });
   }
+
+  loadToken() {
+    console.log('call load token');
+    return Observable.create((observer: Observer<boolean>) => {
+      this.loadTokenFromUrl().subscribe(tokenLoaded => {
+        if (tokenLoaded) {
+          console.log('token loaded from url')
+          // token loaded (from url)
+          observer.next(true);
+          observer.complete();
+        } else {
+          // no token in url, try to reload token from refresh token
+          console.log('try to use refresh token')
+          this.refreshToken().subscribe(tokenRefreshed => {
+            console.log('refresh result ' + tokenRefreshed);
+            observer.next(tokenRefreshed);
+            observer.complete();
+          })
+        }
+      })
+    })
+  }
+
 }
