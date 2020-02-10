@@ -22,7 +22,7 @@ export class ExportComponent implements OnInit {
     // route params
     this.route.queryParams.subscribe(params => {
       const view: ViewType = params.view;
-      if(view != null) {
+      if (view != null) {
         this.switchMode = view;
       }
     });
