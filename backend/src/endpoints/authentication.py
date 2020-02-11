@@ -62,7 +62,7 @@ class SpotifyUserTokenResource(Resource):
         """
         return user token
         """
-        return Spotify.get_token_for_user(user)
+        return Spotify.get_token_for_user(current_user)
 
 
 @auth_ns.route('/deezer/token/me')

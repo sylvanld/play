@@ -35,7 +35,7 @@ export class SpotifyService extends ProviderService {
     getGenres(): Observable<Array<string>> {
         if (this.genres === null) {
             return this.get<Array<string>>(
-                environment.spotify_api_url + '/v1/recommendations/available-genre-seeds',
+                '/v1/recommendations/available-genre-seeds',
                 this.spotifyAuthHeaders
             )
                 .pipe(
@@ -92,7 +92,7 @@ export class SpotifyService extends ProviderService {
         }
 
         return this.get<{ genres: string[] }>(
-            'https://api.spotify.com/v1/recommendations/available-genre-seeds',
+            '/v1/recommendations/available-genre-seeds',
             this.spotifyAuthHeaders
         ).pipe(
             map((resp: { genres: string[] }) => {
@@ -139,7 +139,7 @@ export class SpotifyService extends ProviderService {
 
     suggestions(queryParams: string): Observable<SearchResult> {
         return this.get<{ tracks }>(
-            environment.spotify_api_url + '/v1/recommendations?' + queryParams,
+            '/v1/recommendations?' + queryParams,
             this.spotifyAuthHeaders
         ).pipe(map(
             ({ tracks }) => {
