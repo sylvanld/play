@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Observer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, tap, catchError } from 'rxjs/operators';
@@ -8,37 +8,37 @@ import { Artist } from 'src/app/types/artist';
 import { SearchResult } from '../types/search-result';
 import { Album } from '../types/album';
 import { Playlist } from 'src/app/types/playlist';
+import { AuthenticationService } from './authentication.service';
+import { ProviderService } from './provider.service';
+import { PlayService } from './play.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class SpotifyService {
+export class SpotifyService extends ProviderService {
     private spotifyAuthHeaders: { headers: { Authorization: string } } = null;
     private genres: Array<string> = null;
     private availableGenres: string[] = null;
 
 
-    constructor(private http: HttpClient) {
-        this.getApplicationToken();
+    constructor(
+        protected http: HttpClient,
+        private auth: AuthenticationService,
+        private play: PlayService
+    ) {
+        super(http, environment.spotify_api_url, { type: 'bearer' });
     }
 
-    getApplicationToken() {
-        this.http.get(environment.play_api_url + '/spotify/token').subscribe((resp: { access_token: string }) => {
-            this.spotifyAuthHeaders = {
-                headers: {
-                    Authorization: 'Bearer ' + resp.access_token
-                }
-            };
-        });
+    renewToken(): Observable<string> {
+        return this.play.getSpotifyToken();
     }
 
     getGenres(): Observable<Array<string>> {
         if (this.genres === null) {
-            return this.http
-                .get<Array<string>>(
-                    environment.spotify_api_url + '/v1/recommendations/available-genre-seeds',
-                    this.spotifyAuthHeaders
-                )
+            return this.get<Array<string>>(
+                '/v1/recommendations/available-genre-seeds',
+                this.spotifyAuthHeaders
+            )
                 .pipe(
                     map((genres: Array<string>) => {
                         this.genres = genres;
@@ -64,7 +64,6 @@ export class SpotifyService {
                 deezer: null
             }
         };
-        console.log('track');
         return track;
     }
 
@@ -93,8 +92,8 @@ export class SpotifyService {
             return of(this.availableGenres);
         }
 
-        return this.http.get<{ genres: string[] }>(
-            'https://api.spotify.com/v1/recommendations/available-genre-seeds',
+        return this.get<{ genres: string[] }>(
+            '/v1/recommendations/available-genre-seeds',
             this.spotifyAuthHeaders
         ).pipe(
             map((resp: { genres: string[] }) => {
@@ -140,8 +139,8 @@ export class SpotifyService {
     }
 
     suggestions(queryParams: string): Observable<SearchResult> {
-        return this.http.get<{ tracks }>(
-            environment.spotify_api_url + '/v1/recommendations?' + queryParams,
+        return this.get<{ tracks }>(
+            '/v1/recommendations?' + queryParams,
             this.spotifyAuthHeaders
         ).pipe(map(
             ({ tracks }) => {
@@ -159,9 +158,8 @@ export class SpotifyService {
         types: Array<'track' | 'album' | 'artist'> = ['track', 'album', 'artist']
     ): Observable<SearchResult> {
         const typesString = types.join(',');
-        return this.http
-            .get(environment.spotify_api_url + `/v1/search?q=${query}&type=${typesString}`, this.spotifyAuthHeaders)
-            .pipe(
+        return this.get(
+            `/v1/search?q=${query}&type=${typesString}`, { headers: { Bearer: 'ta daronne' } }).pipe(
                 map((data) => {
                     return {
                         tracks: !data['tracks'] ? [] : data['tracks']['items'].map(this.convertTrack),
@@ -170,17 +168,6 @@ export class SpotifyService {
                     };
                 })
             );
-    }
-
-    private handleError<T>(operation = 'operation', result?: T) {
-        return (error: any): Observable<T> => {
-
-            // TODO: send the error to remote logging infrastructure
-            console.error(error); // log to console instead
-
-            // Let the app keep running by returning an empty result.
-            return of(result as T);
-        };
     }
 
     export(
@@ -203,12 +190,6 @@ export class SpotifyService {
             })
         };
 
-        const headers = new HttpHeaders()
-            .set('Authorization', 'Bearer BQDAdJFIyHSQsyjzw2y9Ja_I4snU4-0nSpatQIq4kAb26cm7663bFkx6pySoad85fs4zCZi1BQk7joOS8Te7zPiIH8kmHy1qwS0VHDTrjo2Q4UQ4zh96dvbRRsNKGoiGEs0xdqKiZAVH3XWpokEZ2J3GrysppC0KX-2k_176Yf7twjbjnweWm0yLdLZ8Rg9hK5omPLQvHuML-OyFt_lEVagZBzEr1B5zr21MuylxxOW6Hd-bSg')
-            .set('Accept', 'application/json')
-            .set('Content-type', 'application/json');
-
-        console.log(headers);
         console.log("separation");
 
         return this.http
