@@ -71,20 +71,12 @@ class Spotify(Provider):
 
         # make sure that we got a valid response from token endpoint
         assert response.status_code == 200
-<<<<<<< HEAD
-        access_token = response.json()['access_token']
-        print("my token is {} --end".format(access_token))
-        return access_token
-=======
-
         data = response.json()
         return {
             'access_token': data['access_token'],
             'expires': data['expires_in'],
             'refresh_token': data['refresh_token']
         }
-
->>>>>>> b6711e8ab22b700d02a1241f135618faeb6e8770
 
     @classmethod
     def get_identity_from_token(cls, user_access_token):
