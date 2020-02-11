@@ -35,7 +35,7 @@ class Spotify(IdentityProvider):
         # make sure that we got a valid response from token endpoint
         assert response.status_code == 200
         access_token = response.json()['access_token']
-        
+        print("my token is {} --end".format(access_token))
         return access_token
 
     @classmethod

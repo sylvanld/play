@@ -9,11 +9,12 @@
 
 aside{
   flex: 1;
+  padding: 5px;
 }
 
 @media screen and (max-width: $mobile-max-width){
   :host{
-    flex-direction: column;
+    flex-direction: initial;
   }
 }
 

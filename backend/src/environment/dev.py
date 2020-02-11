@@ -8,7 +8,9 @@ SPOTIFY_CLIENT_ID = '4542a547217f4000b71e8fbfbe090793'
 SPOTIFY_CLIENT_SECRET = 'a39aa0f6ab32449ab96e2715a9570bd4'
 SPOTIFY_PERMISSIONS = [
     'user-read-email',
-    'user-read-private'
+    'user-read-private',
+    'playlist-modify',
+    'playlist-modify-private'
 ]
 
 # deezer oauth2 configuration

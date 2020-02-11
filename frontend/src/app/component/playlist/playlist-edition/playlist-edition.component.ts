@@ -27,7 +27,7 @@ enum SearchStep {
     trigger('slide', [
       transition(':enter', [
         query('.vertical-align', [
-          style({opacity: 0, transform: 'translateX(-500px)'}),
+          style({ opacity: 0, transform: 'translateX(-500px)' }),
           stagger(30, [
             animate('3s cubic-bezier(0.35, 0, 0.25, 1)', style({ opacity: 1, transform: 'none' }))
           ])
@@ -48,10 +48,10 @@ export class PlaylistEditionComponent implements OnInit {
   selection = new SelectionModel<Track>(true, []);
 
   constructor(private playlistService: PlaylistsService,
-              private route: ActivatedRoute,
-              private router: Router,
-              private player: PlayerService,
-              private _snackBar: MatSnackBar) { }
+    private route: ActivatedRoute,
+    private router: Router,
+    private player: PlayerService,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
     // router params
