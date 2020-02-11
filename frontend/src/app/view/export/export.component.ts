@@ -7,7 +7,7 @@ import { ViewType } from 'src/app/types/view-type';
 import { ViewItem } from 'src/app/types/view-item';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Track } from 'src/app/types/track';
-import { SpotifyService } from 'src/app/service/spotify.service';
+import { ExportSpotifyComponent } from 'src/app/component/export/export-spotify/export-spotify.component';
 
 @Component({
   templateUrl: './export.component.html',
@@ -22,7 +22,7 @@ export class ExportComponent implements OnInit {
   selectionPlateform = new SelectionModel<string>(true, []);
   plateforms: string[] = [];
 
-  constructor(private playlistService: PlaylistsService, private route: ActivatedRoute, private router: Router, private exportSpotify: SpotifyService) { }
+  constructor(private playlistService: PlaylistsService, private route: ActivatedRoute, private router: Router, private exportSpotify: ExportSpotifyComponent) { }
 
   ngOnInit() {
     // route params
@@ -73,7 +73,8 @@ export class ExportComponent implements OnInit {
     const plateforms: string[] = this.selectionPlateform.selected;
     console.log(playlists);
     console.log(plateforms.length);
-    console.log(this.playlistsF)
+    console.log(this.playlistsF);
+    for
     //this.exportSpotify.export(playlists);
   }
 }
