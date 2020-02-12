@@ -64,3 +64,4 @@ export class PlayService extends ProviderService {
   myFriends() {
     return this.get('/users/me/friends');
   }
+}
