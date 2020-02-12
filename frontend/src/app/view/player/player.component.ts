@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { YoutubeService } from 'src/app/service/youtube.service';
 import { PlayerService } from '../../module/player/player.service';
 import { Track } from '../../types/track';
 
