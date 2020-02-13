@@ -2,16 +2,10 @@ from flask import request
 from flask_restplus import Namespace, Resource
 from flask_jwt_extended import jwt_required
 
+from ..dao import TrackDAO, PlaylistDAO
 
 playlists_ns = Namespace('Playlists', '...', path='/')
 
-@playlists_ns.route('/tracks/<string:isrc>/external_ids')
-class EditExternalIds(Resource):
-    @jwt_required
-    def put(self, isrc):
-        """
-        Edit external ids.
-        """
 
 @playlists_ns.route('/playlists')
 class PlaylistsResource(Resource):
@@ -20,6 +14,7 @@ class PlaylistsResource(Resource):
         """
         Get all playlists for current user
         """
+        return PlaylistDAO.filter()
 
     @jwt_requried
     def post(self):
@@ -59,4 +54,13 @@ class PlaylistTracksResource(Resource):
     def delete(self, playlist_id, position):
         """
         Delete track of a playlist at given position.
+        """
+
+
+@playlists_ns.route('/tracks/<string:isrc>/external_ids')
+class EditExternalIds(Resource):
+    @jwt_required
+    def put(self, isrc):
+        """
+        Edit external ids.
         """

@@ -6,7 +6,6 @@ from src.database.friendship import Friendship
 
 from src.database.track import Track
 from src.database.playlist import Playlist
-from src.database.external_ids import ExternalIds
 
 
 def create_db(app):
