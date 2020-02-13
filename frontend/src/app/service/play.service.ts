@@ -7,6 +7,7 @@ import { AuthenticationService } from './authentication.service';
 import { StorageService } from './storage.service';
 import { map } from 'rxjs/operators';
 import { Track } from '~types/track';
+import { Account } from '~types/account';
 
 @Injectable({
   providedIn: 'root'

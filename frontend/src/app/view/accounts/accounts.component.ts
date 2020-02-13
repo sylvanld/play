@@ -4,13 +4,15 @@ import { PlaylistsService } from 'src/app/service/playlists.service';
 import { ForgetAccountDialogComponent } from 'src/app/component/forget-account-dialog/forget-account-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PlayService } from 'src/app/service/play.service';
+import { Account } from '~types/account';
 
 @Component({
   templateUrl: './accounts.component.html',
   styleUrls: ['./accounts.component.scss']
 })
 export class AccountsComponent implements OnInit {
-  accounts = [];
+  accounts: Account[] = [];
+  currentUser: User = null;
 
   constructor(
     private auth: AuthenticationService,
@@ -21,11 +23,13 @@ export class AccountsComponent implements OnInit {
 
   ngOnInit() {
     this.play.myAccounts().subscribe((accounts: any[]) => {
-      console.log('accounts', accounts);
       this.accounts = accounts;
     });
 
-    this.play.whoami().subscribe();
+    this.play.whoami().subscribe((currentUser: User) => {
+      console.log('you are', currentUser);
+      this.currentUser = currentUser;
+    });
   }
 
   isSpotifyAccountBound(): boolean {
