@@ -20,41 +20,45 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NativeDateAdapter, MatNativeDateModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatListModule } from '@angular/material/list';
 
 const materialModules = [
-	MatInputModule,
-	MatFormFieldModule,
-	MatSelectModule,
-	MatButtonModule,
-	MatIconModule,
-	MatToolbarModule,
-	MatSliderModule,
-	MatSnackBarModule,
-	MatCardModule,
-	MatMenuModule,
-	MatGridListModule,
-	MatTableModule,
-	MatCheckboxModule,
-	MatChipsModule,
-	MatAutocompleteModule,
-	MatDatepickerModule,
-	MatNativeDateModule,
-	MatTabsModule,
-	MatDialogModule,
-	MatCheckboxModule
+  MatInputModule,
+  MatFormFieldModule,
+  MatSelectModule,
+  MatButtonModule,
+  MatIconModule,
+  MatToolbarModule,
+  MatSliderModule,
+  MatSnackBarModule,
+  MatCardModule,
+  MatMenuModule,
+  MatGridListModule,
+  MatTableModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatAutocompleteModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatTabsModule,
+  MatDialogModule,
+  MatCheckboxModule,
+  MatStepperModule,
+  MatListModule
 ];
 
 @NgModule({
-	declarations: [],
-	providers: [NativeDateAdapter],
-	imports: [CommonModule, ...materialModules],
-	exports: materialModules
+  declarations: [],
+  providers: [NativeDateAdapter],
+  imports: [CommonModule, ...materialModules],
+  exports: materialModules
 })
 export class MaterialModule {
-	static forRoot(): ModuleWithProviders {
-		return {
-			ngModule: MaterialModule,
-			providers: [NativeDateAdapter]
-		};
-	}
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: MaterialModule,
+      providers: [NativeDateAdapter]
+    };
+  }
 }

@@ -62,4 +62,11 @@ export class PlayService extends ProviderService {
   myAccounts() {
     return this.get('/users/me/accounts');
   }
+
+  /**
+   * List of friends of the currently authenticated user.
+   */
+  myFriends() {
+    return this.get('/users/me/friends');
+  }
 }
