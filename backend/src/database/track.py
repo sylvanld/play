@@ -5,5 +5,5 @@ class Track(db.Model):
     
     title = db.Column(db.String)
     artists = db.Column(db.String)
-    albums = db.Column(db.String)
+    album = db.Column(db.String)
     release = db.Column(db.DateTime)
