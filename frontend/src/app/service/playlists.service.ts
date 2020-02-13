@@ -6,11 +6,6 @@ import { BehaviorSubject } from 'rxjs';
 import { StorageService } from './storage.service';
 import { Track } from '~types/track';
 
-interface PlaylistDataStore {
-  playlistIds: string[];
-  playlistsData: Playlist[];
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -100,10 +95,6 @@ export class PlaylistsService {
     return id;
   }
 
-  swapPlaylists(oldIndex: number, newIndex: number) {
-    // TODO: remove or replace
-  }
-
   /*
   About tracks
   */
@@ -137,6 +128,8 @@ export class PlaylistsService {
    * Re-index a given track in a playlist
    */
   swapTracks(playlistId: string, oldIndex: number, newIndex: number) {
-    // TODO: remove or replace
+    const tracks = this._playlists[playlistId].tracks.splice(oldIndex, 1);
+    this._playlists[playlistId].tracks.splice(newIndex, 0, ...tracks);
+    this.notifyPlaylistsChange();
   }
 }
