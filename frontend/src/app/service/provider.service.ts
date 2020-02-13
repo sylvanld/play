@@ -28,17 +28,19 @@ export abstract class ProviderService {
   protected baseUrl: string;
   protected accessToken: string;
   protected tokenType: TokenType;
+  protected authenticationErrorCodes: Array<number>;
 
-  constructor(protected http: HttpClient, baseUrl: string, tokenType: TokenType) {
+  constructor(protected http: HttpClient, baseUrl: string, tokenType: TokenType, authenticationErrorCodes = [401]) {
     this.baseUrl = baseUrl;
     this.tokenType = tokenType;
+    this.authenticationErrorCodes = authenticationErrorCodes;
   }
 
   /**
    * Generic method to perform XMLHttpRequest using angular HttpClient.
    * It handle authorization using bearer or access token.
    */
-  request<T>(method: 'GET' | 'POST' | 'PUT' | 'DELETE', params: RequestParameters, original = true) {
+  request<T>(method: 'GET' | 'POST' | 'PUT' | 'DELETE', params: RequestParameters, original = true): Observable<T> {
     let url = this.baseUrl + params.relativeUrl;
     let headers: { Authorization?: string } = {};
 
@@ -64,33 +66,35 @@ export abstract class ProviderService {
         body: params.body,
         headers
       }
-    ).pipe(catchError(
-      // handle 401 errors codes
-      error => {
-        // if this requested is already replayed, don't loop infintely
-        if (original) {
-          return this.handleTokenExpiration(error);
-        } else {
-          console.log('already done');
-          throw error;
+    ).pipe(
+      catchError(
+        // handle 401 errors codes
+        error => {
+          // if this requested is already replayed, don't loop infintely
+          if (original) {
+            return this.handleTokenExpiration<T>(error);
+          } else {
+            console.log('already done');
+            throw error;
+          }
         }
-      }
-    ));
+      )
+    );
   }
 
-  get<T>(relativeUrl: string, headers?) {
+  get<T>(relativeUrl: string, headers?): Observable<T> {
     return this.request<T>('GET', { relativeUrl, headers });
   }
 
-  post<T>(relativeUrl: string, body, headers?) {
+  post<T>(relativeUrl: string, body, headers?): Observable<T> {
     return this.request<T>('POST', { relativeUrl, body, headers });
   }
 
-  put<T>(relativeUrl: string, body: any, headers?) {
+  put<T>(relativeUrl: string, body: any, headers?): Observable<T> {
     return this.request<T>('PUT', { relativeUrl, body, headers });
   }
 
-  delete<T>(relativeUrl: string, headers?) {
+  delete<T>(relativeUrl: string, headers?): Observable<T> {
     return this.request<T>('DELETE', { relativeUrl, headers });
   }
 
@@ -111,9 +115,10 @@ export abstract class ProviderService {
   }
 
 
-  handleTokenExpiration(error: HttpErrorResponse) {
+  handleTokenExpiration<T>(error: HttpErrorResponse): Observable<T> {
     console.log('error during request to third party');
-    if (error.status === 401) {
+    // ce con de youtube file des 403 au lieu des 401
+    if (this.authenticationErrorCodes.includes(error.status)) {
       // return an observable that will resolve the value of the previous
       // request after having update this provider's accessToken
       return Observable.create(

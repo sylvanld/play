@@ -1,38 +1,7 @@
-<!-- <mat-horizontal-stepper linear="true" (selectionChange)="stepChange($event)" #stepper>
-    <mat-step>
-        <ng-template matStepLabel>Création (1/2)</ng-template>
-        <div class="vertical-align">
-            <button mat-button (click)="modeNewPlaylist(true)">Nouveau</button>
-            <button mat-button (click)="modeNewPlaylist(false)">Importer</button>
-        </div>
-    </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>Création (2/2)</ng-template>
-        <div class="vertical-align" *ngIf="newPlaylist">
-            <mat-form-field>
-                <input matInput type="text" placeholder="Titre" [(ngModel)]="playlistTitle">
-                <button mat-button *ngIf="playlistTitle" matSuffix mat-icon-button aria-label="Clear" (click)="playlistTitle=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </mat-form-field>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-        </div>
-        <div class="vertical-align" *ngIf="!newPlaylist">
-            <button mat-button>Spotify</button>
-            <button mat-button>Youtube</button>
-            <button mat-button>Deezer</button>
-        </div>
-    </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>Contenu</ng-template>
-    </mat-step>
-</mat-horizontal-stepper> -->
-
 <div class="horizontal-align space-between">
-    <div><mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon></div>
+    <div>
+        <mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon>
+    </div>
     <h2>{{ sectionTitle }}</h2>
     <div></div>
 </div>
@@ -60,6 +29,3 @@
         </mat-step>
     </mat-horizontal-stepper>
 </div>
-
-
-

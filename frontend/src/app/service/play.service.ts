@@ -7,6 +7,7 @@ import { AuthenticationService } from './authentication.service';
 import { StorageService } from './storage.service';
 import { map } from 'rxjs/operators';
 import { Track } from '~types/track';
+import { Account } from '~types/account';
 
 @Injectable({
   providedIn: 'root'
@@ -69,13 +70,17 @@ export class PlayService extends ProviderService {
    * List accounts of the currently authenticated user.
    */
   myAccounts() {
-    return this.get('/users/me/accounts');
+    return this.get<Account[]>('/users/me/accounts');
+  }
+
+  whoami() {
+    return this.get<User>('/users/me');
   }
 
   /**
    * List of friends of the currently authenticated user.
    */
-  myFriends() {
-    return this.get('/users/me/friends');
+  myFriends(): Observable<User[]> {
+    return this.get<User[]>('/users/me/friends');
   }
 }

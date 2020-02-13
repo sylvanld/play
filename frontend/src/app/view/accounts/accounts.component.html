@@ -1,7 +1,14 @@
 <aside>
     <h2>Play account</h2>
     <button mat-raised-button color="secondary" (click)="logout()">Logout</button>
-    <button mat-raised-button color="warn" (click)="forgetAccountDialog()">Forget my playlists</button>
+    <button mat-raised-button color="warn" (click)="forgetAccountDialog()">Forget my account</button>
+
+    <div *ngIf="currentUser !== null">
+        {{currentUser.name}}
+        {{currentUser.email}}
+        {{currentUser.lang}}
+    </div>
+
 </aside>
 <aside>
     <h2>Linked accounts</h2>

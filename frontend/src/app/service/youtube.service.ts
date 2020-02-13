@@ -5,37 +5,45 @@ import { map } from 'rxjs/operators';
 
 import { Track } from '~types/track';
 import { environment } from 'src/environments/environment';
+import { ProviderService } from './provider.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class YoutubeService {
+export class YoutubeService extends ProviderService {
 
-  // tslint:disable-next-line: max-line-length
-  readonly searchUrl = (apiKey, query) => 'https://www.googleapis.com/youtube/v3/search?key=' + apiKey + '&type=video&part=snippet&order=relevance&maxResults=10&q=' + query;
-
-  constructor(private http: HttpClient) { }
-
-  searchTrack(query: string) {
-    return this.http.get(this.searchUrl('AIzaSyB-t7E-THHu2fG8nOhW9nuWUIAwQhjljbQ', query));
+  constructor(protected http: HttpClient) {
+    super(
+      http,
+      environment.youtube_api_url,
+      { type: 'queryparam', key: 'key' },
+      [401, 403]
+    );
   }
 
+  renewToken(): Observable<string> {
+    return of(environment.youtube_api_keys[0]);
+  }
+
+  searchTrack(query: string) {
+    return this.get('/search?type=video&part=snippet&order=relevance&maxResults=1&q=' + query);
+  }
+
+  /**
+   * Deprecated use playservice.completeExternalIds instead
+   * @param track 
+   */
   completeId(track: Track): Observable<Track> {
     if (!!track.external_ids.youtube) {
       return of(track);
     }
 
-    const o = this.http.get(
-      environment.youtube_api_url + '/search' +
-      '?key=' + environment.youtube_api_key +
-      '&type=video&part=snippet&order=relevance&maxResults=10' +
-      '&q=' + track.artist + ' - ' + track.title
+    return this.searchTrack(
+      track.artist + ' - ' + track.title
     ).pipe(map((object: any) => {
       track.external_ids.youtube = object.items[0].id.videoId;
+      // TODO: save the YT
       return track;
     }));
-
-    // TODO: save the YT
-    return o;
   }
 }

@@ -11,14 +11,13 @@ import { PlayerService } from '~player/player.service';
 export class TracksListComponent implements OnInit {
   @Input() tracks: Track[] = [];
   @Input() noActionBtn = false;
-  @Output() selected: EventEmitter<any> = new EventEmitter();
+  @Output() selected: EventEmitter<Track[]> = new EventEmitter();
   displayedColumns: string[] = ['select', 'title', 'artist', 'album', 'release'];
   selection = new SelectionModel<Track>(true, []);
 
   constructor(private player: PlayerService) { }
 
-  ngOnInit() {
-   }
+  ngOnInit() { }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -32,6 +31,7 @@ export class TracksListComponent implements OnInit {
     this.isAllSelected() ?
       this.selection.clear() :
       this.tracks.forEach(row => this.selection.select(row));
+    this.selected.emit(this.selection.selected);
   }
 
   /** The label for the checkbox on the passed row */
@@ -46,8 +46,8 @@ export class TracksListComponent implements OnInit {
     this.player.loadTracks(...this.selection.selected);
   }
 
-  toggleSelection(row) {
-    this.selection.toggle(row);
-    this.selected.emit(row);
+  toggleSelection(track: Track) {
+    this.selection.toggle(track);
+    this.selected.emit(this.selection.selected);
   }
 }

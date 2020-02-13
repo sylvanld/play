@@ -12,7 +12,7 @@ import { Playlist } from '~types/playlist';
 })
 export class ShareComponent implements OnInit {
 
-  private friends;
+  private friends = [];
   private playlists: Playlist[];
 
   shareForm: FormGroup;
@@ -29,9 +29,14 @@ export class ShareComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.play.myFriends().toPromise().then((users) => {
-      this.friends = users;
-    }).catch((err => this.friends = []));
+    this.play.myFriends().subscribe(
+      (users) => {
+        this.friends = users;
+      },
+      error => {
+        this.friends = []
+      }
+    );
 
     this.playlist.playlists.subscribe((playlists: Playlist[]) => {
       this.playlists = playlists;

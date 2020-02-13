@@ -16,12 +16,10 @@ export class SearchbarComponent implements OnInit {
 
   // about filters
   filterIcon = { track: 'audiotrack', album: 'album', artist: 'people' };
-  filtersList = ['track', 'album', 'artist'];
+  @Input() filtersList = ['track', 'album', 'artist'];
+  @Input() displayFilters = true;
   filters: FormControl;
 
-  @Input() noTrack = false;
-  @Input() noAlbum = false;
-  @Input() noArtist = false;
   @Output() results = new EventEmitter<SearchResult>();
 
   constructor(private spotify: SpotifyService, private dialog: MatDialog) { }
@@ -37,9 +35,6 @@ export class SearchbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.noTrack) { this.filtersList.splice(this.filtersList.indexOf('track'), 1); }
-    if (this.noAlbum) { this.filtersList.splice(this.filtersList.indexOf('album'), 1); }
-    if (this.noArtist) { this.filtersList.splice(this.filtersList.indexOf('artist'), 1); }
     this.filters = new FormControl(this.filtersList.slice());
 
     this.filters.setValidators(this.validateFilters);
