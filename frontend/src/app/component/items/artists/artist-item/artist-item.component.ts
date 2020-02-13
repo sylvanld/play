@@ -1,16 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Artist } from '~types/artist';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-artist-item',
   templateUrl: './artist-item.component.html',
-  styleUrls: ['./artist-item.component.scss']
+  styleUrls: [ './artist-item.component.scss' ]
 })
 export class ArtistItemComponent implements OnInit {
-  @Input() artist;
+  @Input() artist: Artist;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

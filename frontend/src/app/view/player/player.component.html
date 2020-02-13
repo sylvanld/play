@@ -1,6 +1,5 @@
-<p>player works!</p>
-
-<mat-form-field>
-  <input matInput placeholder="Title" [ngModel]="query" (ngModelChange)='changed($event)' >
-</mat-form-field>
-
+<form (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input matInput placeholder="Title" [(ngModel)]="query" [ngModelOptions]="{standalone: true}">
+  </mat-form-field>
+</form>

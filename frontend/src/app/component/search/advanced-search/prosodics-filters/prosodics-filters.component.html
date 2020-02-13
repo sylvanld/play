@@ -1,0 +1,10 @@
+<h3>
+    Advanced filters <mat-icon title="hover a parameter for help">info</mat-icon>
+</h3>
+
+<div *ngFor="let parameter of rangedParameters" [title]="parameter.description" style="height: 50px">
+
+    <span>{{parameter.name}}</span>
+    <p-slider [name]="parameter.name" [step]="0.1" [min]="parameter.range[0]" [max]="parameter.range[1]"
+        [(ngModel)]="parameter.range" [range]="true"></p-slider>
+</div>

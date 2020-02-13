@@ -1,0 +1,11 @@
+<!-- The main container of the player -->
+
+<div class="player-container-controls" *ngIf="player.provider">
+  <app-player-controls></app-player-controls>
+</div>
+
+<div class="player-container-extraControls" *ngIf="player.provider">
+  <app-player-extra-controls></app-player-extra-controls>
+</div>
+
+<app-player-providers class="float-video"></app-player-providers>

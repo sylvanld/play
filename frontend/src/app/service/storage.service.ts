@@ -8,14 +8,25 @@ export class StorageService {
   constructor() { }
 
   set(key: string, val: any) {
-    localStorage.setItem(key, JSON.stringify(val));
+    if (!!val) {
+      localStorage.setItem(key, JSON.stringify(val));
+    }
   }
 
   get(key: string) {
-    return JSON.parse(localStorage.getItem(key));
+    let value = localStorage.getItem(key);
+    if (!!value) {
+      return JSON.parse(value);
+    } else {
+      return null;
+    }
   }
 
   del(key: string) {
     localStorage.removeItem(key);
+  }
+
+  clear() {
+    localStorage.clear();
   }
 }

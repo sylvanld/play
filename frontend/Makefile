@@ -7,7 +7,7 @@ node_modules: ## install required dependencies
 	npm install
 
 serve: node_modules ## run debug server in hot reload mode
-	ng serve
+	ng serve --host 0.0.0.0
 
 build: ## build container and tag it as play-frontend
 	docker build -t everrest/play-frontend .

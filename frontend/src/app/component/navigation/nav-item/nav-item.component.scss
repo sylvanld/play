@@ -15,7 +15,7 @@
   margin-right: 5px
 }
 
-@media screen and (max-width:768px){
+@media screen and (max-width: $mobile-max-width){
   .nav-item button{
     width: 100%;
   }

@@ -1,0 +1,31 @@
+<div class="horizontal-align space-between">
+    <div>
+        <mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon>
+    </div>
+    <h2>{{ sectionTitle }}</h2>
+    <div></div>
+</div>
+<div *ngIf="step == 0">
+    <div class="vertical-align">
+        <button mat-button (click)="goToNewPlaylist()">Nouveau</button>
+        <button mat-button (click)="nextStep()">Importer</button>
+    </div>
+</div>
+<div *ngIf="step == 1">
+    <mat-horizontal-stepper linear="true" (selectionChange)="stepChange($event)" #stepper>
+        <mat-step>
+            <ng-template matStepLabel>Source</ng-template>
+            <div class="vertical-align">
+                <button (click)="selectSource('spotify')" mat-button>Spotify</button>
+                <button (click)="selectSource('youtube')" mat-button>Youtube</button>
+                <button (click)="selectSource('deezer')" mat-button>Deezer</button>
+            </div>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Sélection</ng-template>
+            <div class="vertical-align">
+                <button mat-button>Importer</button>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>
+</div>

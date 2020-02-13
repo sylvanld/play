@@ -1,11 +1,9 @@
-import { DeezerService } from '../../../module/deezer/deezer.service';
-import { Component, OnInit, Input } from '@angular/core';
-import { DeezerGlobalSearchResult } from '../../../module/deezer/deezer-global-search-result';
-
-const ALL = 'ALL';
-const TRACKS = 'TRACKS';
-const ARTISTS = 'ARTISTS';
-const ALBUMS = 'ALBUMS';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { SpotifyService } from 'src/app/service/spotify.service';
+import { SearchResult } from '../../../types/search-result';
+import { FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { AdvancedSearchComponent } from '../advanced-search/advanced-search.component';
 
 @Component({
   selector: 'app-search-bar',
@@ -14,23 +12,64 @@ const ALBUMS = 'ALBUMS';
 })
 export class SearchbarComponent implements OnInit {
   query = '';
-  placeholder = 'Search by ...';
-  filters = [ALL, TRACKS, ARTISTS, ALBUMS];
+  placeholder = 'Search';
 
-  @Input() appliedFilter = ARTISTS;
-  @Input() results: DeezerGlobalSearchResult = { tracks: [], artists: [], albums: [] };
+  // about filters
+  filterIcon = { track: 'audiotrack', album: 'album', artist: 'people' };
+  @Input() filtersList = ['track', 'album', 'artist'];
+  @Input() displayFilters = true;
+  filters: FormControl;
 
-  constructor(private deezer: DeezerService) { }
+  @Output() results = new EventEmitter<SearchResult>();
 
-  ngOnInit() {
+  constructor(private spotify: SpotifyService, private dialog: MatDialog) { }
 
+  validateFilters(formControl) {
+    return formControl.value && formControl.value.length
+      ? null
+      : {
+        requiredList: {
+          valid: false
+        }
+      };
   }
 
-  submitSearch() {
-    console.log(this.query);
-    this.deezer.search(this.query).subscribe((results: DeezerGlobalSearchResult) => {
-      console.log(results);
+  ngOnInit() {
+    this.filters = new FormControl(this.filtersList.slice());
+
+    this.filters.setValidators(this.validateFilters);
+    // update placeholder when filters change
+    this.filters.valueChanges.subscribe((filters) => {
+      this.placeholder = 'Search by ' + filters.join(',');
     });
   }
 
+  getFilters() {
+    return this.filters.value;
+  }
+
+  submitSearch() {
+    this.spotify.search(this.query, this.getFilters()).subscribe((results: SearchResult) => {
+      this.results.emit(results);
+    });
+  }
+
+  submitAdvancedSearch(filtersQueryParams: string) {
+    this.spotify.suggestions(filtersQueryParams).subscribe(
+      (results: SearchResult) => {
+        this.results.emit(results);
+      }
+    );
+  }
+
+  openFilters(event) {
+    console.log(event);
+    const dialog = this.dialog.open(AdvancedSearchComponent, {
+      width: '500px'
+    });
+    //
+    dialog.afterClosed().subscribe(
+      filtersQueryParams => this.submitAdvancedSearch(filtersQueryParams)
+    );
+  }
 }

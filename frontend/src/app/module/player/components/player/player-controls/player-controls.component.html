@@ -1,0 +1,30 @@
+<!-- upper controls -->
+<div class="player-controls">
+
+  <!-- Current track played -->
+  <app-player-current-track></app-player-current-track>
+
+  <!-- State controls -->
+  <button mat-button class="control-buttons" (click)="player.prevTrack()">
+    <mat-icon>skip_previous</mat-icon>
+  </button>
+  <button mat-button class="control-buttons" (click)="player.toggleState()">
+    <ng-template [ngIf]="player.playerState === 1" [ngIfElse]="elseIconPlayState">
+      <mat-icon>pause_circle_outline</mat-icon>
+    </ng-template>
+    <ng-template #elseIconPlayState>
+      <mat-icon>play_circle_outline</mat-icon>
+    </ng-template>
+  </button>
+  <button mat-button class="control-buttons" (click)="player.nextTrack()">
+    <mat-icon>skip_next</mat-icon>
+  </button>
+</div>
+
+<!-- TimeBar control -->
+<div class="player-bar">
+  {{ player.time | timerPipe }}
+  <mat-slider [(ngModel)]="player.time" [min]="0" [max]="player.duration">
+  </mat-slider>
+  {{ player.duration | timerPipe }}
+</div>

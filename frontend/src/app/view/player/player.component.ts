@@ -1,37 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { YoutubeService } from '@youtube/youtube.service';
-import { PlayerService } from '@play/player.service';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { PlayerService } from '../../module/player/player.service';
+import { Track } from '../../types/track';
 
 @Component({
-  selector: 'app-player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-  query: string;
-  private modelChanged: Subject<string> = new Subject<string>();
+  query = '';
 
-  constructor(private player: PlayerService, private youtube: YoutubeService) { }
+  constructor(private player: PlayerService) { }
 
-  ngOnInit() {
-    this.modelChanged.pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe(
-        (query) => {
-          this.query = query;
-          this.youtube.searchTrack(query)
-            .subscribe((object: any) => {
-              const id: string = object.items[0].id.videoId;
-              console.log(id);
-              this.player.loadPlaylist([id], 0);
-            });
-        }
-      );
+  ngOnInit() { }
+
+  onSubmit() {
+    const track2: Track = {
+      isrc: 'n',
+      title: 'boobs',
+      artist: '',
+      album: 'n',
+      release: 'n',
+      external_ids: { spotify: 'n' }
+    };
+    const track = { ...track2, title: this.query, external_ids: { spotify: 'n' } };
+    this.player.loadPlaylist({ tracks: [track, track2] });
   }
-
-  changed(text: string) {
-    this.modelChanged.next(text);
-  }
-
 }
