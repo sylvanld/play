@@ -20,6 +20,7 @@ export class PlaylistsService {
   readonly playlists = this.playlistsSubject.asObservable();
 
   constructor(private storage: StorageService) {
+    this.loadPlaylists();
   }
 
   swapPlaylists(oldIndex, newIndex) {
@@ -49,7 +50,7 @@ export class PlaylistsService {
     )
   }
 
-  loadAll() {
+  loadPlaylists() {
     // recupere les playlists de tous les utilisateurs
     const allUsersPlaylists = this.storage.get(this.PLAYLISTS_BY_USER_KEY) || {};
     // recupere les playlists de l'utilisateur courant

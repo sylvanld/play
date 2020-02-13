@@ -69,17 +69,17 @@ export class PlayService extends ProviderService {
    * List accounts of the currently authenticated user.
    */
   myAccounts() {
-    return this.get('/users/me/accounts');
+    return this.get<Account[]>('/users/me/accounts');
   }
 
   whoami() {
-    return this.get('/users/me');
+    return this.get<User>('/users/me');
   }
 
   /**
    * List of friends of the currently authenticated user.
    */
-  myFriends() {
-    return this.get('/users/me/friends');
+  myFriends(): Observable<User[]> {
+    return this.get<User[]>('/users/me/friends');
   }
 }

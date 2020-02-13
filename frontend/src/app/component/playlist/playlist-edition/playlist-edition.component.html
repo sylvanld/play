@@ -1,16 +1,21 @@
 <ng-template [ngIf]="playlist != undefined" [ngIfElse]="unknow">
     <div class="horizontal-align space-between">
-        <div><mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon></div>
+        <div>
+            <mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon>
+        </div>
 
-            <mat-form-field *ngIf="!locked">
-                <input matInput type="text" placeholder="Titre playlist" [(ngModel)]="titleEdition" (keydown.enter)="saveTitle()" (keydown.esc)="titleEdition=''" required>
-                <button mat-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button aria-label="Clear" (click)="titleEdition=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-                <button mat-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button aria-label="Confirm" (click)="saveTitle()">
-                    <mat-icon>done</mat-icon>
-                </button>
-            </mat-form-field>
+        <mat-form-field *ngIf="!locked">
+            <input matInput type="text" placeholder="Titre playlist" [(ngModel)]="titleEdition"
+                (keydown.enter)="saveTitle()" (keydown.esc)="titleEdition=''" required>
+            <button mat-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button
+                aria-label="Clear" (click)="titleEdition=''">
+                <mat-icon>close</mat-icon>
+            </button>
+            <button mat-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button
+                aria-label="Confirm" (click)="saveTitle()">
+                <mat-icon>done</mat-icon>
+            </button>
+        </mat-form-field>
 
         <div></div>
     </div>
@@ -18,16 +23,20 @@
     <div class="playlist-management" [@slide]>
         <div class="vertical-align animate" *ngIf="showSearchBar()">
             <div class="horizontal-align">
-                <app-search-bar noAlbum="true" noArtist="true" (results)="onResultsChange($event)"></app-search-bar>
-                <button mat-flat-button (click)="selectionToPlaylist()" color="accent" *ngIf="selection.hasValue()">ajouter</button>
+                <app-search-bar [displayFilters]="false" [filtersList]="['track']" (results)="onResultsChange($event)">
+                </app-search-bar>
+                <button mat-flat-button (click)="selectionToPlaylist()" color="accent"
+                    *ngIf="selection.hasValue()">ajouter</button>
                 <mat-icon (click)="closeSearch()" aria-hidden="false" aria-label="back">close</mat-icon>
             </div>
-            <app-search-results noActionBtn="true" [results]="results" (selected)="onSelected($event)" *ngIf="showSearchResults()"></app-search-results>
+            <app-search-results noActionBtn="true" [results]="results" (selected)="onSelected($event)"
+                *ngIf="showSearchResults()"></app-search-results>
         </div>
         <div>
             <!-- <app-view-toggle [(locker)]="locked" mode="0" onlyLocker="true"></app-view-toggle> -->
-            <app-listview [noPicture]="true" [locked]="locked" [items]="songsF" (addItemEvent)="openSearch()" (delItemEvent)="delSong($event)" 
-                (moveItemEvent)="moveSong($event)" (clicked)="openTrack($event)" [addBtnPosition]="showAddBtn()" addBtnLabel="Nouveau titre">
+            <app-listview [noPicture]="true" [locked]="locked" [items]="songsF" (addItemEvent)="openSearch()"
+                (delItemEvent)="delSong($event)" (moveItemEvent)="moveSong($event)" (clicked)="openTrack($event)"
+                [addBtnPosition]="showAddBtn()" addBtnLabel="Nouveau titre">
             </app-listview>
         </div>
     </div>
@@ -35,6 +44,8 @@
 </ng-template>
 
 <ng-template #unknow>
-    <div><mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon></div>
+    <div>
+        <mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon>
+    </div>
     <p>La playlist n'existe pas</p>
 </ng-template>

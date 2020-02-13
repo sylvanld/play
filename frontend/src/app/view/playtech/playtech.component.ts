@@ -29,7 +29,7 @@ export class PlaytechComponent implements OnInit {
 
     // playlists data
     this.playlists = this.playlistService.playlists;
-    this.playlistService.loadAll();
+
     this.playlists.subscribe(data => {
       this.playlistsF.splice(0, this.playlistsF.length);
       for (const p of data) {
