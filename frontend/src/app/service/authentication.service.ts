@@ -140,10 +140,7 @@ export class AuthenticationService {
           // remove potential token in query params
           // Remove query params
           this.router.navigate([], {
-            queryParams: {
-              yourParamName: null,
-              youCanRemoveMultiple: null,
-            },
+            queryParams: {},
             queryParamsHandling: 'merge'
           })
           return true;

@@ -45,10 +45,15 @@ export class PlayService extends ProviderService {
   }
 
   /**
+   * Complete youtube Id
+   */
+
+
+  /**
    * Register association between an isrc and an external Id
    */
-  registerExternalId(track: Track, externalIds: { spotify?, deezer?, youtube?}) {
-
+  addExternalsIds(track: Track, externalIds: { spotify?, deezer?, youtube?}) {
+    // TODO: this.put(`/tracks/isrc/${track.isrc}`, externalIds);
   }
 
   /**

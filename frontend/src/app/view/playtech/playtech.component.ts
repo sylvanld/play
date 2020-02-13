@@ -22,7 +22,7 @@ export class PlaytechComponent implements OnInit {
     // route params
     this.route.queryParams.subscribe(params => {
       const view: ViewType = params.view;
-      if(view != null) {
+      if (view != null) {
         this.switchMode = view;
       }
     });
@@ -63,7 +63,7 @@ export class PlaytechComponent implements OnInit {
   }
 
   delPlaylist(id: string) {
-    this.playlistService.remove(id);
+    this.playlistService.removePlaylist(id);
   }
 
   isReadOnly(): boolean {
