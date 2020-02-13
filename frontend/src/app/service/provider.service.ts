@@ -28,10 +28,12 @@ export abstract class ProviderService {
   protected baseUrl: string;
   protected accessToken: string;
   protected tokenType: TokenType;
+  protected authenticationErrorCodes: Array<number>;
 
-  constructor(protected http: HttpClient, baseUrl: string, tokenType: TokenType) {
+  constructor(protected http: HttpClient, baseUrl: string, tokenType: TokenType, authenticationErrorCodes = [401]) {
     this.baseUrl = baseUrl;
     this.tokenType = tokenType;
+    this.authenticationErrorCodes = authenticationErrorCodes;
   }
 
   /**
@@ -113,7 +115,8 @@ export abstract class ProviderService {
 
   handleTokenExpiration(error: HttpErrorResponse) {
     console.log('error during request to third party');
-    if (error.status === 401) {
+    // ce con de youtube file des 403 au lieu des 401
+    if (this.authenticationErrorCodes.includes(error.status)) {
       // return an observable that will resolve the value of the previous
       // request after having update this provider's accessToken
       return Observable.create(

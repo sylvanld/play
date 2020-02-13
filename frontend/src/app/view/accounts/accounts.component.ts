@@ -24,6 +24,8 @@ export class AccountsComponent implements OnInit {
       console.log('accounts', accounts);
       this.accounts = accounts;
     });
+
+    this.play.whoami().subscribe();
   }
 
   isSpotifyAccountBound(): boolean {

@@ -22,6 +22,10 @@ export class PlaylistsService {
   constructor(private storage: StorageService) {
   }
 
+  swapPlaylists(oldIndex, newIndex) {
+
+  }
+
   flushData() {
     this.storage.clear();
   }

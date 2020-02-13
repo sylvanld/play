@@ -72,6 +72,10 @@ export class PlayService extends ProviderService {
     return this.get('/users/me/accounts');
   }
 
+  whoami() {
+    return this.get('/users/me');
+  }
+
   /**
    * List of friends of the currently authenticated user.
    */
