@@ -53,7 +53,16 @@ export class PlayService extends ProviderService {
    * Register association between an isrc and an external Id
    */
   addExternalsIds(track: Track, externalIds: { spotify?, deezer?, youtube?}) {
+    /*
     // TODO: this.put(`/tracks/isrc/${track.isrc}`, externalIds);
+    this.completeExternalsIds({isrc, spotify...}, {youtube: true, deeezer: true}).subscribe(track=>{
+      // play track track.externalIds.youtube
+    })
+    */
+  }
+
+  completeExternalsIds(track: Track, externalIds: { spotify?: boolean, deezer?: boolean, youtube?: boolean }): Observable<Track> {
+    return of(track);
   }
 
   /**
