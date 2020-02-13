@@ -1,15 +1,5 @@
-<!-- <app-browse></app-browse> -->
+<app-search-bar></app-search-bar> <!-- TODO search on my playlist list -->
 
-<app-view-toggle [(locker)]="locked" [(mode)]="switchMode" hideLocker="true" *ngIf="!noPlaylist()"></app-view-toggle>
-
-<div *ngIf="isReadOnly(); else editionMode">
-    <app-cardview (clicked)="editPlaylist($event)" [items]="playlistsF"></app-cardview>
-</div>
-
-<ng-template #editionMode>
-    <div>
-        <app-listview addBtnLabel="Nouvelle playlist" (clicked)="editPlaylist($event)" (addItemEvent)="addPlaylist()" (delItemEvent)="delPlaylist($event)" 
-            (moveItemEvent)="movePlaylist($event)" [locked]="locked" [items]="playlistsF" addBtnPosition="start">
-        </app-listview>
-    </div>
-</ng-template>
+<app-playlist-list [playlists]="playlists">
+    <a [routerLink]="['/playlist/edit']">New playlist</a>
+</app-playlist-list>

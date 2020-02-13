@@ -8,10 +8,8 @@ import { ViewItem } from 'src/app/types/view-item';
 import { Playlist } from 'src/app/types/playlist';
 import { PlayerService } from '~player/player.service';
 import { SearchResult } from '~types/search-result';
-import { Position } from '../view/listview/listview.component';
 import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotificationService } from 'src/app/service/notification.service';
 
 enum SearchStep {
@@ -49,10 +47,10 @@ export class PlaylistEditionComponent implements OnInit {
   selection = new SelectionModel<Track>(true, []);
 
   constructor(private playlistService: PlaylistsService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private player: PlayerService,
-    private notify: NotificationService) { }
+              private route: ActivatedRoute,
+              private router: Router,
+              private player: PlayerService,
+              private notify: NotificationService) { }
 
   ngOnInit() {
     // router params
@@ -139,7 +137,7 @@ export class PlaylistEditionComponent implements OnInit {
   }
 
   showAddBtn(): string {
-    return (this.searchStep === SearchStep.Initial) ? Position.Start : Position.None;
+    return (this.searchStep === SearchStep.Initial) ? 'start' : 'none';
   }
 
   showSearchBar(): boolean {

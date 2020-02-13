@@ -21,16 +21,20 @@ import { ViewItem } from '~types/view-item';
 })
 export class CardviewComponent implements OnInit {
   @Input() items: ViewItem[] = [];
-  @Output() clicked: EventEmitter<any> = new EventEmitter();
+
+  @Output() clickedItem: EventEmitter<any> = new EventEmitter();
+  @Output() deletedItem: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  onClick(index) {
-    if (!this.items[index].ro_diasabled) {
-      this.clicked.emit(index);
-    }
+  clickItem(item: ViewItem) {
+    this.clickedItem.emit(item);
+  }
+
+  deleteItem(item: ViewItem) {
+    this.deletedItem.emit(item);
   }
 }

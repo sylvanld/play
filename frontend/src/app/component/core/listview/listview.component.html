@@ -1,0 +1,55 @@
+<div [@slide]>
+    <div *ngIf="!editMode">
+        <div *ngFor="let item of items"
+            class="list-item disable-text-selection"
+            (click)="clickItem(item)"
+        >
+            <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="item.picture.length !== 0">
+            <div class="description">
+                <div class="main-content">{{ item.mainContent }}</div>
+                <div class="secondary-content">{{ item.secondaryContent }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit mode - Computer version -->
+    <div show-gt-lg cdkDropList (cdkDropListDropped)="moveItem($event)" *ngIf="editMode">
+        <div cdkDrag="isMovable()" class="list-item disable-text-selection" *ngFor="let item of items"
+            (click)="clickItem(item)"
+        >
+            <div *ngIf="isMovable()" class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+            <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="item.picture.length !== 0">
+            <div class="description">
+                <div class="main-content">{{ item.mainContent }}</div>
+                <div class="secondary-content">{{ item.secondaryContent }}</div>
+            </div>
+            <div class="options">
+                <button mat-button>
+                    <mat-icon (click)="deleteItem(item)" aria-hidden="false" aria-label="delete the item">
+                        delete_outline
+                    </mat-icon>
+                </button>
+                <button mat-button>
+                    <mat-icon *ngIf="isMovable()" aria-hidden="false" aria-label="move the item" cdkDragHandle>
+                        height
+                    </mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit mode - Mobile version -->
+    <div hide-gt-lg cdkDropList (cdkDropListDropped)="moveItem($event)" *ngIf="editMode">
+        <div cdkDrag="isMovable()" class="list-item disable-text-selection" *ngFor="let item of items"
+            (click)="clickItem(item)" (mousedown)="mousedown(item)" (mouseup)="mouseup()"
+        >
+            <div *ngIf="isMovable()" class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+            <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="item.picture.length !== 0">
+            <div class="description">
+                <div class="main-content">{{ item.mainContent }}</div>
+                <div class="secondary-content">{{ item.secondaryContent }}</div>
+            </div>
+        </div>
+    </div>
+
+</div>

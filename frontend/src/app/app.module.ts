@@ -28,9 +28,9 @@ import { PlaytechComponent } from './view/playtech/playtech.component';
 import { ArtistsListComponent } from './component/items/artists/artists-list/artists-list.component';
 import { ArtistItemComponent } from './component/items/artists/artist-item/artist-item.component';
 import { SearchResultsComponent } from './component/search/search-results/search-results.component';
-import { ListviewComponent } from './component/playlist/view/listview/listview.component';
-import { CardviewComponent } from './component/playlist/view/cardview/cardview.component';
-import { ViewToggleComponent } from './component/playlist/view/view-toggle/view-toggle.component';
+import { ListviewComponent } from './component/core/listview/listview.component';
+import { CardviewComponent } from './component/core/cardview/cardview.component';
+import { ViewToggleComponent } from './component/core/view-toggle/view-toggle.component';
 import { PlaylistEditionComponent } from './component/playlist/playlist-edition/playlist-edition.component';
 import { FloatingMenuComponent } from './component/floating-menu/floating-menu.component';
 import { PlaylistCreationComponent } from './component/playlist/playlist-creation/playlist-creation.component';
@@ -59,6 +59,7 @@ import { InputDatesComponent } from './component/search/filters/input-dates/inpu
 import { InputTempoComponent } from './component/search/filters/input-tempo/input-tempo.component';
 import { ProsodicsFiltersComponent } from './component/search/advanced-search/prosodics-filters/prosodics-filters.component';
 import { SimpleFiltersComponent } from './component/search/advanced-search/simple-filters/simple-filters.component';
+import { PlaylistListComponent } from './component/playlist/playlist-list/playlist-list.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { SimpleFiltersComponent } from './component/search/advanced-search/simpl
     InputTempoComponent,
     ProsodicsFiltersComponent,
     SimpleFiltersComponent,
+    PlaylistListComponent,
   ],
   imports: [
     BrowserModule,

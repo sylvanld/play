@@ -1,0 +1,19 @@
+<div [@slide]>
+    <ng-content class="list-item disable-text-selection"></ng-content>
+    <div class="list-item disable-text-selection" *ngFor="let item of items"
+        (click)="clickItem(item)"
+    >
+        <img class="picture" [src]="item.picture" [alt]="item.mainContent">
+        <div class="description">
+            <div class="main-content">{{ item.mainContent }}</div>
+            <div class="secondary-content">{{ item.secondaryContent }}</div>
+        </div>
+        <div class="options">
+            <button mat-button>
+                <mat-icon (click)="deleteItem(item)" aria-hidden="false" aria-label="delete the item">
+                    delete_outline
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+</div>
