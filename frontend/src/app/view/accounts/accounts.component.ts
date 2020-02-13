@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/service/authentication.service';
-import { AccountsService } from 'src/app/service/accounts.service';
 import { PlaylistsService } from 'src/app/service/playlists.service';
 import { ForgetAccountDialogComponent } from 'src/app/component/forget-account-dialog/forget-account-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { PlayService } from 'src/app/service/play.service';
 
 @Component({
   templateUrl: './accounts.component.html',
@@ -14,16 +14,24 @@ export class AccountsComponent implements OnInit {
 
   constructor(
     private auth: AuthenticationService,
-    private accountsService: AccountsService,
+    private play: PlayService,
     private playlistService: PlaylistsService,
     private _dialog: MatDialog
   ) { }
 
   ngOnInit() {
-    this.accountsService.myAccounts().subscribe((accounts: any[]) => {
+    this.play.myAccounts().subscribe((accounts: any[]) => {
       console.log('accounts', accounts);
       this.accounts = accounts;
     });
+  }
+
+  isSpotifyAccountBound(): boolean {
+    return this.accounts.filter(account => account.provider === 'SPOTIFY').length > 0;
+  }
+
+  isDeezerAccountBound() {
+    return this.accounts.filter(account => account.provider === 'DEEZER').length > 0;
   }
 
   logout() {
@@ -32,10 +40,8 @@ export class AccountsComponent implements OnInit {
 
   forgetAccountDialog() {
     const dialog = this._dialog.open(ForgetAccountDialogComponent);
-    dialog.afterClosed().subscribe( (response) => {
-      if (response) {
-        this.playlistService.flushData();
-      }
+    dialog.afterClosed().subscribe(() => {
+      this.playlistService.flushData();
     });
   }
 }

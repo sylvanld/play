@@ -5,7 +5,7 @@
 <div mat-dialog-content style="display: flex; flex-direction: column">
     <mat-tab-group mat-stretch-tabs>
         <mat-tab label="Common filters">
-            <search-simple-filters></search-simple-filters>
+            <search-simple-filters [(filters)]="simpleFilters"></search-simple-filters>
         </mat-tab>
         <mat-tab label="Advanced filters">
             <app-search-prosodics-filters></app-search-prosodics-filters>
@@ -16,7 +16,7 @@
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">No Thanks</button>
     <select-list [(value)]="query.itemsTypes" [filters]="itemsTypes" placeholder="only"></select-list>
-    <button mat-raised-button color="secondary">
+    <button mat-raised-button color="secondary" (click)="onSubmit()">
         Advanced search <mat-icon>search</mat-icon>
     </button>
 </div>
