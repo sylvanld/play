@@ -8,8 +8,9 @@
 
 <ng-template #editionMode>
     <div>
-        <app-listview addBtnLabel="Nouvelle playlist" (clicked)="editPlaylist($event)" (addItemEvent)="addPlaylist()" (delItemEvent)="delPlaylist($event)" 
-            (moveItemEvent)="movePlaylist($event)" [locked]="locked" [items]="playlistsF" addBtnPosition="start">
+        <app-listview addBtnLabel="Nouvelle playlist" (clicked)="editPlaylist($event)" (addItemEvent)="addPlaylist()"
+            (delItemEvent)="delPlaylist($event)" (moveItemEvent)="movePlaylist($event)" [locked]="locked"
+            [items]="playlistsF" addBtnPosition="start">
         </app-listview>
     </div>
 </ng-template>

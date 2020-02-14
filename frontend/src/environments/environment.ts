@@ -11,7 +11,7 @@ export const environment = {
   spotify_api_url: 'https://api.spotify.com',
 
   youtube_api_url: 'https://www.googleapis.com/youtube/v3',
-  youtube_api_key: 'AIzaSyB-t7E-THHu2fG8nOhW9nuWUIAwQhjljbQ'
+  youtube_api_keys: ['AIzaSyB-t7E-THHu2fG8nOhW9nuWUIAwQhjljbQ']
 };
 
 /*

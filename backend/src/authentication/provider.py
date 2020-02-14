@@ -69,6 +69,8 @@ class Provider:
                     # existant, on en crée un depuis les informations du provider externe.
                     new_user = UserDAO.create({
                         'email': identity['email'],
+                        'name': identity['name'],
+                        'lang': identity['lang'],
                         'password': None
                     })
                     # on crée l'association avec le compte chez le provider externe

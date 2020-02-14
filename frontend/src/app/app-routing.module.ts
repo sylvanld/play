@@ -14,10 +14,6 @@ import { AuthenticatedGuard } from './guard/authenticated.guard';
 import { NotAuthenticatedGuard } from './guard/not-authenticated.guard';
 import { MatListModule } from '@angular/material/list';
 
-const playlistRoutes: Routes = [
-  { path: 'create', component: PlaylistCreationComponent },
-  { path: 'edit/:id', component: PlaylistEditionComponent }
-];
 
 const routes: Routes = [
   { path: 'player', component: PlayerComponent, canActivate: [AuthenticatedGuard] },
@@ -31,7 +27,12 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [NotAuthenticatedGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthenticatedGuard] },
   //
-  { path: 'playlist', children: playlistRoutes }
+  {
+    path: 'playlist', children: [
+      { path: 'create', component: PlaylistCreationComponent },
+      { path: 'edit/:id', component: PlaylistEditionComponent }
+    ]
+  }
 ];
 
 @NgModule({

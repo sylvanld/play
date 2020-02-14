@@ -1,115 +1,87 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as uuid from 'uuid';
 import * as moment from 'moment';
-import { moveItemInArray } from '@angular/cdk/drag-drop';
 import { Playlist } from '../types/playlist';
 import { BehaviorSubject } from 'rxjs';
-import { PlaylistsMock } from '../classes/playlists.mock';
 import { StorageService } from './storage.service';
 import { Track } from '~types/track';
-
-interface PlaylistDataStore {
-  playlistIds: string[];
-  playlistsData: Playlist[];
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlaylistsService {
-  private PLAYLISTS_KEY = 'playlists';
-  private dataStore: PlaylistDataStore = { playlistIds: [], playlistsData: [] };
-  private _playlists = new BehaviorSubject<Playlist[]>([]);
-  readonly playlists = this._playlists.asObservable();
+  private PLAYLISTS_BY_USER_KEY = 'playlists';
+  // TODO: remove mock
+  private currentUser = { id: 1, name: 'Jean Dupont' };
+
+  // TODO: remove this
+  private _playlists: { [key: string]: Playlist } = {};
+  private playlistsSubject = new BehaviorSubject<Playlist[]>([]);
+  readonly playlists = this.playlistsSubject.asObservable();
 
   constructor(private storage: StorageService) {
+    this.loadPlaylists();
+  }
+
+  swapPlaylists(oldIndex, newIndex) {
+
   }
 
   flushData() {
     this.storage.clear();
   }
 
-  loadAll() {
-    // loads ID list
-    this.dataStore.playlistIds = JSON.parse(JSON.parse((localStorage.getItem(this.PLAYLISTS_KEY)))) || [];
+  notifyPlaylistsChange() {
+    /**
+     * Sauvegarde des playlists dans le localStorage
+     */
+    // recupere les playlists de tous les utilisateurs
+    const allUsersPlaylists = this.storage.get(this.PLAYLISTS_BY_USER_KEY) || {};
+    // ecrase les playlists de l'utilisateur courant par la valeur en mémoire
+    allUsersPlaylists[this.currentUser.id] = this._playlists;
+    // sauvegarde tout ca dans le localstorage
+    this.storage.set(this.PLAYLISTS_BY_USER_KEY, allUsersPlaylists);
 
-    // load data
-    this.dataStore.playlistsData.splice(0, this.dataStore.playlistsData.length);
-    const playlistIds = this.dataStore.playlistIds;
-    for (let i = 0; i < playlistIds.length; i++) {
-      const playlistJson = JSON.parse(JSON.parse(localStorage.getItem(playlistIds[i])));
-      if (playlistJson) {
-        this.dataStore.playlistsData.push(playlistJson);
-        // push a new copy of our list to all Subscribers
-        this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
-      } else {
-        playlistIds[i] = null;
-      }
-    }
-
-    // remove invalid indexes
-    this.dataStore.playlistIds = playlistIds.filter((el) => el != null);
+    /**
+     * Notifie les observeurs du changement.
+     */
+    this.playlistsSubject.next(
+      Object.values(this._playlists)
+    )
   }
 
-  load(id: string) {
-    const existantPlaylistIndex = this.dataStore.playlistsData.findIndex(p => {
-      return p.id === id;
-    });
-
-    const playlist = JSON.parse(JSON.parse(localStorage.getItem(id)));
-    if (playlist) {
-      if (existantPlaylistIndex !== -1) {
-        this.dataStore.playlistsData[existantPlaylistIndex] = playlist;
-      } else {
-        this.dataStore.playlistIds.push(playlist.id);
-        this.dataStore.playlistsData.push(playlist);
-      }
-      this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
-    }
+  loadPlaylists() {
+    // recupere les playlists de tous les utilisateurs
+    const allUsersPlaylists = this.storage.get(this.PLAYLISTS_BY_USER_KEY) || {};
+    // recupere les playlists de l'utilisateur courant
+    this._playlists = allUsersPlaylists[this.currentUser.id] || {};
+    // averti les observeurs d'un changement des playlists
+    this.notifyPlaylistsChange();
   }
+
 
   create(playlist: Playlist) {
-    this.dataStore.playlistIds.push(playlist.id);
-    this.dataStore.playlistsData.push(playlist);
-    this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
-
-    // update localstorage
-    this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
-    this.storage.set(playlist.id, JSON.stringify(playlist));
+    this._playlists[playlist.id] = playlist;
+    this.notifyPlaylistsChange();
   }
 
-  update(playlist: Playlist) {
-    const playlistIndex = this.dataStore.playlistsData.findIndex(p => {
-      return p.id === playlist.id;
-    });
-    if (playlistIndex !== -1) {
-      this.dataStore.playlistsData[playlistIndex] = playlist;
-      this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
-
-      // update localstorage
-      this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
-      this.storage.set(playlist.id, JSON.stringify(playlist));
-    } else {
-      this.create(playlist);
-    }
+  update(playlistId, updateData: { id?, title?, author?}) {
+    // modifie un à un les champs de la playlist concernee
+    Object.keys(updateData).map(
+      key => {
+        this._playlists[playlistId][key] = updateData[key];
+      }
+    )
+    this.notifyPlaylistsChange();
   }
 
-  remove(id: string) {
-    const playlistIndex = this.dataStore.playlistsData.findIndex(p => {
-      return p.id === id;
-    });
-    if (playlistIndex !== -1) {
-      this.dataStore.playlistIds.splice(playlistIndex, 1);
-      this.dataStore.playlistsData.splice(playlistIndex, 1);
-      this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
-
-      // update localstorage
-      this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
-      this.storage.del(id);
-    }
+  removePlaylist(id: string) {
+    delete this._playlists[id];
+    this.notifyPlaylistsChange();
   }
 
   playlistGen(title: string = null): string {
+    // TODO: Bonne idée, à personnaliser selon des préférences utilisateur
     const date = new Date();
     if (title == null) {
       const dateISO = date.toISOString();
@@ -121,88 +93,48 @@ export class PlaylistsService {
       id,
       cover: '/assets/icons/default.svg',
       title,
-      author: PlaylistsMock.currentUserMock,
+      author: this.currentUser.name,
       tracks: []
     };
     this.create(newPlaylist);
     return id;
   }
 
-  swapPlaylists(oldIndex: number, newIndex: number) {
-    if (oldIndex !== newIndex) {
-      moveItemInArray(this.dataStore.playlistIds, oldIndex, newIndex);
-      moveItemInArray(this.dataStore.playlistsData, oldIndex, newIndex);
-      this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
+  /*
+  About tracks
+  */
 
-      // update localstorage
-      this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
-    }
+  /**
+   * Get nth track of a playlist
+   */
+  getTrackAt(playlistId: string, index: number): Track {
+    const playlist = this._playlists[playlistId];
+    const track = !!playlist && playlist.tracks[index];
+    return track;
   }
 
-  renamePlaylist(id: string, title: string) {
-    if (title && title.length > 0) {
-      const playlist = this.dataStore.playlistsData.find(p => {
-        return p.id === id;
-      });
-      playlist.title = title;
-      this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
-
-      // update localstorage
-      this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
-      this.storage.set(id, JSON.stringify(playlist));
-    }
+  /**
+   * Add a track to a playlist
+   */
+  addTrack(playlistId: string, track: Track) {
+    this._playlists[playlistId].tracks.push(track);
+    this.notifyPlaylistsChange();
   }
 
-  getTrack(id: string, index: number): Track {
-    const playlistIndex = this.dataStore.playlistsData.findIndex(p => {
-      return p.id === id;
-    });
-    if (playlistIndex !== -1) {
-      const tracks = this.dataStore.playlistsData[playlistIndex].tracks;
-      const track = tracks[index];
-      if (track) {
-        return track;
-      }
-    }
-    return null;
+  /**
+   * Remove a track by index in a playlist
+   */
+  delTrack(playlistId: string, index: number) {
+    this._playlists[playlistId].tracks.splice(index, 1);
+    this.notifyPlaylistsChange();
   }
 
-  addTrack(id: string, track: Track) {
-    const playlist = this.dataStore.playlistsData.find(p => {
-      return p.id === id;
-    });
-    playlist.tracks.push(track);
-    this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
-
-    // update localstorage
-    this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
-    this.storage.set(id, JSON.stringify(playlist));
-  }
-
-  delTrack(id: string, index: number) {
-    const playlistIndex = this.dataStore.playlistsData.findIndex(p => {
-      return p.id === id;
-    });
-    if (playlistIndex !== -1) {
-      const playlist = this.dataStore.playlistsData[playlistIndex];
-      playlist.tracks.splice(index, 1);
-      this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
-
-      // update localstorage
-      this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
-      this.storage.set(id, JSON.stringify(playlist));
-    }
-  }
-
-  swapTracks(id: string, oldIndex: number, newIndex: number) {
-    const playlist = this.dataStore.playlistsData.find(p => {
-      return p.id === id;
-    });
-    moveItemInArray(playlist.tracks, oldIndex, newIndex);
-    this._playlists.next(Object.assign({}, this.dataStore).playlistsData);
-
-    // update localstorage
-    this.storage.set(this.PLAYLISTS_KEY, JSON.stringify(this.dataStore.playlistIds));
-    this.storage.set(id, JSON.stringify(playlist));
+  /**
+   * Re-index a given track in a playlist
+   */
+  swapTracks(playlistId: string, oldIndex: number, newIndex: number) {
+    const tracks = this._playlists[playlistId].tracks.splice(oldIndex, 1);
+    this._playlists[playlistId].tracks.splice(newIndex, 0, ...tracks);
+    this.notifyPlaylistsChange();
   }
 }

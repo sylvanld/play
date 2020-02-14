@@ -12,6 +12,7 @@ import { Position } from '../view/listview/listview.component';
 import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from 'src/app/service/notification.service';
 
 enum SearchStep {
   Initial = 0,
@@ -51,7 +52,7 @@ export class PlaylistEditionComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private player: PlayerService,
-    private _snackBar: MatSnackBar) { }
+    private notify: NotificationService) { }
 
   ngOnInit() {
     // router params
@@ -88,11 +89,8 @@ export class PlaylistEditionComponent implements OnInit {
 
   saveTitle() {
     if (this.titleEdition && this.titleEdition.length > 0) {
-      this.playlistService.renamePlaylist(this.playlistId, this.titleEdition);
-      this._snackBar.open('playlist renommée', null, {
-        duration: 1000,
-        verticalPosition: 'top'
-      });
+      this.playlistService.update(this.playlistId, { title: this.titleEdition });
+      this.notify.info('playlist renommée');
     }
   }
 
@@ -122,7 +120,7 @@ export class PlaylistEditionComponent implements OnInit {
   }
 
   openTrack(id: string) {
-    const selectedTrack = this.playlistService.getTrack(this.playlistId, +id);
+    const selectedTrack = this.playlistService.getTrackAt(this.playlistId, +id);
     this.player.loadTracks(selectedTrack);
   }
 
