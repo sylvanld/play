@@ -42,7 +42,8 @@ class Spotify(Provider):
     @classmethod
     def get_token_for_user(cls, user):
         account = Account.query.filter_by(user_id=user.id, provider='SPOTIFY').first()
-
+        assert account is not None, "Pas de compte spotify lié."
+        
         auth_header = 'Basic ' + base64.b64encode(
             f'{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}'.encode('utf-8')
         ).decode('utf-8')

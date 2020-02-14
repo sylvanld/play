@@ -1,9 +1,14 @@
 from ..addons import db
 
 class Track(db.Model):
-    isrc = db.Column(db.String, primary_key=True)
+    id      = db.Column(db.Integer, primary_key=True)
     
-    title = db.Column(db.String)
+    isrc    = db.Column(db.String, unique=True)
+    title   = db.Column(db.String)
     artists = db.Column(db.String)
-    albums = db.Column(db.String)
+    album   = db.Column(db.String)
     release = db.Column(db.DateTime)
+
+    youtube = db.Column(db.String, nullable=True)
+    spotify = db.Column(db.String, nullable=False)
+    deezer  = db.Column(db.Integer, nullable=True)

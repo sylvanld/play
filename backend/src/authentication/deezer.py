@@ -26,7 +26,7 @@ class Deezer(Provider):
         # Dans deezer, les tokens ont une duree de vie illimitee et pas de refresh token
         # La conception de l'oauth2 la plus WTF...
         account = Account.query.filter_by(user_id=user.id, provider='DEEZER').first()
-        assert account is not None
+        assert account is not None, "Pas de compte Deezer lié."
         return {'access_token': account.refresh_token}
 
 
