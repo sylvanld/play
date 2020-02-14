@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, Observer } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Track } from '../types/track';
 import { Artist } from 'src/app/types/artist';
@@ -168,59 +168,4 @@ export class SpotifyService extends ProviderService {
                 })
             );
     }
-
-    createPlaylist(
-        playlist
-    ) {
-        const body = {
-            name: playlist.mainContent,
-            description: playlist.secondaryContent,
-            public: false
-        }
-
-        let access_token = "ACCESS_TOKEN";
-        let user_ID = "USER_ID";
-
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + access_token
-            })
-        };
-
-        return this.http
-            .post(environment.spotify_api_url + `/v1/users/${user_ID}/playlists`, body, httpOptions)
-            .subscribe(
-                (data: any) => {
-                    console.log(data);
-                }
-            );
-    }
-
-    addTrack(
-        track,
-        playlistID
-    ) {
-        let trackID = "TRACK_ID";
-        let access_token = "ACCESS_TOKEN";
-
-        const httpOptions = {
-            headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + access_token
-            })
-        };
-
-        return this.http
-            .post(environment.spotify_api_url + `/v1//playlists${playlistID}/tracks?uris=spotify%3Atrack%3A/${trackID}`, {}, httpOptions)
-            .subscribe(
-                (data: any) => {
-                    console.log(data);
-                }
-            );
-    }
 }
-// "https://api.spotify.com/v1/users/thelinmichael/playlists"
-//  -H "Authorization: Bearer {your access token}"
-//  -H "Content-Type: application/json"
-//  --data "{\"name\":\"A New Playlist\", \"public\":false}"

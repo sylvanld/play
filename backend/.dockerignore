@@ -2,3 +2,4 @@ venv/
 Makefile
 .gitignore
 .dockerignore
+database.sqlite
