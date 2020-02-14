@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable, of, Observer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, tap, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Track } from '../types/track';
 import { Artist } from 'src/app/types/artist';
 import { SearchResult } from '../types/search-result';
 import { Album } from '../types/album';
-import { Playlist } from 'src/app/types/playlist';
 import { AuthenticationService } from './authentication.service';
 import { ProviderService } from './provider.service';
 import { PlayService } from './play.service';
@@ -170,30 +169,49 @@ export class SpotifyService extends ProviderService {
             );
     }
 
-    export(
-        playlist: Playlist[]
+    createPlaylist(
+        playlist
     ) {
-        console.log("here 1");
-        console.log(environment.spotify_api_url);
-        console.log(playlist);
-
         const body = {
-            name: "Djamilba Creation",
-            description: "Mes tests avec Angular",
+            name: playlist.mainContent,
+            description: playlist.secondaryContent,
             public: false
         }
 
-        const httpOptions_ = {
+        let access_token = "ACCESS_TOKEN";
+
+        const httpOptions = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer BQDAdJFIyHSQsyjzw2y9Ja_I4snU4-0nSpatQIq4kAb26cm7663bFkx6pySoad85fs4zCZi1BQk7joOS8Te7zPiIH8kmHy1qwS0VHDTrjo2Q4UQ4zh96dvbRRsNKGoiGEs0xdqKiZAVH3XWpokEZ2J3GrysppC0KX-2k_176Yf7twjbjnweWm0yLdLZ8Rg9hK5omPLQvHuML-OyFt_lEVagZBzEr1B5zr21MuylxxOW6Hd-bSg'
+                'Authorization': 'Bearer ' + access_token
             })
         };
 
-        console.log("separation");
+        return this.http
+            .post(environment.spotify_api_url + `/v1/users/31jo6phkrnggzi6mrb3nizitst44/playlists`, body, httpOptions)
+            .subscribe(
+                (data: any) => {
+                    console.log(data);
+                }
+            );
+    }
+
+    addTrack(
+        track,
+        playlistID
+    ) {
+        let trackID = "TRACK_ID";
+        let access_token = "ACCESS_TOKEN";
+
+        const httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + access_token
+            })
+        };
 
         return this.http
-            .post(environment.spotify_api_url + `/v1/users/31jo6phkrnggzi6mrb3nizitst44/playlists`, body, httpOptions_)
+            .post(environment.spotify_api_url + `/v1//playlists${playlistID}/tracks?uris=spotify%3Atrack%3A/${trackID}`, {}, httpOptions)
             .subscribe(
                 (data: any) => {
                     console.log(data);
