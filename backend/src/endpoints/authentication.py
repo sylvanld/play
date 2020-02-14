@@ -72,7 +72,7 @@ class SpotifyTokenResource(Resource):
         """
         Return deezer application access token
         """
-        raise Deezer.get_token(current_user)
+        return Deezer.get_token_for_user(current_user)
 
 
 

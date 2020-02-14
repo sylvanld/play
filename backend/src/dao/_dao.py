@@ -33,7 +33,7 @@ class DAO:
     def get_or_404(cls, obj_id):
         obj = cls.get_by_id(obj_id)
         if not obj:
-            return HttpError("%s with id %s not found"%(cls.model.__name__, obj_id), 404)
+            raise HttpError("%s with id %s not found"%(cls.model.__name__, obj_id), 404)
         return obj
 
     @classmethod
@@ -45,9 +45,9 @@ class DAO:
         return cls.model.query.filter(*filters).all()
 
     @classmethod
-    def create(cls, data):
+    def create(cls, data, schema='default'):
         try:    
-            instance = cls.load(data)
+            instance = cls.load(data, schema=schema)
             db.session.add(instance)
             db.session.commit()
             return instance
@@ -59,6 +59,8 @@ class DAO:
                 }, 409)
             else:
                 raise e
+            db.session.rollback()
+
 
     @classmethod
     def update(cls, obj_id, data):
