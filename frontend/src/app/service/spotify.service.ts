@@ -179,6 +179,7 @@ export class SpotifyService extends ProviderService {
         }
 
         let access_token = "ACCESS_TOKEN";
+        let user_ID = "USER_ID";
 
         const httpOptions = {
             headers: new HttpHeaders({
@@ -188,7 +189,7 @@ export class SpotifyService extends ProviderService {
         };
 
         return this.http
-            .post(environment.spotify_api_url + `/v1/users/31jo6phkrnggzi6mrb3nizitst44/playlists`, body, httpOptions)
+            .post(environment.spotify_api_url + `/v1/users/${user_ID}/playlists`, body, httpOptions)
             .subscribe(
                 (data: any) => {
                     console.log(data);

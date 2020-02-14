@@ -23,6 +23,7 @@ export class ExportComponent implements OnInit {
   selectionPlateform = new SelectionModel<string>(true, []);
   plateforms: string[] = [];
   songsF: ViewItem[] = [];
+  playlist_ID: string;
 
   constructor(private playlistService: PlaylistsService,
     private route: ActivatedRoute,

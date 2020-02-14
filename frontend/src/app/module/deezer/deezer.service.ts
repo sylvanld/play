@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -54,5 +54,57 @@ export class DeezerService {
         return result.data;
       }
     ));
+  }
+
+  createPlaylist(
+    playlist
+  ) {
+    const user_ID = "USER_ID";
+    let access_token = "ACCESS_TOKEN";
+
+    const body = {
+      name: playlist.mainContent,
+      description: playlist.secondaryContent,
+      public: false
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + access_token
+      })
+    };
+
+    return this.http
+      .post(this.DEEZER_API_URL + `/user/${user_ID}`, body, httpOptions)
+      .subscribe(
+        (data: any) => {
+          console.log(data);
+        }
+      );
+  }
+
+  addTrack(track) {
+    const playlist_ID = "USER_ID";
+    let access_token = "ACCESS_TOKEN";
+
+    const body = {
+      songs: "TRACK_ID"
+    }
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + access_token
+      })
+    };
+
+    return this.http
+      .post(this.DEEZER_API_URL + `/playlist/${playlist_ID}/tracks`, body, httpOptions)
+      .subscribe(
+        (data: any) => {
+          console.log(data);
+        }
+      );
   }
 }
