@@ -5,10 +5,9 @@ import { Playlist } from '../types/playlist';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from './storage.service';
 import { Track } from '~types/track';
-import { AccountsService } from './accounts.service';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class PlaylistsService {
   private PLAYLISTS_BY_USER_KEY = 'playlists';
@@ -48,7 +47,7 @@ export class PlaylistsService {
      */
     this.playlistsSubject.next(
       Object.values(this._playlists)
-    )
+    );
   }
 
   loadPlaylists() {
@@ -72,7 +71,7 @@ export class PlaylistsService {
       key => {
         this._playlists[playlistId][key] = updateData[key];
       }
-    )
+    );
     this.notifyPlaylistsChange();
   }
 

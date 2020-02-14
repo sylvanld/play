@@ -1,4 +1,7 @@
 <div [@slide]>
+    <div class="list-item disable-text-selection">
+        <ng-content></ng-content>
+    </div>
     <div *ngIf="!editMode">
         <div *ngFor="let item of items"
             class="list-item disable-text-selection"
@@ -13,11 +16,11 @@
     </div>
 
     <!-- Edit mode - Computer version -->
-    <div show-gt-lg cdkDropList (cdkDropListDropped)="moveItem($event)" *ngIf="editMode">
-        <div cdkDrag="isMovable()" class="list-item disable-text-selection" *ngFor="let item of items"
-            (click)="clickItem(item)"
+    <div class="only-desktop" cdkDropList (cdkDropListDropped)="moveItem($event)" *ngIf="editMode">
+        <div cdkDrag class="list-item disable-text-selection" *ngFor="let item of items"
+            [cdkDragDisabled]="isMovable()" (click)="clickItem(item)"
         >
-            <div *ngIf="isMovable()" class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+            <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
             <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="item.picture.length !== 0">
             <div class="description">
                 <div class="main-content">{{ item.mainContent }}</div>
@@ -30,7 +33,7 @@
                     </mat-icon>
                 </button>
                 <button mat-button>
-                    <mat-icon *ngIf="isMovable()" aria-hidden="false" aria-label="move the item" cdkDragHandle>
+                    <mat-icon aria-hidden="false" aria-label="move the item" cdkDragHandle>
                         height
                     </mat-icon>
                 </button>
@@ -39,11 +42,11 @@
     </div>
 
     <!-- Edit mode - Mobile version -->
-    <div hide-gt-lg cdkDropList (cdkDropListDropped)="moveItem($event)" *ngIf="editMode">
-        <div cdkDrag="isMovable()" class="list-item disable-text-selection" *ngFor="let item of items"
-            (click)="clickItem(item)" (mousedown)="mousedown(item)" (mouseup)="mouseup()"
+    <div class="only-mobile" cdkDropList (cdkDropListDropped)="moveItem($event)" *ngIf="editMode">
+        <div cdkDrag class="list-item disable-text-selection" *ngFor="let item of items"
+            [cdkDragDisabled]="isMovable()" (click)="clickItem(item)" (mousedown)="mousedown(item)" (mouseup)="mouseup()"
         >
-            <div *ngIf="isMovable()" class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+            <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
             <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="item.picture.length !== 0">
             <div class="description">
                 <div class="main-content">{{ item.mainContent }}</div>

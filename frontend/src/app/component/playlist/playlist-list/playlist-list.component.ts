@@ -4,6 +4,7 @@ import { Playlist } from '~types/playlist';
 import { Router } from '@angular/router';
 import { PlaylistsService } from 'src/app/service/playlists.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-playlist-list',
@@ -11,8 +12,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./playlist-list.component.scss']
 })
 export class PlaylistListComponent implements OnInit {
-  @Input() playlists: Playlist[] = [];
+  @Input() playlists: Observable<Playlist[]>;
   private items: ViewItem[] = [];
+  private lastPlaylists: Playlist[];
 
   constructor(
     private playlistService: PlaylistsService,
@@ -21,7 +23,12 @@ export class PlaylistListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.display(this.playlists);
+    this.playlists.subscribe(
+      (playlists: Playlist[]) => {
+        this.lastPlaylists = playlists;
+        this.display(playlists);
+      }
+    );
   }
 
   // convert Playlists into displayable objects
@@ -60,7 +67,7 @@ export class PlaylistListComponent implements OnInit {
     if (playlists.length !== 0) {
       this.display(playlists);
     } else {
-      this.display(this.playlists);
+      this.display(this.lastPlaylists);
     }
   }
 }

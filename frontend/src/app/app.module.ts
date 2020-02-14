@@ -12,6 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -31,9 +33,8 @@ import { SearchResultsComponent } from './component/search/search-results/search
 import { ListviewComponent } from './component/core/listview/listview.component';
 import { CardviewComponent } from './component/core/cardview/cardview.component';
 import { ViewToggleComponent } from './component/core/view-toggle/view-toggle.component';
-import { PlaylistEditionComponent } from './component/playlist/playlist-edition/playlist-edition.component';
+import { PlaylistEditionComponent } from './view/playtech/playlist-edition/playlist-edition.component';
 import { FloatingMenuComponent } from './component/floating-menu/floating-menu.component';
-import { PlaylistCreationComponent } from './component/playlist/playlist-creation/playlist-creation.component';
 import { LoginComponent } from './view/login/login.component';
 import { RegisterComponent } from './view/register/register.component';
 import { FormComponent } from './component/core/form/form.component';
@@ -60,6 +61,7 @@ import { InputTempoComponent } from './component/search/filters/input-tempo/inpu
 import { ProsodicsFiltersComponent } from './component/search/advanced-search/prosodics-filters/prosodics-filters.component';
 import { SimpleFiltersComponent } from './component/search/advanced-search/simple-filters/simple-filters.component';
 import { PlaylistListComponent } from './component/playlist/playlist-list/playlist-list.component';
+import { TrackListComponent } from './component/playlist/track-list/track-list.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,6 @@ import { PlaylistListComponent } from './component/playlist/playlist-list/playli
     ViewToggleComponent,
     FloatingMenuComponent,
     PlaylistEditionComponent,
-    PlaylistCreationComponent,
     SearchbarComponent,
     NavigationComponent,
     NavItemComponent,
@@ -102,6 +103,7 @@ import { PlaylistListComponent } from './component/playlist/playlist-list/playli
     ProsodicsFiltersComponent,
     SimpleFiltersComponent,
     PlaylistListComponent,
+    TrackListComponent
   ],
   imports: [
     BrowserModule,
@@ -119,6 +121,8 @@ import { PlaylistListComponent } from './component/playlist/playlist-list/playli
     HttpClientModule,
     MatDialogModule,
     PrimengModule,
+    MatBottomSheetModule,
+    FlexLayoutModule,
     // custom modules
     DeezerModule,
     PlayerModule.forRoot({ selection: 'youtube' })

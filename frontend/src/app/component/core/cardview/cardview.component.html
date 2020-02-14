@@ -1,5 +1,7 @@
 <div [@slide]>
-    <ng-content class="list-item disable-text-selection"></ng-content>
+    <div class="list-item disable-text-selection">
+        <ng-content></ng-content>
+    </div>
     <div class="list-item disable-text-selection" *ngFor="let item of items"
         (click)="clickItem(item)"
     >

@@ -5,8 +5,7 @@ import { BrowseComponent } from './view/browse/browse.component';
 import { ShareComponent } from './view/share/share.component';
 import { AccountsComponent } from './view/accounts/accounts.component';
 import { PlayerComponent } from './view/player/player.component';
-import { PlaylistCreationComponent } from './component/playlist/playlist-creation/playlist-creation.component';
-import { PlaylistEditionComponent } from './component/playlist/playlist-edition/playlist-edition.component';
+import { PlaylistEditionComponent } from './view/playtech/playlist-edition/playlist-edition.component';
 import { LoginComponent } from './view/login/login.component';
 import { RegisterComponent } from './view/register/register.component';
 import { AuthenticatedGuard } from './guard/authenticated.guard';
@@ -26,8 +25,8 @@ const routes: Routes = [
   //
   {
     path: 'playlist', children: [
-      { path: 'create', component: PlaylistCreationComponent },
-      { path: 'edit/:id', component: PlaylistEditionComponent }
+      { path: 'edit/:id', component: PlaylistEditionComponent }, // edit playlist
+      { path: 'edit', component: PlaylistEditionComponent }      // new playlist
     ]
   }
 ];

@@ -1,0 +1,159 @@
+<!-- fragments -->
+<ng-template #playlist >
+    <app-track-list [playlist]="playlist"></app-track-list>
+</ng-template>
+
+<ng-template #search >
+    <div fxLayout="column">
+        <div fxLayout="row">
+            <app-search-bar [displayFilters]="false" [filtersList]="['track']" (results)="onResultsChange($event)"></app-search-bar>
+            <button mat-flat-button (click)="selectionToPlaylist()" color="accent" *ngIf="selection.hasValue()">
+                add
+            </button>
+        </div>
+        <app-search-results noActionBtn="true" [results]="results" (selected)="onSelected($event)"></app-search-results>
+    </div>
+</ng-template>
+
+<ng-template #playlistTitle >
+    <mat-form-field *ngIf="!locked">
+        <input matInput type="text" placeholder="Titre playlist" [(ngModel)]="titleEdition"
+            (keydown.enter)="saveTitle()" (keydown.esc)="titleEdition=''" required>
+        <button mat-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button
+            aria-label="Clear" (click)="titleEdition=''">
+            <mat-icon>close</mat-icon>
+        </button>
+        <button mat-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button
+            aria-label="Confirm" (click)="saveTitle()">
+            <mat-icon>done</mat-icon>
+        </button>
+    </mat-form-field>
+</ng-template>
+
+<ng-template #editModeBtn >
+    <button mat-button class="edit-btn" (click)="swapEditMode()">
+        <mat-icon *ngIf="!editMode" aria-hidden="false" aria-label="toggle edit mode">edit</mat-icon>
+        <mat-icon *ngIf="editMode" aria-hidden="false" aria-label="toggle edit mode">visibility</mat-icon>
+    </button>
+</ng-template>
+
+<ng-template #unknow>
+    playlist doesn't exist...
+</ng-template>
+
+
+<!-- assembly -->
+<ng-template [ngIf]="playlist !== undefined" [ngIfElse]="unknow">
+
+    <button class="back-btn" mat-button>
+        <mat-icon (click)="goBack()" aria-hidden="false" aria-label="go back">keyboard_backspace</mat-icon>
+    </button>
+    <ng-template [ngTemplateOutlet]="editModeBtn"></ng-template>
+
+    <div class="only-desktop">
+        <ng-template [ngIf]="!editMode" [ngIfElse]="editMode">
+            <!-- read only -->
+            <div fxLayout="row">
+                <!-- <app-search-bar></app-search-bar> --> <!-- TODO search on my track list -->
+            </div>
+            <app-track-list [playlist]="playlist" [editMode]="false"></app-track-list>
+        </ng-template>
+    
+        <ng-template #editMode>
+            <!-- edit mode -->
+            <div fxLayout="row" fxFlexAlign="center">
+                <ng-template [ngTemplateOutlet]="playlistTitle"></ng-template>
+            </div>
+            <div fxLayout="row">
+                <ng-template [ngTemplateOutlet]="search"></ng-template>
+                <ng-template [ngTemplateOutlet]="playlist"></ng-template>
+            </div>
+        </ng-template>
+    </div>
+
+    <div class="only-mobile">
+        <ng-template [ngIf]="!editMode" [ngIfElse]="editModeMobile">
+            <!-- read only -->
+            <div fxLayout="row">
+                <!-- <app-search-bar></app-search-bar> --> <!-- TODO search on my track list -->
+            </div>
+            <app-track-list [playlist]="playlist" [editMode]="false"></app-track-list>
+        </ng-template>
+
+        <ng-template #editModeMobile>
+            <!-- edit mode -->
+            <mat-tab-group mat-stretch-tabs>
+                <mat-tab label="Playlist">
+                    <ng-template [ngTemplateOutlet]="playlistTitle"></ng-template>
+                    <ng-template [ngTemplateOutlet]="playlist"></ng-template>
+                </mat-tab>
+                <mat-tab label="Search">
+                    <ng-template [ngTemplateOutlet]="search"></ng-template>
+                </mat-tab>
+            </mat-tab-group>
+        </ng-template>
+    </div>
+
+</ng-template>
+
+
+
+
+
+
+
+
+
+
+<!--
+<ng-template [ngIf]="playlist != undefined" [ngIfElse]="unknow">
+    <div class="horizontal-align space-between">
+        <div>
+            <mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon>
+        </div>
+
+        <mat-form-field *ngIf="!locked">
+            <input matInput type="text" placeholder="Titre playlist" [(ngModel)]="titleEdition"
+                (keydown.enter)="saveTitle()" (keydown.esc)="titleEdition=''" required>
+            <button mat-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button
+                aria-label="Clear" (click)="titleEdition=''">
+                <mat-icon>close</mat-icon>
+            </button>
+            <button mat-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button
+                aria-label="Confirm" (click)="saveTitle()">
+                <mat-icon>done</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <div></div>
+    </div>
+
+    <div class="playlist-management" [@slide]>
+        <div class="vertical-align animate" *ngIf="showSearchBar()">
+            <div class="horizontal-align">
+                <app-search-bar [displayFilters]="false" [filtersList]="['track']" (results)="onResultsChange($event)">
+                </app-search-bar>
+                <button mat-flat-button (click)="selectionToPlaylist()" color="accent"
+                    *ngIf="selection.hasValue()">ajouter</button>
+                <mat-icon (click)="closeSearch()" aria-hidden="false" aria-label="back">close</mat-icon>
+            </div>
+            <app-search-results noActionBtn="true" [results]="results" (selected)="onSelected($event)"
+                *ngIf="showSearchResults()"></app-search-results>
+        </div>
+        <div>
+            <app-listview [noPicture]="true" [locked]="locked" [items]="songsF" (addItemEvent)="openSearch()"
+                (delItemEvent)="delSong($event)" (moveItemEvent)="moveSong($event)" (clicked)="openTrack($event)"
+                [addBtnPosition]="showAddBtn()" addBtnLabel="Nouveau titre">
+            </app-listview>
+        </div>
+    </div>
+
+</ng-template>
+
+<ng-template #unknow>
+    <div>
+        <mat-icon (click)="goBack()" aria-hidden="false" aria-label="back">keyboard_backspace</mat-icon>
+    </div>
+    <p>La playlist n'existe pas</p>
+</ng-template>
+-->
