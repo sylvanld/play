@@ -32,6 +32,7 @@
               "node_modules/primeicons/primeicons.css",
               "node_modules/primeng/resources/themes/nova-colored/theme.css",
               "node_modules/primeng/resources/primeng.min.css",
+              "src/app/module/player/styles.scss",
               "src/styles.scss"
             ],
             "scripts": []
@@ -98,6 +99,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/app/module/player/styles.scss",
               "src/styles.scss"
             ],
             "scripts": []

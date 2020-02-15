@@ -1,0 +1,56 @@
+<div class="player-container-controls">
+
+  <!-- Controls -->
+  <div class="player-controls">
+    <button mat-icon-button color="player" [disabled]="!isReady" (click)="onPrevEvent()">
+      <mat-icon>skip_previous</mat-icon>
+    </button>
+    <button mat-icon-button color="player" [disabled]="!isReady" *ngIf="!isReady">
+      <mat-icon>stop_circle_outline</mat-icon>
+    </button>
+    <button mat-icon-button color="player" [disabled]="!isReady" (click)="onPauseEvent()" *ngIf="isPlaying">
+      <mat-icon>pause_circle_outline</mat-icon>
+    </button>
+    <button mat-icon-button color="player" [disabled]="!isReady" (click)="onPlayEvent()" *ngIf="isPaused">
+      <mat-icon>play_circle_outline</mat-icon>
+    </button>
+    <button mat-icon-button color="player" [disabled]="!isReady" (click)="onNextEvent()">
+      <mat-icon>skip_next</mat-icon>
+    </button>
+  </div>
+
+  <!-- Track Info -->
+  <div class="player-track">
+    {{ title }}
+  </div>
+
+  <!-- Timer bar -->
+  <div class="player-bar">
+    <p class="mat-player">{{ timer | timerPipe }}</p>
+    <mat-slider [min]="0" [value]="timer" [max]="duration" (change)="onTimerChange($event)"
+      (input)="onTimerEvent($event)" color="player"></mat-slider>
+    <p class="mat-player">{{ duration | timerPipe }}</p>
+  </div>
+</div>
+
+<div class="player-container-extracontrols">
+  <!-- external controls -->
+  <ng-content></ng-content>
+
+  <!-- Volume bar -->
+  <button mat-icon-button color="player" [disabled]="!isReady" [matMenuTriggerFor]="menu"
+    aria-label="Open the volume control.">
+    <mat-icon>volume_up</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" yPosition="above">
+    <div style="display: flex; min-width: 150px; padding: 0 15px;">
+      <button mat-icon-button color="player-dark" (click)="onToggleMute()" (click)="$event.stopPropagation()">
+        <mat-icon *ngIf="volume === 0">volume_off</mat-icon>
+        <mat-icon *ngIf="volume > 0 && volume <= 50">volume_down</mat-icon>
+        <mat-icon *ngIf="volume > 50">volume_up</mat-icon>
+      </button>
+      <mat-slider [min]="0" [max]="100" [value]="volume" (input)="onVolumeEvent($event)"
+        (click)="$event.stopPropagation()" color="player"></mat-slider>
+    </div>
+  </mat-menu>
+</div>

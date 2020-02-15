@@ -119,7 +119,7 @@ import { SimpleFiltersComponent } from './component/search/advanced-search/simpl
     PrimengModule,
     // custom modules
     DeezerModule,
-    PlayerModule.forRoot({ selection: 'youtube' })
+    PlayerModule.forRoot({ current: 'youtube' }),
   ],
   entryComponents: [ForgetAccountDialogComponent, AdvancedSearchComponent],
   providers: [],

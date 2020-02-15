@@ -1,0 +1,13 @@
+<app-player-container [timer]="currentTime" [duration]="duration" [isMuted]="isMuted" (prevEvent)="player.prevTrack()"
+  (nextEvent)="player.nextTrack()" (playEvent)="youtube.playVideo()" (pauseEvent)="youtube.pauseVideo()"
+  (muteEvent)="youtube.mute()" (unMuteEvent)="youtube.unMute()" (timerChange)="seekTo($event)"
+  (volumeChange)="setVolume($event)" [hidden]="isReady">
+  <button mat-icon-button color="player" aria-label="To show the video or not." (click)="isDisplayed = !isDisplayed">
+    <mat-icon *ngIf="isDisplayed">desktop_access_disabled</mat-icon>
+    <mat-icon *ngIf="!isDisplayed">desktop_windows</mat-icon>
+  </button>
+</app-player-container>
+
+<div class="float-video" [hidden]="!isDisplayed">
+  <div id="youtube-iframe"></div>
+</div>
