@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { take } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+
 import { SpotifyService } from 'src/app/service/spotify.service';
 import { Playlist, Track } from '~types/index';
 
@@ -7,20 +10,23 @@ import { Playlist, Track } from '~types/index';
   templateUrl: './import.component.html',
   styleUrls: ['./import.component.scss']
 })
-export class ImportComponent implements OnInit {
-
+export class ImportComponent implements OnInit, OnDestroy {
+  private subscription: Subscription = new Subscription();
   private playlists: Playlist[] = [];
+
   constructor(private spotify: SpotifyService) { }
 
   ngOnInit() {
 
-    this.spotify.getPlaylists().subscribe((playlists: Playlist[]) => {
-      this.playlists = playlists;
-
-      this.spotify.getPlaylistTracks(playlists[0].id).subscribe((tracks: Track[]) => {
-        console.log(tracks);
-      });
-    });
+    this.subscription.add(
+      // retreive playlists
+      this.spotify.getPlaylists()
+        .pipe(take(1))
+        .subscribe((playlists: Playlist[]) => this.playlists = playlists)
+    );
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

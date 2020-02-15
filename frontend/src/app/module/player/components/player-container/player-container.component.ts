@@ -1,7 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { PlayerService } from '../../player.service';
-import { PlayerState } from '~types/player';
-import { Track } from '~types/track';
+import { PlayerState, Track } from '~types/index';
 
 @Component({
   selector: 'app-player-container',

@@ -9,9 +9,9 @@ import { AutocompleteChipListComponent } from 'src/app/component/core/autocomple
   styleUrls: ['./input-genres.component.scss']
 })
 export class InputGenresComponent extends AutocompleteChipListComponent<string> implements OnInit {
-  placeholder = "List of genres";
+  placeholder = 'List of genres';
 
-  constructor(private spotify: SpotifyService) { super() }
+  constructor(private spotify: SpotifyService) { super(); }
 
   ngOnInit() {
   }
@@ -23,7 +23,7 @@ export class InputGenresComponent extends AutocompleteChipListComponent<string> 
   display(item) {
     return {
       title: item
-    }
+    };
   }
 
 }

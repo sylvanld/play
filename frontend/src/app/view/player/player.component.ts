@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PlayerService } from '../../module/player/player.service';
-import { Track } from '../../types/track';
+import { Track } from '~types/index';
 
 @Component({
   templateUrl: './player.component.html',

@@ -1,18 +1,17 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PlaylistsService } from '../../../service/playlists.service';
-import { Observable } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Track } from 'src/app/types/track';
-import { map } from 'rxjs/operators';
-import { ViewItem } from 'src/app/types/view-item';
-import { Playlist } from 'src/app/types/playlist';
-import { PlayerService } from '~player/player.service';
-import { SearchResult } from '~types/search-result';
-import { Position } from '../view/listview/listview.component';
 import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { NotificationService } from 'src/app/service/notification.service';
+import { PlaylistsService } from 'src/app/service/playlists.service';
+import { PlayerService } from '~player/player.service';
+import { Position } from '../view/listview/listview.component';
+
+import { Playlist, Track, SearchResult, ViewItem } from '~types/index';
 
 enum SearchStep {
   Initial = 0,
@@ -48,7 +47,8 @@ export class PlaylistEditionComponent implements OnInit {
   results: SearchResult = { tracks: [], artists: [], albums: [] };
   selection = new SelectionModel<Track>(true, []);
 
-  constructor(private playlistService: PlaylistsService,
+  constructor(
+    private playlistService: PlaylistsService,
     private route: ActivatedRoute,
     private router: Router,
     private player: PlayerService,

@@ -1,6 +1,4 @@
-import { Track } from './track';
-import { Album } from './album';
-import { Artist } from './artist';
+import { Track, Album, Artist } from './play';
 
 export interface SearchResult {
   tracks: Array<Track>;

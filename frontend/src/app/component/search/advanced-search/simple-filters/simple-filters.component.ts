@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Artist } from '~types/artist';
-import { Track } from '~types/track';
+import { Artist, Track } from '~types/index';
 
 
 interface SimpleFilters {
@@ -24,13 +23,13 @@ export class SimpleFiltersComponent implements OnInit {
   get filters() {
     return this._filters;
   }
-
-  @Output() filtersChange = new EventEmitter();
-
   set filters(_filters: SimpleFilters) {
     this._filters = this.filters;
     this.filtersChange.emit(this._filters);
   }
+
+  @Output() filtersChange = new EventEmitter();
+
 
   /* startDate getters and setters */
   set startDate(date: Date) {
@@ -86,7 +85,7 @@ export class SimpleFiltersComponent implements OnInit {
       artists: [],
       tracks: [],
       genres: []
-    }
+    };
   }
 
 }

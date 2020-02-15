@@ -4,7 +4,7 @@ import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 import { PlaylistsService } from 'src/app/service/playlists.service';
 import { PlayService } from 'src/app/service/play.service';
-import { Playlist } from '~types/playlist';
+import { Playlist } from '~types/index';
 
 @Component({
   templateUrl: './share.component.html',

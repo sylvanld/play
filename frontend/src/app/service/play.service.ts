@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ProviderService } from './provider.service';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Observable, Observer, of } from 'rxjs';
-import { AuthenticationService } from './authentication.service';
-import { StorageService } from './storage.service';
 import { map } from 'rxjs/operators';
-import { Track } from '~types/track';
-import { Account } from '~types/account';
-import { User } from '~types/user';
+
+import { AuthenticationService } from './authentication.service';
+import { ProviderService } from './provider.service';
+import { StorageService } from './storage.service';
+
+import { environment } from 'src/environments/environment';
+import { Track, Account, User } from '~types/index';
 
 @Injectable({
   providedIn: 'root'
@@ -51,6 +51,14 @@ export class PlayService extends ProviderService {
    */
   getSpotifyUserToken(): Observable<string> {
     return this.post('/spotify/token/me', {})
+      .pipe(map(({ access_token }) => access_token));
+  }
+
+  /**
+   * Call play backend to get a deezer use token.
+   */
+  getDeezerUserToken(): Observable<string> {
+    return this.post('/deezer/token/me', {})
       .pipe(map(({ access_token }) => access_token));
   }
 

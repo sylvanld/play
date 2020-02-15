@@ -1,11 +1,12 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, of, Observable, Observer } from 'rxjs';
-import { Router } from '@angular/router';
+import { map, catchError } from 'rxjs/operators';
+
 import { StorageService } from './storage.service';
 import { NotificationService } from './notification.service';
-import { map, catchError } from 'rxjs/operators';
 
 /**
  * load query params as an object

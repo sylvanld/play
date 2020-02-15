@@ -1,5 +1,4 @@
-import { Track } from './track';
-
+import { Track } from './play-track';
 
 export interface Playlist {
   id?: string;

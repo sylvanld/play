@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { PlayerService } from '../../player.service';
-import { PlayerState } from '~types/player';
-import { Track } from '~types/track';
+
+import { mergeMap } from 'rxjs/operators';
+
 import { YoutubeService } from 'src/app/service/youtube.service';
-import { map, tap, mergeMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { PlayerService } from '../../player.service';
+import { Track, PlayerState } from '~types/index';
 
 declare global {
   interface Window {

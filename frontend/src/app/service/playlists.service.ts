@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as uuid from 'uuid';
 import * as moment from 'moment';
-import { Playlist } from '../types/playlist';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from './storage.service';
-import { Track } from '~types/track';
+import { Playlist, Track } from '~types/index';
 
 @Injectable({
   providedIn: 'root'

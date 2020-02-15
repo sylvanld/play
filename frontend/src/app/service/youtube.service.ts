@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Track } from '~types/track';
+import { Track } from '~types/index';
 import { environment } from 'src/environments/environment';
 import { ProviderService } from './provider.service';
 

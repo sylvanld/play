@@ -2,8 +2,7 @@ import { Inject, InjectionToken } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 import { PlayerConfig, PlayerProviders, PlayerState } from '~types/player';
-import { Track } from '~types/track';
-import { YoutubeService } from 'src/app/service/youtube.service';
+import { Track } from '~types/index';
 
 // tslint:disable-next-line: variable-name
 export const PlayerConfigService = new InjectionToken<PlayerConfig>('PlayerConfig');

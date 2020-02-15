@@ -39,7 +39,6 @@ import { RegisterComponent } from './view/register/register.component';
 import { FormComponent } from './component/core/form/form.component';
 
 import { PlayerModule } from './module/player/player.module';
-import { DeezerModule } from './module/deezer/deezer.module';
 
 import { SpotifyLoginButtonComponent } from './component/auth/spotify-login-button/spotify-login-button.component';
 import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button/deezer-login-button.component';
@@ -124,7 +123,6 @@ import { ExportComponent } from './view/convert/export/export.component';
     MatDialogModule,
     PrimengModule,
     // custom modules
-    DeezerModule,
     PlayerModule.forRoot({ current: 'youtube' }),
   ],
   entryComponents: [ForgetAccountDialogComponent, AdvancedSearchComponent],
