@@ -28,7 +28,7 @@ export class YoutubeService {
     const o = this.http.get(
       environment.youtube_api_url + '/search' +
       '?key=' + environment.youtube_api_key +
-      '&type=video&part=snippet&order=relevance&maxResults=10' +
+      '&type=video&part=snippet&order=relevance&maxResults=1' +
       '&q=' + track.artist + ' - ' + track.title
     ).pipe(map((object: any) => {
       track.external_ids.youtube = object.items[0].id.videoId;
