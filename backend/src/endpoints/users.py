@@ -3,8 +3,10 @@ from flask_restplus import Resource, Namespace
 from flask_jwt_extended import jwt_required, current_user
 
 from ..dao.user import UserDAO
+from ..dao.friendship import FriendshipDAO
 
 users_ns = Namespace('users', '...', path='/users')
+
 
 @users_ns.route('')
 class UsersResource(Resource):
@@ -14,7 +16,7 @@ class UsersResource(Resource):
         """
         users = UserDAO.filter()
         return UserDAO.dump(users, many=True)
-    
+
     def post(self):
         """
         Create user
@@ -54,3 +56,14 @@ class UserResource(Resource):
         Delete a user
         """
         UserDAO.delete(user_id)
+
+
+@users_ns.route('/me/friends')
+class MyAccounts(Resource):
+    @jwt_required
+    def get(self):
+        """
+        Return friend accounts for a current user
+        """
+        users = FriendshipDAO.friends_for_user(current_user.id)
+        return UserDAO.dump(users, many=True)

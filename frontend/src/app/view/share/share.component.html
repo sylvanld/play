@@ -1,1 +1,46 @@
-<p>share works!</p>
+<form [formGroup]="shareForm" (ngSubmit)="onSubmit(shareForm.value)">
+  <mat-horizontal-stepper labelPosition="bottom" #stepper>
+    <mat-step state="one" label="Select some friends">
+
+      <!-- List of friends -->
+      <h3 *ngIf="friends.length === 0">No Friends to share.</h3>
+      <mat-selection-list formControlName="firendsControl">
+        <mat-list-option *ngFor="let friend of friends" [value]="friend">
+          {{friend.name }}
+        </mat-list-option>
+      </mat-selection-list>
+
+      <!-- Nav -->
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </mat-step>
+
+    <mat-step state="two" label="Select some playlists">
+
+      <!-- List of Playlist to share -->
+      <h3 *ngIf="playlists.length === 0">No Playlist to share.</h3>
+      <mat-selection-list formControlName="playlistsControl">
+        <mat-list-option *ngFor="let playlist of playlists" [value]="playlist">
+          {{playlist.title}}
+        </mat-list-option>
+      </mat-selection-list>
+
+      <!-- Nav -->
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <!-- Submit control -->
+        <button mat-raised-button [disabled]="!shareForm.valid" type="submit"> Submit</button>
+      </div>
+    </mat-step>
+
+    <!-- Icon overrides. -->
+    <ng-template matStepperIcon="one">
+      <mat-icon>supervisor_account</mat-icon>
+    </ng-template>
+    <ng-template matStepperIcon="two">
+      <mat-icon>playlist_add</mat-icon>
+    </ng-template>
+
+  </mat-horizontal-stepper>
+</form>

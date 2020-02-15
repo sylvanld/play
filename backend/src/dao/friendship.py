@@ -4,6 +4,7 @@ from ._dao import DAO
 from ..database import Friendship
 from ..schemas import FriendshipSchema
 
+
 class FriendshipDAO(DAO):
     model = Friendship
     schemas = {
@@ -13,6 +14,7 @@ class FriendshipDAO(DAO):
     @classmethod
     def friends_for_user(cls, user_id):
         return cls.workout_friend_property(
+            user_id,
             cls.filter(
                 or_(
                     Friendship.friend1 == user_id,
@@ -21,7 +23,6 @@ class FriendshipDAO(DAO):
                 Friendship.accepted == True
             )
         )
-        
 
     @classmethod
     def friends_requests_for_user(cls, user_id):

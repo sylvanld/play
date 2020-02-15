@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../service/authentication.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,17 @@ export class AuthenticatedGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.auth._connected.getValue() || this.auth.reloadToken()) {
+    if (this.auth._connected.getValue()) {
       return true;
     } else {
-      this.router.navigateByUrl('/login');
-      return false;
+      // demande un nouveau token a partir du refresh token existant
+      // retourne true si l'OP est un success / false sinon
+      return this.auth.loadToken().pipe(map(tokenValid => {
+        if (!tokenValid) {
+          this.router.navigateByUrl('/login');
+        }
+        return tokenValid;
+      }));
     }
   }
-
 }
