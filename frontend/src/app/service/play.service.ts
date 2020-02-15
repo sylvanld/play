@@ -47,6 +47,14 @@ export class PlayService extends ProviderService {
   }
 
   /**
+   * Call play backend to get a spotify user token.
+   */
+  getSpotifyUserToken(): Observable<string> {
+    return this.post('/spotify/token/me', {})
+      .pipe(map(({ access_token }) => access_token));
+  }
+
+  /**
    * Complete youtube Id
    */
 

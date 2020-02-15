@@ -59,6 +59,9 @@ import { InputDatesComponent } from './component/search/filters/input-dates/inpu
 import { InputTempoComponent } from './component/search/filters/input-tempo/input-tempo.component';
 import { ProsodicsFiltersComponent } from './component/search/advanced-search/prosodics-filters/prosodics-filters.component';
 import { SimpleFiltersComponent } from './component/search/advanced-search/simple-filters/simple-filters.component';
+import { ConvertComponent } from './view/convert/convert.component';
+import { ImportComponent } from './view/convert/import/import.component';
+import { ExportComponent } from './view/convert/export/export.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +103,9 @@ import { SimpleFiltersComponent } from './component/search/advanced-search/simpl
     InputTempoComponent,
     ProsodicsFiltersComponent,
     SimpleFiltersComponent,
+    ConvertComponent,
+    ImportComponent,
+    ExportComponent,
   ],
   imports: [
     BrowserModule,

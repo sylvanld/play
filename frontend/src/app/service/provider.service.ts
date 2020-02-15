@@ -42,12 +42,11 @@ export abstract class ProviderService {
    */
   request<T>(method: 'GET' | 'POST' | 'PUT' | 'DELETE', params: RequestParameters, original = true): Observable<T> {
     let url = this.baseUrl + params.relativeUrl;
-    const headers: { Authorization?: string } = {};
+    let headers: { Authorization?: string } = {};
 
     // cache last request to replay it in case of token expiration
     this.lastRequest = { method, params };
 
-    console.log(this.accessToken);
     if (this.accessToken) {
       if (this.tokenType.type === 'queryparam') {
         // append token to url in case it should be provided as a query param
@@ -58,6 +57,9 @@ export abstract class ProviderService {
         headers.Authorization = 'Bearer ' + this.accessToken;
       }
     }
+
+    // Overwrite if headers are defined
+    headers = Object.assign(headers, params.headers);
 
     // perform authenticated request and send back result
     return this.http.request<T>(

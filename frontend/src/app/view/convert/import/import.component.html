@@ -1,0 +1,10 @@
+<h3 *ngIf="playlists.length === 0">No Playlist to import.</h3>
+<mat-selection-list>
+  <h3 mat-subheader>Spotify</h3>
+  <mat-list-option *ngFor="let playlist of playlists" [value]="playlist">
+    <!-- TODO: make an item of 2 lines -->
+    {{playlist.title }}
+  </mat-list-option>
+</mat-selection-list>
+
+<!-- TODO: A floating button!-->

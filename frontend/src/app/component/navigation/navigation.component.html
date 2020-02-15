@@ -1,5 +1,5 @@
 <mat-toolbar color="secondary" *ngIf="connected">
-  <app-heading routerLink="/">
+  <app-heading routerLink="import">
     <mat-icon svgIcon="play_logo"></mat-icon>
     <h1>Play</h1>
   </app-heading>
@@ -15,6 +15,10 @@
   <app-nav-item routerLink="share" [routerLinkActive]="['active']">
     <mat-icon>share</mat-icon>
     Partager
+  </app-nav-item>
+  <app-nav-item routerLink="convert" [routerLinkActive]="['active']">
+    <mat-icon>import_export</mat-icon>
+    Convertir
   </app-nav-item>
   <app-nav-item routerLink="accounts" [routerLinkActive]="['active']">
     <mat-icon>person</mat-icon>

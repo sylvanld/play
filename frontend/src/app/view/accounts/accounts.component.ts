@@ -4,7 +4,8 @@ import { PlaylistsService } from 'src/app/service/playlists.service';
 import { ForgetAccountDialogComponent } from 'src/app/component/forget-account-dialog/forget-account-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PlayService } from 'src/app/service/play.service';
-import { Account } from '~types/account';
+
+import { Account, User } from '~types/index';
 
 @Component({
   templateUrl: './accounts.component.html',
