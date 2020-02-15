@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 export class DeezerUserService extends ProviderService {
 
   constructor(protected http: HttpClient, private play: PlayService) {
-    super(http, environment.deezer_api_url, { type: 'bearer' });
+    super(http, environment.deezer_api_url, { type: 'queryparam', key: 'access_token' });
   }
 
   renewToken() {

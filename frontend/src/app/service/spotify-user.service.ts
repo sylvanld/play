@@ -33,7 +33,7 @@ export class SpotifyUserService extends ProviderService {
   }
 
   addTrack(playlistID, track) {
-    this.post(`/v1//playlists${playlistID}/tracks?uris=spotify%3Atrack%3A/${track.identifier.spotify}`, {})
+    this.post(`/v1/playlists/${playlistID}/tracks?uris=spotify%3Atrack%3A/${track.identifier.spotify}`, {})
       .subscribe(
         (data: any) => {
           console.log(data);
