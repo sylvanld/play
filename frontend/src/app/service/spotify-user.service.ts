@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { PlayService } from './play.service';
 import { Playlist } from '~types/playlist';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class SpotifyUserService extends ProviderService {
     return this.play.getSpotifyUserToken();
   }
 
-  createPlaylist(playlist: Playlist) {
+  createPlaylist(playlist: Playlist): any {
     const userID = '31jo6phkrnggzi6mrb3nizitst44';
 
     const body = {
@@ -27,14 +28,8 @@ export class SpotifyUserService extends ProviderService {
       public: false
     };
 
-    console.log('headers');
-
     return this.post(`/v1/users/${userID}/playlists`, body)
-      .subscribe(
-        (data: any) => {
-          console.log('data', data);
-        }
-      );
+      .pipe(map(data => data));
   }
 
   addTrack(playlistID, track) {

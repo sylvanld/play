@@ -81,17 +81,9 @@ export class ExportComponent implements OnInit {
     // tslint:disable-next-line: forin
     for (const index in playlists) {
       const playList = playlists[index];
-      let resultCreate: any;
-
-      for (const plateform of plateforms) {
-        if (plateform === 'Spotify') {
-          resultCreate = this.spotifyUserService.createPlaylist(playList);
-        } else if (plateform === 'Deezer') {
-          // resultCreate = this.deezerService.createPlaylist(playList);
-        } else if (plateform === 'Youtube') {
-          // resultCreate = this.youtubeService.createPlaylist(playList);
-        }
-      }
+      let resultSpotify: any;
+      let resultDeezer: any;
+      let resultYoutube: any;
 
       const playlistId = playList.id;
 
@@ -102,6 +94,15 @@ export class ExportComponent implements OnInit {
       // load playlist data
       playlist.subscribe(
         p => {
+          for (const plateform of plateforms) {
+            if (plateform === 'Spotify') {
+              // resultSpotify = this.spotifyUserService.createPlaylist(p);
+            } else if (plateform === 'Deezer') {
+              // resultDeezer = this.deezerService.createPlaylist(p);
+            } else if (plateform === 'Youtube') {
+              // resultYoutube = this.youtubeService.createPlaylist(p);
+            }
+          }
           this.songsF.splice(0, this.songsF.length);
           if (p != null) {
             // let titleEdition = p.title;
@@ -121,8 +122,13 @@ export class ExportComponent implements OnInit {
       for (const song of this.songsF) {
         for (const plateform of plateforms) {
           if (plateform === 'Spotify') {
-            console.log(resultCreate);
-            // this.spotifyUserService.addTrack(resultCreate.id, song);
+            // resultSpotify.subscribe(
+            //   data => {
+            //     console.log(song);
+            //     // this.spotifyUserService.addTrack(data.id, song);
+            //   }
+            // );
+            console.log('song ', song);
           } else if (plateform === 'Deezer') {
             // console.log(resultCreate);
             // this.deezerService.createPlaylist();

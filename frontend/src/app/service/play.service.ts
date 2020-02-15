@@ -13,6 +13,7 @@ import { Account } from '~types/account';
   providedIn: 'root'
 })
 export class PlayService extends ProviderService {
+  idPlaylist: string;
   constructor(
     protected http: HttpClient,
     private auth: AuthenticationService,
@@ -48,6 +49,14 @@ export class PlayService extends ProviderService {
   getSpotifyUserToken(): Observable<string> {
     return this.post('/spotify/token/me', {})
       .pipe(map(({ access_token }) => access_token));
+  }
+
+  setIdPlaylist(id: string) {
+    this.idPlaylist = id;
+  }
+
+  getIdPlaylist() {
+    return this.idPlaylist;
   }
 
   /**

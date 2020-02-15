@@ -41,7 +41,7 @@ export class DeezerUserService extends ProviderService {
 
     const body = {
       songs: track.identifier.deezer
-    };
+    }
 
     return this.post(environment.deezer_api_url + `/playlist/${playlistID}/tracks`, body)
       .subscribe(
