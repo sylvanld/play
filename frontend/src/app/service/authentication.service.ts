@@ -142,48 +142,48 @@ export class AuthenticationService {
           this.router.navigate([], {
             queryParams: {},
             queryParamsHandling: 'merge'
-          })
+          });
           return true;
         }), catchError(error => {
           // if an error occured, this token is not valid, user is logged out
           this.logout();
-          return of(false)
+          return of(false);
         }));
   }
 
   loadTokenFromUrl(): Observable<boolean> {
-    console.log('call load token from url')
-    const token = <Token>getUrlParams();
+    console.log('call load token from url');
+    const token = getUrlParams() as Token;
     return this.setAndVerifyToken(token);
   }
 
   refreshToken(): Observable<boolean> {
     /* utilise le refresh token pour obtenir un nouvel accessToken */
-    console.log('call refresh token')
+    console.log('call refresh token');
     const refresh = this.storage.get(REFRESH_TOKEN);
     return this.setAndVerifyToken({ refresh_token: refresh });
   }
 
   loadToken() {
     console.log('call load token');
-    return Observable.create((observer: Observer<boolean>) => {
+    return new Observable((observer: Observer<boolean>) => {
       this.loadTokenFromUrl().subscribe(tokenLoaded => {
         if (tokenLoaded) {
-          console.log('token loaded from url')
+          console.log('token loaded from url');
           // token loaded (from url)
           observer.next(true);
           observer.complete();
         } else {
           // no token in url, try to reload token from refresh token
-          console.log('try to use refresh token')
+          console.log('try to use refresh token');
           this.refreshToken().subscribe(tokenRefreshed => {
             console.log('refresh result ' + tokenRefreshed);
             observer.next(tokenRefreshed);
             observer.complete();
-          })
+          });
         }
-      })
-    })
+      });
+    });
   }
 
 }

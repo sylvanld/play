@@ -42,10 +42,10 @@ export abstract class ProviderService {
    */
   request<T>(method: 'GET' | 'POST' | 'PUT' | 'DELETE', params: RequestParameters, original = true): Observable<T> {
     let url = this.baseUrl + params.relativeUrl;
-    let headers: { Authorization?: string } = {};
+    const headers: { Authorization?: string } = {};
 
     // cache last request to replay it in case of token expiration
-    this.lastRequest = { method: method, params };
+    this.lastRequest = { method, params };
 
     console.log(this.accessToken);
     if (this.accessToken) {
@@ -121,7 +121,7 @@ export abstract class ProviderService {
     if (this.authenticationErrorCodes.includes(error.status)) {
       // return an observable that will resolve the value of the previous
       // request after having update this provider's accessToken
-      return Observable.create(
+      return new Observable(
         (observer: Observer<any>) => {
           // ask for a new access token using provider specific method
           this.renewToken().subscribe(

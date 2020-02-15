@@ -8,6 +8,7 @@ import { StorageService } from './storage.service';
 import { map } from 'rxjs/operators';
 import { Track } from '~types/track';
 import { Account } from '~types/account';
+import { User } from '~types/user';
 
 @Injectable({
   providedIn: 'root'
@@ -27,14 +28,14 @@ export class PlayService extends ProviderService {
    */
   renewToken(): Observable<string> {
     const refreshToken = this.store.get('REFRESH_TOKEN');
-    return Observable.create((observer: Observer<string>) => {
+    return new Observable((observer: Observer<string>) => {
       this.auth.refreshToken().subscribe(
         success => {
           observer.next(this.auth.getToken());
           observer.complete();
         }
-      )
-    })
+      );
+    });
   }
 
   /**
@@ -73,6 +74,9 @@ export class PlayService extends ProviderService {
     return this.get<Account[]>('/users/me/accounts');
   }
 
+  /**
+   * Retrive personal information about the currently authenticated user.
+   */
   whoami() {
     return this.get<User>('/users/me');
   }

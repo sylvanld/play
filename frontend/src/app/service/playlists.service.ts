@@ -47,7 +47,7 @@ export class PlaylistsService {
      */
     this.playlistsSubject.next(
       Object.values(this._playlists)
-    )
+    );
   }
 
   loadPlaylists() {
@@ -71,7 +71,7 @@ export class PlaylistsService {
       key => {
         this._playlists[playlistId][key] = updateData[key];
       }
-    )
+    );
     this.notifyPlaylistsChange();
   }
 

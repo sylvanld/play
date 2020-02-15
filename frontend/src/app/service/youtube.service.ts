@@ -31,7 +31,7 @@ export class YoutubeService extends ProviderService {
 
   /**
    * Deprecated use playservice.completeExternalIds instead
-   * @param track
+   * @param track: The track object.
    */
   completeId(track: Track): Observable<Track> {
     if (!!track.external_ids.youtube) {
