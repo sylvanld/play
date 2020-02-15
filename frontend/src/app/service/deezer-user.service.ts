@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { PlayService } from './play.service';
 import { environment } from 'src/environments/environment';
 import { Playlist } from '~types/playlist';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +16,13 @@ export class DeezerUserService extends ProviderService {
   }
 
   renewToken() {
-    return this.play.getSpotifyUserToken();
+    return this.play.getDeezerUserToken();
   }
 
   createPlaylist(
     playlist: Playlist
   ) {
-    const userID = 'USER_ID';
+    const userID = '3452495304';
 
     const body = {
       name: playlist.title,
@@ -29,12 +30,8 @@ export class DeezerUserService extends ProviderService {
       public: false
     };
 
-    return this.post(environment.deezer_api_url + `/user/${userID}`, body)
-      .subscribe(
-        (data: any) => {
-          console.log(data);
-        }
-      );
+    return this.post(`/user/${userID}`, body)
+      .pipe(map(data => data));
   }
 
   addTrack(playlistID, track) {

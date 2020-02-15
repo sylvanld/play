@@ -51,12 +51,9 @@ export class PlayService extends ProviderService {
       .pipe(map(({ access_token }) => access_token));
   }
 
-  setIdPlaylist(id: string) {
-    this.idPlaylist = id;
-  }
-
-  getIdPlaylist() {
-    return this.idPlaylist;
+  getDeezerUserToken(): Observable<string> {
+    return this.post('/deezer/token/me', {})
+      .pipe(map(({ access_token }) => access_token));
   }
 
   /**

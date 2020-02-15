@@ -9,6 +9,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Track } from 'src/app/types/track';
 import { map } from 'rxjs/operators';
 import { SpotifyUserService } from 'src/app/service/spotify-user.service';
+import { DeezerUserService } from 'src/app/service/deezer-user.service';
 
 @Component({
   templateUrl: './export.component.html',
@@ -26,7 +27,8 @@ export class ExportComponent implements OnInit {
   constructor(private playlistService: PlaylistsService,
     private route: ActivatedRoute,
     private router: Router,
-    private spotifyUserService: SpotifyUserService) { }
+    private spotifyUserService: SpotifyUserService,
+    private deezerUserService: DeezerUserService) { }
 
   ngOnInit() {
     // route params
@@ -98,9 +100,9 @@ export class ExportComponent implements OnInit {
             if (plateform === 'Spotify') {
               // resultSpotify = this.spotifyUserService.createPlaylist(p);
             } else if (plateform === 'Deezer') {
-              // resultDeezer = this.deezerService.createPlaylist(p);
+              resultDeezer = this.deezerUserService.createPlaylist(p);
             } else if (plateform === 'Youtube') {
-              // resultYoutube = this.youtubeService.createPlaylist(p);
+              // resultYoutube = this.youtubeUserService.createPlaylist(p);
             }
           }
           this.songsF.splice(0, this.songsF.length);
@@ -128,10 +130,13 @@ export class ExportComponent implements OnInit {
             //     // this.spotifyUserService.addTrack(data.id, song);
             //   }
             // );
-            console.log('song ', song);
           } else if (plateform === 'Deezer') {
-            // console.log(resultCreate);
-            // this.deezerService.createPlaylist();
+            resultDeezer.subscribe(
+              data => {
+                console.log('sortie', data);
+                // this.deezerUserService.addTrack(data.id, song);
+              }
+            );
           } else if (plateform === 'Youtube') {
             // console.log(resultCreate);
             // this.youtubeService.createPlaylist();
