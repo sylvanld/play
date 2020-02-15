@@ -98,9 +98,16 @@ export class ExportComponent implements OnInit {
         p => {
           for (const plateform of plateforms) {
             if (plateform === 'Spotify') {
-              // resultSpotify = this.spotifyUserService.createPlaylist(p);
+              resultSpotify = this.spotifyUserService.createPlaylist(p);
             } else if (plateform === 'Deezer') {
+              console.log('Deezer Sortie');
               resultDeezer = this.deezerUserService.createPlaylist(p);
+              console.log('Deezer sortie 2', resultDeezer);
+              resultDeezer.subscribe(
+                data => {
+                  console.log('Deezer sortie 3', data);
+                }
+              );
             } else if (plateform === 'Youtube') {
               // resultYoutube = this.youtubeUserService.createPlaylist(p);
             }
@@ -124,19 +131,20 @@ export class ExportComponent implements OnInit {
       for (const song of this.songsF) {
         for (const plateform of plateforms) {
           if (plateform === 'Spotify') {
-            // resultSpotify.subscribe(
-            //   data => {
-            //     console.log(song);
-            //     // this.spotifyUserService.addTrack(data.id, song);
-            //   }
-            // );
-          } else if (plateform === 'Deezer') {
-            resultDeezer.subscribe(
+            resultSpotify.subscribe(
               data => {
-                console.log('sortie', data);
-                // this.deezerUserService.addTrack(data.id, song);
+                console.log(data);
+                // console.log(song);
+                // this.spotifyUserService.addTrack(data.id, song);
               }
             );
+          } else if (plateform === 'Deezer') {
+            // resultDeezer.subscribe(
+            //   data => {
+            //     console.log('sortie', data);
+            //     // this.deezerUserService.addTrack(data.id, song);
+            //   }
+            // );
           } else if (plateform === 'Youtube') {
             // console.log(resultCreate);
             // this.youtubeService.createPlaylist();

@@ -19,18 +19,15 @@ export class DeezerUserService extends ProviderService {
     return this.play.getDeezerUserToken();
   }
 
-  createPlaylist(
-    playlist: Playlist
-  ) {
+  createPlaylist(playlist: Playlist): any {
     const userID = '3452495304';
 
     const body = {
-      name: playlist.title,
-      description: 'Created by ' + playlist.author,
+      title: playlist.title,
       public: false
     };
 
-    return this.post(`/user/${userID}`, body)
+    return this.post(`/user/${userID}/playlists`, body)
       .pipe(map(data => data));
   }
 
@@ -38,7 +35,7 @@ export class DeezerUserService extends ProviderService {
 
     const body = {
       songs: track.identifier.deezer
-    }
+    };
 
     return this.post(environment.deezer_api_url + `/playlist/${playlistID}/tracks`, body)
       .subscribe(

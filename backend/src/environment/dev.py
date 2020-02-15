@@ -26,8 +26,8 @@ DEEZER_PERMISSIONS = [
 ]
 
 # server database configuration
-#SQLALCHEMY_DATABASE_URI         = 'sqlite:///:memory:'
-SQLALCHEMY_DATABASE_URI         = 'sqlite:///database.sqlite'
+SQLALCHEMY_DATABASE_URI         = 'sqlite:///:memory:'
+# SQLALCHEMY_DATABASE_URI         = 'sqlite:///database.sqlite'
 SQLALCHEMY_TRACK_MODIFICATIONS  = False
 
 # required to hash multiple trucs with salt
