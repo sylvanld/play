@@ -111,6 +111,39 @@ export class PlayService extends ProviderService {
   }
 
   /**
+   * Retrive the user.
+   */
+  whois(id: string) {
+    return this.get<User>(`/users/${id}`);
+  }
+
+  /**
+   *
+   */
+  getUsers() {
+    return this.get<User[]>('/users');
+  }
+
+  /**
+   * List of Accepted/Pending request of firends.
+   */
+  myRequestFriendships(): Observable<any> {
+    return this.get<any>('/users/me/friendships');
+  }
+
+  inviteFriend(me: string, userId: string): Observable<any> {
+    return this.post<any>('/friendships', { friend1: me, friend2: userId });
+  }
+
+  acceptFriendship(id): Observable<any> {
+    return this.put<any>(`/friendships/${id}`, { accepted: true });
+  }
+
+  rejectOrDeleteFriendship(id): Observable<any> {
+    return this.delete<any>(`/friendships/${id}`);
+  }
+
+  /**
    * List of friends of the currently authenticated user.
    */
   myFriends(): Observable<User[]> {

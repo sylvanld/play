@@ -6,8 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { PlayService } from 'src/app/service/play.service';
 
 import { Account, User } from '~types/index';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subscription, Observable, of } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './accounts.component.html',
@@ -16,8 +16,11 @@ import { take } from 'rxjs/operators';
 export class AccountsComponent implements OnInit, OnDestroy {
   private subsciption: Subscription = new Subscription();
 
+  private pending: User[] = [];
+  private accepted: User[] = [];
+
   accounts: Account[] = [];
-  currentUser: User = undefined;
+  currentUser: User;
 
   constructor(
     private auth: AuthenticationService,
@@ -39,9 +42,12 @@ export class AccountsComponent implements OnInit, OnDestroy {
       this.play.myAccounts()
         .pipe(take(1))
         .subscribe((accounts: any[]) => {
+          console.log(accounts);
           this.accounts = accounts;
         })
     );
+
+    this.getFrienshipRequests();
   }
 
   ngOnDestroy() {
@@ -49,11 +55,11 @@ export class AccountsComponent implements OnInit, OnDestroy {
   }
 
   isSpotifyAccountBound(): boolean {
-    return this.accounts.filter(account => account.provider === 'SPOTIFY').length > 0;
+    return false;
   }
 
   isDeezerAccountBound() {
-    return this.accounts.filter(account => account.provider === 'DEEZER').length > 0;
+    return false;
   }
 
   logout() {
@@ -65,5 +71,27 @@ export class AccountsComponent implements OnInit, OnDestroy {
     this.subsciption.add(dialog.afterClosed().subscribe(() => {
       this.playlistService.flushData();
     }));
+  }
+
+
+  /// TODO: move to share component
+  getFrienshipRequests() {
+    this.subsciption.add(this.play.myRequestFriendships().pipe(
+      take(1),
+      map(
+        ({ accepted, pending }) => {
+          return pending.map(({ friend1, friend2 }) => this.play.whois(friend2));
+        }
+      )
+    ).subscribe((users: User[]) => {
+      this.pending = users;
+    }));
+  }
+
+  invitFriend($event) {
+    this.play.inviteFriend(this.currentUser.id, $event[0].id)
+      .subscribe((frienship) => {
+        console.log(frienship);
+      });
   }
 }

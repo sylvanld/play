@@ -27,6 +27,7 @@ class FriendshipDAO(DAO):
     @classmethod
     def friends_requests_for_user(cls, user_id):
         return cls.workout_friend_property(
+            user_id,
             cls.filter(
                 or_(
                     Friendship.friend1 == user_id,

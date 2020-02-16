@@ -61,6 +61,7 @@ import { SimpleFiltersComponent } from './component/search/advanced-search/simpl
 import { ConvertComponent } from './view/convert/convert.component';
 import { ImportComponent } from './view/convert/import/import.component';
 import { ExportComponent } from './view/convert/export/export.component';
+import { InputUsersComponent } from './component/search/filters/input-users/input-users.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { ExportComponent } from './view/convert/export/export.component';
     ConvertComponent,
     ImportComponent,
     ExportComponent,
+    InputUsersComponent,
   ],
   imports: [
     BrowserModule,
