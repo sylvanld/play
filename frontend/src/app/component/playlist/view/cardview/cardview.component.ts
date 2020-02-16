@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
-import { ViewItem } from '~types/view-item';
+import { ViewItem } from '~types/index';
 
 @Component({
   selector: 'app-cardview',
@@ -10,7 +10,7 @@ import { ViewItem } from '~types/view-item';
     trigger('slide', [
       transition(':enter', [
         query('.list-item', [
-          style({opacity: 0, transform: 'translateX(-100px)'}),
+          style({ opacity: 0, transform: 'translateX(-100px)' }),
           stagger(30, [
             animate('0.2s cubic-bezier(0.35, 0, 0.25, 1)', style({ opacity: 1, transform: 'none' }))
           ])

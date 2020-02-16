@@ -1,20 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Observer } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Track } from '../types/track';
-import { Artist } from 'src/app/types/artist';
-import { SearchResult } from '../types/search-result';
-import { Album } from '../types/album';
+
 import { AuthenticationService } from './authentication.service';
 import { ProviderService } from './provider.service';
-import { PlayService } from './play.service';
+
+import { Album, Artist, SearchResult, Track, SpotifyTrack } from '~types/index';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SpotifyService extends ProviderService {
+
     private spotifyAuthHeaders: { headers: { Authorization: string } } = null;
     private genres: Array<string> = null;
     private availableGenres: string[] = null;
@@ -22,14 +21,13 @@ export class SpotifyService extends ProviderService {
 
     constructor(
         protected http: HttpClient,
-        private auth: AuthenticationService,
-        private play: PlayService
+        private auth: AuthenticationService
     ) {
         super(http, environment.spotify_api_url, { type: 'bearer' });
     }
 
     renewToken(): Observable<string> {
-        return this.play.getSpotifyToken();
+        return this.auth.getSpotifyToken();
     }
 
     getGenres(): Observable<Array<string>> {
@@ -48,22 +46,6 @@ export class SpotifyService extends ProviderService {
             // utilise les genres mis en caches pour les requetes suivantes
             return of(this.genres);
         }
-    }
-
-    convertTrack(spotifyTrack): Track {
-        const track = {
-            isrc: spotifyTrack['external_ids']['isrc'],
-            title: spotifyTrack['name'],
-            artist: spotifyTrack['artists'][0]['name'],
-            album: spotifyTrack['album']['name'],
-            release: spotifyTrack['album']['release_date'],
-            external_ids: {
-                spotify: spotifyTrack['id'],
-                youtube: null,
-                deezer: null
-            }
-        };
-        return track;
     }
 
     convertArtist(spotifyArtist): Artist {
@@ -86,6 +68,21 @@ export class SpotifyService extends ProviderService {
         };
     }
 
+    convertTrack(track: SpotifyTrack): Track {
+        return {
+            isrc: track.external_ids.isrc,
+            title: track.name,
+            artist: track.artists[0].name,
+            album: track.album.name,
+            release: track.album.release_date,
+            external_ids: {
+                spotify: track.id,
+                youtube: undefined,
+                deezer: undefined
+            }
+        };
+    }
+
     getAvailableGenres(): Observable<string[]> {
         if (this.availableGenres) {
             return of(this.availableGenres);
@@ -98,13 +95,13 @@ export class SpotifyService extends ProviderService {
             map((resp: { genres: string[] }) => {
                 return this.availableGenres = resp.genres;
             })
-        )
+        );
     }
 
     searchGenre(query: string): Observable<string[]> {
         return this.getAvailableGenres().pipe(
             map((genres: string[]) => genres.filter(genre => genre.startsWith(query)))
-        )
+        );
     }
 
     searchArtist(query: string): Observable<Artist[]> {
@@ -147,7 +144,7 @@ export class SpotifyService extends ProviderService {
                     artists: [],
                     albums: [],
                     tracks: tracks.map(track => this.convertTrack(track))
-                }
+                };
             }
         ));
     }
@@ -158,7 +155,7 @@ export class SpotifyService extends ProviderService {
     ): Observable<SearchResult> {
         const typesString = types.join(',');
         return this.get(
-            `/v1/search?q=${query}&type=${typesString}`, { headers: { Bearer: 'ta daronne' } }).pipe(
+            `/v1/search?q=${query}&type=${typesString}`).pipe(
                 map((data) => {
                     return {
                         tracks: !data['tracks'] ? [] : data['tracks']['items'].map(this.convertTrack),
@@ -168,4 +165,5 @@ export class SpotifyService extends ProviderService {
                 })
             );
     }
+
 }

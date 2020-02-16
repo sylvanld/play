@@ -1,9 +1,9 @@
+import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
-import { ViewItem } from '~types/view-item';
+import { ViewItem } from '~types/index';
 
-export enum Position { Start= 'start', End= 'end', Both= 'both', None= 'none' }
+export enum Position { Start = 'start', End = 'end', Both = 'both', None = 'none' }
 
 @Component({
   selector: 'app-listview',
@@ -13,7 +13,7 @@ export enum Position { Start= 'start', End= 'end', Both= 'both', None= 'none' }
     trigger('slide', [
       transition(':enter', [
         query('.list-item', [
-          style({opacity: 0, transform: 'translateX(-100px)'}),
+          style({ opacity: 0, transform: 'translateX(-100px)' }),
           stagger(30, [
             animate('0.2s cubic-bezier(0.35, 0, 0.25, 1)', style({ opacity: 1, transform: 'none' }))
           ])
@@ -47,7 +47,7 @@ export class ListviewComponent implements OnInit {
   }
 
   moveItem(event: CdkDragDrop<any[]>) {
-    this.moveItemEvent.emit({oldIndex: event.previousIndex, newIndex: event.currentIndex});
+    this.moveItemEvent.emit({ oldIndex: event.previousIndex, newIndex: event.currentIndex });
   }
 
   showStartAddBtn(): boolean {

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import { PlaytechComponent } from './view/playtech/playtech.component';
 import { BrowseComponent } from './view/browse/browse.component';
 import { ShareComponent } from './view/share/share.component';
@@ -13,6 +14,8 @@ import { RegisterComponent } from './view/register/register.component';
 import { AuthenticatedGuard } from './guard/authenticated.guard';
 import { NotAuthenticatedGuard } from './guard/not-authenticated.guard';
 import { MatListModule } from '@angular/material/list';
+import { ConvertComponent } from './view/convert/convert.component';
+import { ImportComponent } from './view/convert/import/import.component';
 
 
 const routes: Routes = [
@@ -22,17 +25,25 @@ const routes: Routes = [
   { path: 'share', component: ShareComponent, canActivate: [AuthenticatedGuard] },
   { path: 'export', component: ExportComponent, canActivate: [AuthenticatedGuard] },
   { path: 'accounts', component: AccountsComponent, canActivate: [AuthenticatedGuard] },
-  { path: '', redirectTo: 'playtech', pathMatch: 'prefix' },
-  //
   { path: 'login', component: LoginComponent, canActivate: [NotAuthenticatedGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthenticatedGuard] },
   //
   {
-    path: 'playlist', children: [
+    path: 'convert', component: ConvertComponent, canActivate: [AuthenticatedGuard], children: [
+      { path: 'import', component: ImportComponent },
+      { path: 'export', component: ExportComponent }
+    ]
+  },
+  //
+  {
+    path: 'playlist', canActivate: [AuthenticatedGuard], children: [
       { path: 'create', component: PlaylistCreationComponent },
       { path: 'edit/:id', component: PlaylistEditionComponent }
     ]
-  }
+  },
+  // redirection
+  { path: '', redirectTo: 'playtech', pathMatch: 'prefix' },
+
 ];
 
 @NgModule({

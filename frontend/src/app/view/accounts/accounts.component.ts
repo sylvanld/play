@@ -1,18 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthenticationService } from 'src/app/service/authentication.service';
 import { PlaylistsService } from 'src/app/service/playlists.service';
 import { ForgetAccountDialogComponent } from 'src/app/component/forget-account-dialog/forget-account-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PlayService } from 'src/app/service/play.service';
-import { Account } from '~types/account';
+
+import { Account, User } from '~types/index';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Component({
   templateUrl: './accounts.component.html',
   styleUrls: ['./accounts.component.scss']
 })
-export class AccountsComponent implements OnInit {
+export class AccountsComponent implements OnInit, OnDestroy {
+  private subsciption: Subscription = new Subscription();
+
   accounts: Account[] = [];
-  currentUser: User = null;
+  currentUser: User = undefined;
 
   constructor(
     private auth: AuthenticationService,
@@ -22,14 +27,25 @@ export class AccountsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.play.myAccounts().subscribe((accounts: any[]) => {
-      this.accounts = accounts;
-    });
+    this.subsciption.add(
+      this.play.whoami()
+        .pipe(take(1))
+        .subscribe((currentUser: User) => {
+          this.currentUser = currentUser;
+        })
+    );
 
-    this.play.whoami().subscribe((currentUser: User) => {
-      console.log('you are', currentUser);
-      this.currentUser = currentUser;
-    });
+    this.subsciption.add(
+      this.play.myAccounts()
+        .pipe(take(1))
+        .subscribe((accounts: any[]) => {
+          this.accounts = accounts;
+        })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subsciption.unsubscribe();
   }
 
   isSpotifyAccountBound(): boolean {
@@ -46,8 +62,8 @@ export class AccountsComponent implements OnInit {
 
   forgetAccountDialog() {
     const dialog = this._dialog.open(ForgetAccountDialogComponent);
-    dialog.afterClosed().subscribe(() => {
+    this.subsciption.add(dialog.afterClosed().subscribe(() => {
       this.playlistService.flushData();
-    });
+    }));
   }
 }

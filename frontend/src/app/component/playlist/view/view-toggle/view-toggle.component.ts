@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { ViewType } from '~types/view-type';
+import { ViewType } from '~types/index';
 
 @Component({
   selector: 'app-view-toggle',
@@ -20,11 +20,11 @@ export class ViewToggleComponent implements OnInit {
   }
 
   isListMode(): boolean {
-    return this.mode == ViewType.List;
+    return this.mode === ViewType.List;
   }
 
   isCardMode(): boolean {
-    return this.mode == ViewType.Card;
+    return this.mode === ViewType.Card;
   }
 
   listMode() {

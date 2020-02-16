@@ -45,9 +45,8 @@ export abstract class ProviderService {
     let headers: { Authorization?: string } = {};
 
     // cache last request to replay it in case of token expiration
-    this.lastRequest = { method: method, params };
+    this.lastRequest = { method, params };
 
-    console.log(this.accessToken);
     if (this.accessToken) {
       if (this.tokenType.type === 'queryparam') {
         // append token to url in case it should be provided as a query param
@@ -59,6 +58,9 @@ export abstract class ProviderService {
       }
     }
 
+    // Overwrite if headers are defined
+    headers = Object.assign(headers, params.headers);
+
     // perform authenticated request and send back result
     return this.http.request<T>(
       method, url,
@@ -69,7 +71,7 @@ export abstract class ProviderService {
     ).pipe(
       map(
         (resp: any) => {
-          if (resp.error && resp.error.type == 'OAuthException') {
+          if (resp.error && resp.error.type === 'OAuthException') {
             throw { status: 401 };
           }
           return resp;
@@ -129,7 +131,7 @@ export abstract class ProviderService {
     if (this.authenticationErrorCodes.includes(error.status)) {
       // return an observable that will resolve the value of the previous
       // request after having update this provider's accessToken
-      return Observable.create(
+      return new Observable(
         (observer: Observer<any>) => {
           // ask for a new access token using provider specific method
           this.renewToken().subscribe(

@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Playlist } from 'src/app/types/playlist';
 import { PlaylistsService } from 'src/app/service/playlists.service';
-import { Observable } from 'rxjs';
 import { ViewType } from 'src/app/types/view-type';
 import { ViewItem } from 'src/app/types/view-item';
 import { SelectionModel } from '@angular/cdk/collections';
-import { Track } from 'src/app/types/track';
 import { map } from 'rxjs/operators';
 import { SpotifyUserService } from 'src/app/service/spotify-user.service';
 import { DeezerUserService } from 'src/app/service/deezer-user.service';
+
+import { Playlist, Track } from '~types/index';
 
 @Component({
   templateUrl: './export.component.html',
   styleUrls: ['./export.component.scss']
 })
-export class ExportComponent implements OnInit {
+export class RemovalExportComponent implements OnInit {
   playlistsF: ViewItem[] = [];
   switchMode: ViewType = ViewType.Card;  // 0: list ; 1: card
   locked = false;
@@ -24,7 +23,8 @@ export class ExportComponent implements OnInit {
   plateforms: string[] = [];
   songsF: ViewItem[] = [];
 
-  constructor(private playlistService: PlaylistsService,
+  constructor(
+    private playlistService: PlaylistsService,
     private route: ActivatedRoute,
     private router: Router,
     private spotifyUserService: SpotifyUserService,

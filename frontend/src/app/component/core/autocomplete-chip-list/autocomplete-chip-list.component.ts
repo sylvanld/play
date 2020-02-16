@@ -1,11 +1,10 @@
 import { Component, Input, EventEmitter, ViewChild, ElementRef, Output } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Track } from 'src/app/types/track';
-import { Album } from 'src/app/types/album';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { FormControl } from '@angular/forms';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { FormControl } from '@angular/forms';
+
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-autocomplete-chip-list',
@@ -18,16 +17,16 @@ export class AutocompleteChipListComponent<ObjectType> {
   get items() {
     return this._items;
   }
-
-  @Output() itemsChange = new EventEmitter();
-
   set items(_items: ObjectType[]) {
     this._items = _items;
     this.itemsChange.emit(this._items);
   }
 
+  @Output() itemsChange = new EventEmitter();
+
+
   /* core attributes */
-  @Input() placeholder = "Replace me...";
+  @Input() placeholder = 'Replace me...';
   @ViewChild('itemInput', { static: false }) itemInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
 
@@ -71,7 +70,7 @@ export class AutocompleteChipListComponent<ObjectType> {
 
   clearInput() {
     // clear processed input
-    this.itemInput.nativeElement.value = "";
+    this.itemInput.nativeElement.value = '';
     this.itemCtrl.setValue(null);
   }
 
@@ -113,11 +112,11 @@ export class AutocompleteChipListComponent<ObjectType> {
 
   // end user have to implement this method
   search(query: string): Observable<ObjectType[]> {
-    throw "Not Implemented method...";
+    throw new Error('Not Implemented method...');
   }
 
   // end user have to implement this method
   display(obj: ObjectType): { title: string, description?: string, icon?: string } {
-    throw "Not Implemented method...";
+    throw new Error('Not Implemented method...');
   }
 }

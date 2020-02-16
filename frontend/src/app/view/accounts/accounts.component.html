@@ -1,30 +1,32 @@
 <aside>
-    <h2>Play account</h2>
-    <button mat-raised-button color="secondary" (click)="logout()">Logout</button>
-    <button mat-raised-button color="warn" (click)="forgetAccountDialog()">Forget my account</button>
+  <h2>Play account</h2>
+  <button mat-raised-button color="secondary" (click)="logout()">Logout</button>
+  <button mat-raised-button color="warn" (click)="forgetAccountDialog()">Forget my account</button>
 
-    <div *ngIf="currentUser !== null">
-        {{currentUser.name}}
-        {{currentUser.email}}
-        {{currentUser.lang}}
-    </div>
+  <!-- TODO: resolve this error!
+  <div *ngIf="currentUser !== null">
+    {{currentUser.name ? currentUser.name : '' }}
+    {{currentUser.email ? currentUser.email : ''}}
+    {{currentUser.lang ? currentUser.lang : ''}}
+  </div>
+-->
 
 </aside>
 <aside>
-    <h2>Linked accounts</h2>
+  <h2>Linked accounts</h2>
 
-    <mat-card *ngFor="let account of accounts">
-        <mat-card-header>
-            <div mat-card-avatar>
-                <i class="icon-deezer" *ngIf="account.provider=='DEEZER'"></i>
-                <i class="icon-spotify" *ngIf="account.provider=='SPOTIFY'"></i>
-            </div>
-            <mat-card-title>{{account.name}}</mat-card-title>
-            <mat-card-subtitle>{{account.email}}</mat-card-subtitle>
-        </mat-card-header>
-    </mat-card>
+  <mat-card *ngFor="let account of accounts">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <i class="icon-deezer" *ngIf="account.provider=='DEEZER'"></i>
+        <i class="icon-spotify" *ngIf="account.provider=='SPOTIFY'"></i>
+      </div>
+      <mat-card-title>{{account.name}}</mat-card-title>
+      <mat-card-subtitle>{{account.email}}</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
 
-    <h2>Add accounts</h2>
-    <app-spotify-login-button *ngIf="!isSpotifyAccountBound()"></app-spotify-login-button>
-    <app-deezer-login-button *ngIf="!isDeezerAccountBound()"></app-deezer-login-button>
+  <h2>Add accounts</h2>
+  <app-spotify-login-button *ngIf="!isSpotifyAccountBound()"></app-spotify-login-button>
+  <app-deezer-login-button *ngIf="!isDeezerAccountBound()"></app-deezer-login-button>
 </aside>

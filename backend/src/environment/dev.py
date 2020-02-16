@@ -13,7 +13,9 @@ SPOTIFY_PERMISSIONS = [
     'user-read-email',
     'user-read-private',
     'playlist-modify',
-    'playlist-modify-private'
+    'playlist-modify-private',
+    'playlist-read-private',      # manage playlists
+    'playlist-read-collaborative' # manage playlists
 ]
 
 # deezer oauth2 configuration
@@ -22,8 +24,8 @@ DEEZER_CLIENT_SECRET = '342ad744c8bf0e09677c638ee9b5c0ca'
 DEEZER_PERMISSIONS = [
     'basic_access',
     'email',
-    'manage_library',
     'offline_access', # required to access refresh_token
+    'manage_library'  # manage playlists
 ]
 
 # server database configuration

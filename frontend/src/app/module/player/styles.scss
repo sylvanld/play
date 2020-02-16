@@ -1,0 +1,30 @@
+@import './constants.scss';
+
+/* Global player text */
+p.mat-player {
+  color: $player-primary;
+  font-size: 11px;
+  padding: 0 16px;
+}
+
+/* Global player buttons */
+.mat-button.mat-player, .mat-icon-button.mat-player,
+.mat-button.mat-player[disabled], .mat-icon-button.mat-player[disabled] {
+  color: $player-secondary !important;
+  border: transparent;
+}
+
+/* Global player slider */
+.mat-slider.mat-player {
+  width: inherit;
+
+  .mat-slider-track-background,
+  .mat-slider-thumb {
+    background-color: $player-secondary;
+  }
+
+
+  .mat-slider-track-fill {
+    background-color: $player-primary;
+  }
+}
