@@ -22,7 +22,8 @@ DEEZER_CLIENT_SECRET = '342ad744c8bf0e09677c638ee9b5c0ca'
 DEEZER_PERMISSIONS = [
     'basic_access',
     'email',
-    'offline_access' # required to access refresh_token
+    'manage_library',
+    'offline_access', # required to access refresh_token
 ]
 
 # server database configuration

@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { catchError, finalize } from 'rxjs/operators';
+import { catchError, finalize, map } from 'rxjs/operators';
 import { Observable, Observer } from 'rxjs';
 
 
@@ -67,6 +67,14 @@ export abstract class ProviderService {
         headers
       }
     ).pipe(
+      map(
+        (resp: any) => {
+          if (resp.error && resp.error.type == 'OAuthException') {
+            throw { status: 401 };
+          }
+          return resp;
+        }
+      ),
       catchError(
         // handle 401 errors codes
         error => {

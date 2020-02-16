@@ -20,14 +20,8 @@ export class DeezerUserService extends ProviderService {
   }
 
   createPlaylist(playlist: Playlist): any {
-    const userID = '3452495304';
-
-    const body = {
-      title: playlist.title,
-      public: false
-    };
-
-    return this.post(`/user/${userID}/playlists`, body)
+    // bizarrement les parametres doivent etre passes en queryparam et pas en body...
+    return this.post(`/user/me/playlists?title=${playlist.title}&public=false`, {})
       .pipe(map(data => data));
   }
 
