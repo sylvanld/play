@@ -11,8 +11,8 @@ import { environment } from 'src/environments/environment';
 import { Track, Account, User } from '~types/index';
 
 import { YoutubeService } from './youtube.service';
-import { DeezerService } from './deezer.service';
-import { SpotifyService } from './spotify.service';
+import { DeezerUserService } from './deezer-user.service';
+import { SpotifyUserService } from './spotify-user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +23,8 @@ export class PlayService extends ProviderService {
     private auth: AuthenticationService,
     private store: StorageService,
     private youtube: YoutubeService,
-    private deezer: DeezerService,
-    private spotify: SpotifyService,
+    private deezer: DeezerUserService,
+    private spotify: SpotifyUserService,
   ) {
     super(http, environment.play_api_url, { type: 'bearer' });
   }

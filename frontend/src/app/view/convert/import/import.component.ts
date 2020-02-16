@@ -4,8 +4,9 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { take } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
-import { SpotifyService } from 'src/app/service/spotify.service';
-import { DeezerService } from 'src/app/service/deezer.service';
+import { SpotifyUserService } from 'src/app/service/spotify-user.service';
+import { DeezerUserService } from 'src/app/service/deezer-user.service';
+
 import { Playlist, Track } from '~types/index';
 
 @Component({
@@ -24,8 +25,8 @@ export class ImportComponent implements OnInit, OnDestroy {
 
   constructor(
     private builder: FormBuilder,
-    private spotify: SpotifyService,
-    private deezer: DeezerService) {
+    private spotify: SpotifyUserService,
+    private deezer: DeezerUserService) {
 
     this.importForm = this.builder.group({
       spotifyControl: new FormControl([], []),

@@ -12,6 +12,8 @@ SPOTIFY_CLIENT_SECRET = 'a39aa0f6ab32449ab96e2715a9570bd4'
 SPOTIFY_PERMISSIONS = [
     'user-read-email',
     'user-read-private',
+    'playlist-modify',
+    'playlist-modify-private',
     'playlist-read-private',      # manage playlists
     'playlist-read-collaborative' # manage playlists
 ]
@@ -28,6 +30,7 @@ DEEZER_PERMISSIONS = [
 
 # server database configuration
 SQLALCHEMY_DATABASE_URI         = 'sqlite:///:memory:'
+# SQLALCHEMY_DATABASE_URI         = 'sqlite:///database.sqlite'
 SQLALCHEMY_TRACK_MODIFICATIONS  = False
 
 # required to hash multiple trucs with salt

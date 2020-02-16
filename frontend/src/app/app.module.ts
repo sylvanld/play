@@ -77,6 +77,7 @@ import { ExportComponent } from './view/convert/export/export.component';
     HeadingComponent,
     PlayerComponent,
     ShareComponent,
+    ExportComponent,
     AccountsComponent,
     BrowseComponent,
     PlaytechComponent,
