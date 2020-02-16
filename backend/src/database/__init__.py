@@ -15,6 +15,8 @@ def create_db(app):
         db.drop_all()
         db.create_all()
 
+        """
         user = User(email='sledeunf@gmail.com', password='toto')
         db.session.add(user)
         db.session.commit()
+        """
