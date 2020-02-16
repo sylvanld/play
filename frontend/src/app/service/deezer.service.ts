@@ -85,6 +85,7 @@ export class DeezerService extends ProviderService {
     return this.get<DeezerPlaylist[]>('/user/me/playlists')
       .pipe(map(
         (playlists: DeezerPlaylist[]): Playlist[] => {
+          console.log(playlists);
           return playlists.map(playlist => this.convertPlaylist(playlist));
         })
       );

@@ -1,10 +1,48 @@
-<h3 *ngIf="playlists.length === 0">No Playlist to import.</h3>
-<mat-selection-list>
-  <h3 mat-subheader>Spotify</h3>
-  <mat-list-option *ngFor="let playlist of playlists" [value]="playlist">
-    <!-- TODO: make an item of 2 lines -->
-    {{playlist.title }}
-  </mat-list-option>
-</mat-selection-list>
+<form [formGroup]="importForm" (ngSubmit)="onSubmit(importForm.value)">
+  <!-- TODO: move inside list! -->
+  <h3 *ngIf="spotifyPlaylists.length === 0">No Playlist to import.</h3>
 
-<!-- TODO: A floating button!-->
+  <mat-selection-list formControlName="spotifyControl">
+    <h3 mat-subheader>Spotify</h3>
+    <mat-list-option *ngFor="let playlist of spotifyPlaylists" [value]="playlist">
+      <!-- TODO: make an item of 2 lines -->
+      {{ playlist.title }}
+    </mat-list-option>
+  </mat-selection-list>
+  <mat-selection-list formControlName="deezerControl">
+    <h3 mat-subheader>Deezer</h3>
+    <mat-list-option *ngFor="let playlist of deezerPlaylists" [value]="playlist">
+      <!-- TODO: make an item of 2 lines -->
+      {{ playlist.title }}
+    </mat-list-option>
+  </mat-selection-list>
+
+  <!-- TODO: A floating button!-->
+  <button mat-fab *ngIf="!isEmpty" color="accent" style="position: fixed; right: 24px; bottom: 100px; z-index: 9999">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <!--
+    <ng-template [ngIf]="!noActionBtn">
+  <mat-menu #actionsMenu="matMenu">
+    <button mat-menu-item (click)="playSelection()">
+      <span>Play selected</span>
+      <mat-icon style="left: 0">play_arrow</mat-icon>
+    </button>
+    <button mat-menu-item>
+      <span>Add to queue</span>
+      <mat-icon>queue</mat-icon>
+    </button>
+    <button mat-menu-item>
+      <span>Add to playlist</span>
+      <mat-icon>queue_music</mat-icon>
+    </button>
+  </mat-menu>
+
+  <button mat-fab *ngIf="selection.hasValue()" color="accent" [matMenuTriggerFor]="actionsMenu"
+    style="position: fixed; right: 24px; bottom: 100px; z-index: 9999">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</ng-template>
+  -->
+</form>
