@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { SearchResult } from '~types/search-result';
-import { Track } from '~types/track';
+import { Track, SearchResult } from '~types/index';
 
 @Component({
   selector: 'app-search-results',

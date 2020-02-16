@@ -40,7 +40,6 @@ import { RegisterComponent } from './view/register/register.component';
 import { FormComponent } from './component/core/form/form.component';
 
 import { PlayerModule } from './module/player/player.module';
-import { DeezerModule } from './module/deezer/deezer.module';
 
 import { SpotifyLoginButtonComponent } from './component/auth/spotify-login-button/spotify-login-button.component';
 import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button/deezer-login-button.component';
@@ -62,6 +61,9 @@ import { ProsodicsFiltersComponent } from './component/search/advanced-search/pr
 import { SimpleFiltersComponent } from './component/search/advanced-search/simple-filters/simple-filters.component';
 import { PlaylistListComponent } from './component/playlist/playlist-list/playlist-list.component';
 import { TrackListComponent } from './component/playlist/track-list/track-list.component';
+import { ConvertComponent } from './view/convert/convert.component';
+import { ImportComponent } from './view/convert/import/import.component';
+import { ExportComponent } from './view/convert/export/export.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +79,7 @@ import { TrackListComponent } from './component/playlist/track-list/track-list.c
     HeadingComponent,
     PlayerComponent,
     ShareComponent,
+    ExportComponent,
     AccountsComponent,
     BrowseComponent,
     PlaytechComponent,
@@ -103,7 +106,10 @@ import { TrackListComponent } from './component/playlist/track-list/track-list.c
     ProsodicsFiltersComponent,
     SimpleFiltersComponent,
     PlaylistListComponent,
-    TrackListComponent
+    TrackListComponent,
+    ConvertComponent,
+    ImportComponent,
+    ExportComponent,
   ],
   imports: [
     BrowserModule,
@@ -124,8 +130,7 @@ import { TrackListComponent } from './component/playlist/track-list/track-list.c
     MatBottomSheetModule,
     FlexLayoutModule,
     // custom modules
-    DeezerModule,
-    PlayerModule.forRoot({ selection: 'youtube' })
+    PlayerModule.forRoot({ current: 'youtube' }),
   ],
   entryComponents: [ForgetAccountDialogComponent, AdvancedSearchComponent],
   providers: [],

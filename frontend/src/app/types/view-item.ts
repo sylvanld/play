@@ -4,4 +4,5 @@ export interface ViewItem {
     mainContent: string;
     secondaryContent: string;
     ro_diasabled?: boolean;
+    identifier?: any;
 }

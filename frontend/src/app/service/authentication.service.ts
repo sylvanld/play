@@ -1,11 +1,12 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject, of, Observable, Observer } from 'rxjs';
-import { Router } from '@angular/router';
+import { map, catchError } from 'rxjs/operators';
+
 import { StorageService } from './storage.service';
 import { NotificationService } from './notification.service';
-import { map, catchError } from 'rxjs/operators';
 
 /**
  * load query params as an object
@@ -134,7 +135,7 @@ export class AuthenticationService {
     )
       .pipe(
         map((token: Token) => {
-          // after tocken has been verified, set fresh token
+          // after token has been verified, set fresh token
           this.setToken(token);
 
           // remove potential token in query params
@@ -142,48 +143,82 @@ export class AuthenticationService {
           this.router.navigate([], {
             queryParams: {},
             queryParamsHandling: 'merge'
-          })
+          });
           return true;
         }), catchError(error => {
           // if an error occured, this token is not valid, user is logged out
           this.logout();
-          return of(false)
+          return of(false);
         }));
   }
 
   loadTokenFromUrl(): Observable<boolean> {
-    console.log('call load token from url')
-    const token = <Token>getUrlParams();
+    console.log('call load token from url');
+    const token = getUrlParams() as Token;
     return this.setAndVerifyToken(token);
   }
 
   refreshToken(): Observable<boolean> {
     /* utilise le refresh token pour obtenir un nouvel accessToken */
-    console.log('call refresh token')
+    console.log('call refresh token');
     const refresh = this.storage.get(REFRESH_TOKEN);
     return this.setAndVerifyToken({ refresh_token: refresh });
   }
 
   loadToken() {
     console.log('call load token');
-    return Observable.create((observer: Observer<boolean>) => {
+    return new Observable((observer: Observer<boolean>) => {
       this.loadTokenFromUrl().subscribe(tokenLoaded => {
         if (tokenLoaded) {
-          console.log('token loaded from url')
+          console.log('token loaded from url');
           // token loaded (from url)
           observer.next(true);
           observer.complete();
         } else {
           // no token in url, try to reload token from refresh token
-          console.log('try to use refresh token')
+          console.log('try to use refresh token');
           this.refreshToken().subscribe(tokenRefreshed => {
             console.log('refresh result ' + tokenRefreshed);
             observer.next(tokenRefreshed);
             observer.complete();
-          })
+          });
         }
-      })
-    })
+      });
+    });
   }
 
+  /**
+   * Call play backend to get a spotify application token.
+   */
+  getSpotifyToken(): Observable<string> {
+    console.log(this.getToken());
+    return this.http.post(
+      environment.play_api_url + '/spotify/token',
+      {},
+      { headers: { Authorization: 'Bearer ' + this.getToken() } }
+    ).pipe(map(({ access_token }: Token) => access_token));
+  }
+
+  /**
+   * Call play backend to get a spotify user token.
+   */
+  getSpotifyUserToken(): Observable<string> {
+    console.log(this.getToken());
+    return this.http.post(
+      environment.play_api_url + '/spotify/token/me',
+      {},
+      { headers: { Authorization: 'Bearer ' + this.getToken() } }
+    ).pipe(map(({ access_token }: Token) => access_token));
+  }
+
+  /**
+   * Call play backend to get a deezer use token.
+   */
+  getDeezerUserToken(): Observable<string> {
+    return this.http.post(
+      environment.play_api_url + '/deezer/token/me',
+      {},
+      { headers: { Authorization: 'Bearer ' + this.getToken() } }
+    ).pipe(map(({ access_token }: Token) => access_token));
+  }
 }

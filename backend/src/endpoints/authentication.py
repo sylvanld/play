@@ -51,7 +51,6 @@ class SpotifyTokenResource(Resource):
         """
         Return spotify application access token
         """
-        print('wesh user', current_user)
         return Spotify.get_application_token()
 
 
@@ -72,7 +71,7 @@ class SpotifyTokenResource(Resource):
         """
         Return deezer application access token
         """
-        raise Deezer.get_token(current_user)
+        return Deezer.get_token_for_user(current_user)
 
 
 

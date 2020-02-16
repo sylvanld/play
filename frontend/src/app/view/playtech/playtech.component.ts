@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Playlist } from 'src/app/types/playlist';
 import { PlaylistsService } from 'src/app/service/playlists.service';
 import { Observable } from 'rxjs';
+import { Playlist } from '~types/play/play-playlist';
 
 @Component({
   templateUrl: './playtech.component.html',

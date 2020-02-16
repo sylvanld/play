@@ -14,7 +14,7 @@ export class StorageService {
   }
 
   get(key: string) {
-    let value = localStorage.getItem(key);
+    const value = localStorage.getItem(key);
     if (!!value) {
       return JSON.parse(value);
     } else {

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Artist } from '~types/artist';
-import { Track } from '~types/track';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Track, Artist } from '~types/index';
 
 @Component({
   selector: 'app-advanced-search',
