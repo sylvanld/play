@@ -1,9 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { SpotifyService } from 'src/app/service/spotify.service';
-import { SearchResult } from '../../../types/search-result';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { AdvancedSearchComponent } from '../advanced-search/advanced-search.component';
+import { SearchResult } from '~types/index';
 
 @Component({
   selector: 'app-search-bar',

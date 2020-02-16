@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Track } from '~types/track';
 import { SelectionModel } from '@angular/cdk/collections';
 import { PlayerService } from '~player/player.service';
+import { Track } from '~types/index';
 
 @Component({
   selector: 'app-tracks-list',

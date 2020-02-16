@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PlaylistsService } from 'src/app/service/playlists.service';
-import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatStepper } from '@angular/material/stepper';
 
 @Component({
@@ -9,7 +9,7 @@ import { MatStepper } from '@angular/material/stepper';
   styleUrls: ['./playlist-creation.component.scss']
 })
 export class PlaylistCreationComponent implements OnInit {
-  @ViewChild('stepper', {static: false}) private stepper: MatStepper;
+  @ViewChild('stepper', { static: false }) private stepper: MatStepper;
   playlistTitle: string;
   private viewMode: string = null;
   private step = 0;

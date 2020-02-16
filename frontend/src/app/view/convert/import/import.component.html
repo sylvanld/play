@@ -1,0 +1,35 @@
+<form [formGroup]="importForm">
+  <!-- TODO: move inside list! -->
+  <h3 *ngIf="spotifyPlaylists.length === 0">No Playlist to import.</h3>
+
+  <mat-selection-list formControlName="spotifyControl">
+    <h3 mat-subheader>Spotify</h3>
+    <mat-list-option *ngFor="let playlist of spotifyPlaylists" [value]="playlist">
+      <!-- TODO: make an item of 2 lines -->
+      {{ playlist.title }}
+    </mat-list-option>
+  </mat-selection-list>
+  <mat-selection-list formControlName="deezerControl">
+    <h3 mat-subheader>Deezer</h3>
+    <mat-list-option *ngFor="let playlist of deezerPlaylists" [value]="playlist">
+      <!-- TODO: make an item of 2 lines -->
+      {{ playlist.title }}
+    </mat-list-option>
+  </mat-selection-list>
+
+  <!-- TODO: A floating button!-->
+  <mat-menu #importMenu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>play_arrow</mat-icon>
+      <span>Play selected</span>
+    </button>
+    <button mat-menu-item (click)="onSubmit(importForm.value)">
+      <mat-icon>playlist_add</mat-icon>
+      <span>Import selected</span>
+    </button>
+  </mat-menu>
+  <button mat-fab *ngIf="!isEmpty" color="accent" [matMenuTriggerFor]="importMenu"
+    style="position: fixed; right: 24px; bottom: 100px; z-index: 9999">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</form>

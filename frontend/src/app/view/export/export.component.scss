@@ -1,0 +1,28 @@
+@import 'src/app/constants.scss';
+
+:host{
+  grid-area: content;
+  overflow-y: auto;
+  display: flex;
+  padding: 16px;
+}
+
+aside{
+  flex: 1;
+  padding: 5px;
+}
+
+@media screen and (max-width: $mobile-max-width){
+  :host{
+    flex-direction: initial;
+  }
+}
+
+i{
+  font-size: 1.5em;
+}
+
+.mat-row:hover {
+  background-color: lightgray;
+  cursor: pointer;
+}

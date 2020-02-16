@@ -39,7 +39,6 @@ import { RegisterComponent } from './view/register/register.component';
 import { FormComponent } from './component/core/form/form.component';
 
 import { PlayerModule } from './module/player/player.module';
-import { DeezerModule } from './module/deezer/deezer.module';
 
 import { SpotifyLoginButtonComponent } from './component/auth/spotify-login-button/spotify-login-button.component';
 import { DeezerLoginButtonComponent } from './component/auth/deezer-login-button/deezer-login-button.component';
@@ -59,6 +58,9 @@ import { InputDatesComponent } from './component/search/filters/input-dates/inpu
 import { InputTempoComponent } from './component/search/filters/input-tempo/input-tempo.component';
 import { ProsodicsFiltersComponent } from './component/search/advanced-search/prosodics-filters/prosodics-filters.component';
 import { SimpleFiltersComponent } from './component/search/advanced-search/simple-filters/simple-filters.component';
+import { ConvertComponent } from './view/convert/convert.component';
+import { ImportComponent } from './view/convert/import/import.component';
+import { ExportComponent } from './view/convert/export/export.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +77,7 @@ import { SimpleFiltersComponent } from './component/search/advanced-search/simpl
     HeadingComponent,
     PlayerComponent,
     ShareComponent,
+    ExportComponent,
     AccountsComponent,
     BrowseComponent,
     PlaytechComponent,
@@ -100,6 +103,9 @@ import { SimpleFiltersComponent } from './component/search/advanced-search/simpl
     InputTempoComponent,
     ProsodicsFiltersComponent,
     SimpleFiltersComponent,
+    ConvertComponent,
+    ImportComponent,
+    ExportComponent,
   ],
   imports: [
     BrowserModule,
@@ -118,8 +124,7 @@ import { SimpleFiltersComponent } from './component/search/advanced-search/simpl
     MatDialogModule,
     PrimengModule,
     // custom modules
-    DeezerModule,
-    PlayerModule.forRoot({ selection: 'youtube' })
+    PlayerModule.forRoot({ current: 'youtube' }),
   ],
   entryComponents: [ForgetAccountDialogComponent, AdvancedSearchComponent],
   providers: [],

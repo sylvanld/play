@@ -1,15 +1,15 @@
-import { Component, OnInit, HostBinding, Input } from '@angular/core';
+import { Component, OnInit, HostBinding, Input, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-floating-menu',
   templateUrl: './floating-menu.component.html',
   styleUrls: ['./floating-menu.component.scss']
 })
-export class FloatingMenuComponent implements OnInit {
-  @Input() triggerLevel:number = 0;
-  @Input() itemsAVisible:Array<Object> = [];
-  @Input() items:Array<Object> = [];
-  hideOptions:boolean = true;
+export class FloatingMenuComponent implements OnInit, OnDestroy {
+  @Input() triggerLevel = 0;
+  @Input() itemsAVisible: object[] = [];
+  @Input() items: object[] = [];
+  hideOptions = true;
 
   constructor() { }
 
@@ -23,5 +23,5 @@ export class FloatingMenuComponent implements OnInit {
 
   scroll = (event): void => {
     this.hideOptions = (window.scrollY < this.triggerLevel);
-  };
+  }
 }

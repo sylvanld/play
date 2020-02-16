@@ -1,0 +1,10 @@
+<nav mat-tab-nav-bar mat-align-tabs="center" animationDuration="0ms" style="grid-area: nav;">
+  <a mat-tab-link routerLink="import" routerLinkActive #import="routerLinkActive" [active]="import.isActive">
+    Import a playlist
+  </a>
+  <a mat-tab-link routerLink="export" routerLinkActive #export="routerLinkActive" [active]="export.isActive">
+    Export a playlist
+  </a>
+</nav>
+
+<router-outlet [hidden]="true"></router-outlet>

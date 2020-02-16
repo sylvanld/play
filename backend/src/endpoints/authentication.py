@@ -51,7 +51,6 @@ class SpotifyTokenResource(Resource):
         """
         Return spotify application access token
         """
-        print('wesh user', current_user)
         return Spotify.get_application_token()
 
 

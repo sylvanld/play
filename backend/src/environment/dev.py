@@ -11,7 +11,11 @@ SPOTIFY_CLIENT_ID = '4542a547217f4000b71e8fbfbe090793'
 SPOTIFY_CLIENT_SECRET = 'a39aa0f6ab32449ab96e2715a9570bd4'
 SPOTIFY_PERMISSIONS = [
     'user-read-email',
-    'user-read-private'
+    'user-read-private',
+    'playlist-modify',
+    'playlist-modify-private',
+    'playlist-read-private',      # manage playlists
+    'playlist-read-collaborative' # manage playlists
 ]
 
 # deezer oauth2 configuration
@@ -20,11 +24,13 @@ DEEZER_CLIENT_SECRET = '342ad744c8bf0e09677c638ee9b5c0ca'
 DEEZER_PERMISSIONS = [
     'basic_access',
     'email',
-    'offline_access' # required to access refresh_token
+    'offline_access', # required to access refresh_token
+    'manage_library'  # manage playlists
 ]
 
 # server database configuration
 SQLALCHEMY_DATABASE_URI         = 'sqlite:///:memory:'
+# SQLALCHEMY_DATABASE_URI         = 'sqlite:///database.sqlite'
 SQLALCHEMY_TRACK_MODIFICATIONS  = False
 
 # required to hash multiple trucs with salt

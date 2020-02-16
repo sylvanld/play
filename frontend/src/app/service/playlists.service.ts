@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as uuid from 'uuid';
 import * as moment from 'moment';
-import { Playlist } from '../types/playlist';
 import { BehaviorSubject } from 'rxjs';
 import { StorageService } from './storage.service';
-import { Track } from '~types/track';
+import { Playlist, Track } from '~types/index';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +46,7 @@ export class PlaylistsService {
      */
     this.playlistsSubject.next(
       Object.values(this._playlists)
-    )
+    );
   }
 
   loadPlaylists() {
@@ -71,7 +70,7 @@ export class PlaylistsService {
       key => {
         this._playlists[playlistId][key] = updateData[key];
       }
-    )
+    );
     this.notifyPlaylistsChange();
   }
 
@@ -111,6 +110,17 @@ export class PlaylistsService {
     const playlist = this._playlists[playlistId];
     const track = !!playlist && playlist.tracks[index];
     return track;
+  }
+
+  /**
+   *
+   * @param playlist: The given playlist.
+   * @param track: The track to append.
+   */
+  addTracks(playlist: Playlist, ...tracks: Track[]): Playlist {
+    tracks.forEach((track: Track) => this._playlists[playlist.id].tracks.push(track));
+    this.notifyPlaylistsChange();
+    return this._playlists[playlist.id];
   }
 
   /**
