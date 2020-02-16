@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 
 import { SpotifyUserService } from 'src/app/service/spotify-user.service';
 import { DeezerUserService } from 'src/app/service/deezer-user.service';
+import { PlayService } from 'src/app/service/play.service';
 
 import { Playlist, Track } from '~types/index';
 
@@ -25,6 +26,7 @@ export class ImportComponent implements OnInit, OnDestroy {
 
   constructor(
     private builder: FormBuilder,
+    private play: PlayService,
     private spotify: SpotifyUserService,
     private deezer: DeezerUserService) {
 
@@ -37,16 +39,12 @@ export class ImportComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     this.subscription.add(
-      // retreive playlists
-      this.spotify.getPlaylists()
+      this.play.getExternalPlaylists()
         .pipe(take(1))
-        .subscribe((playlists: Playlist[]) => this.spotifyPlaylists = playlists)
-    );
-
-    this.subscription.add(
-      this.deezer.getPlaylists()
-        .pipe(take(1))
-        .subscribe((playlists: Playlist[]) => this.deezerPlaylists = playlists)
+        .subscribe(({ deezer, spotify }) => {
+          this.deezerPlaylists = deezer;
+          this.spotifyPlaylists = spotify;
+        })
     );
 
     this.subscription.add(this.importForm.valueChanges.subscribe(({ deezerControl, spotifyControl }) => {
@@ -63,6 +61,16 @@ export class ImportComponent implements OnInit, OnDestroy {
   }
 
   onSubmit({ deezerControl, spotifyControl }) {
-    // TODO: notify
+    console.log("submit");
+    for (const deezer of deezerControl) {
+      this.subscription.add(this.play.createPlalist(deezer, 'DEEZER').subscribe(
+        // TODO: update playlist localStorage.
+      ));
+    }
+    for (const spotify of spotifyControl) {
+      this.subscription.add(this.play.createPlalist(spotify, 'SPOTIFY').subscribe(
+        // TODO: update playlist localStorage.
+      ));
+    }
   }
 }

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Observer, forkJoin, of } from 'rxjs';
-import { map, flatMap } from 'rxjs/operators';
+import { Observable, Observer, forkJoin, of, from, concat, merge } from 'rxjs';
+import { map, flatMap, mergeMap, concatAll, filter, mergeAll, pluck } from 'rxjs/operators';
 
 import { AuthenticationService } from './authentication.service';
 import { ProviderService } from './provider.service';
 import { StorageService } from './storage.service';
 
 import { environment } from 'src/environments/environment';
-import { Track, Account, User } from '~types/index';
+import { Track, Account, User, Playlist } from '~types/index';
 
 import { YoutubeService } from './youtube.service';
 import { DeezerUserService } from './deezer-user.service';
@@ -18,6 +18,9 @@ import { SpotifyUserService } from './spotify-user.service';
   providedIn: 'root'
 })
 export class PlayService extends ProviderService {
+
+  private _accounts: Account[];
+
   constructor(
     protected http: HttpClient,
     private auth: AuthenticationService,
@@ -54,12 +57,7 @@ export class PlayService extends ProviderService {
    * Register association between an isrc and an external Id
    */
   addExternalsIds(track: Track, externalIds: { spotify?, deezer?, youtube?}) {
-    /*
     // TODO: this.put(`/tracks/isrc/${track.isrc}`, externalIds);
-    this.completeExternalsIds({isrc, spotify...}, {youtube: true, deeezer: true}).subscribe(track=>{
-      // play track track.externalIds.youtube
-    })
-    */
   }
 
   completeExternalsIds(track: Track, externalIds: { spotify?: boolean, deezer?: boolean, youtube?: boolean }): Observable<Track> {
@@ -91,8 +89,16 @@ export class PlayService extends ProviderService {
   /**
    * List accounts of the currently authenticated user.
    */
-  myAccounts() {
-    return this.get<Account[]>('/users/me/accounts');
+  myAccounts(): Observable<Account[]> {
+    if (this._accounts) {
+      return of(this._accounts);
+    }
+    return this.get<Account[]>('/users/me/accounts').pipe(
+      map((accounts: Account[]) => {
+        this._accounts = accounts;
+        return accounts;
+      })
+    );
   }
 
   /**
@@ -107,5 +113,51 @@ export class PlayService extends ProviderService {
    */
   myFriends(): Observable<User[]> {
     return this.get<User[]>('/users/me/friends');
+  }
+
+  /**
+   * Retreive external playlists of the currently authenticated user.
+   * @note rxjs @6.5.0 is required
+   */
+  getExternalPlaylists(): Observable<{ deezer?: Playlist[], spotify?: Playlist[] }> {
+
+    return this.myAccounts()
+      .pipe(flatMap(
+        (accounts: Account[]) => {
+          const join = { deezer: of([]), spotify: of([]) };
+          for (const account of accounts) {
+            if (account.provider === 'DEEZER') {
+              join.deezer = this.deezer.getPlaylists();
+            } else if (account.provider === 'SPOTIFY') {
+              join.spotify = this.spotify.getPlaylists();
+            }
+          }
+          return forkJoin(join);
+        }
+      ));
+  }
+
+  /**
+   * Retreive playlists of the currently authenticated user.
+   */
+  getPlaylists(): Observable<Playlist[]> {
+    // TODO: this.get<Playlist[]>('/users/me/playlists')
+    return of([]);
+  }
+
+  /**
+   * Create an external playlist from the given.
+   */
+  createExternalPlalist(playlist, destination: 'DEEZER' | 'SPOTIFY') {
+    // TODO: map deezer and spotify services
+  }
+
+  /**
+   * Create a playlist from the given.
+   */
+  createPlalist(playlist: Playlist, source: 'PLAY' | 'DEEZER' | 'SPOTIFY'): Observable<Playlist> {
+    // TODO: this.post<>('/users/me/playlists')
+    // TODO: this.post<>('/users/me/playlists/{id}/tracks)
+    return of(playlist);
   }
 }
