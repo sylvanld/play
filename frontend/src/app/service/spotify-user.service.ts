@@ -20,7 +20,6 @@ export class SpotifyUserService extends ProviderService {
   }
 
   createPlaylist(playlist: Playlist): any {
-    const userID = 'USER_ID';
 
     const body = {
       name: playlist.title,
@@ -28,7 +27,7 @@ export class SpotifyUserService extends ProviderService {
       public: false
     };
 
-    return this.post(`/v1/users/${userID}/playlists`, body)
+    return this.post(`/v1/me/playlists`, body)
       .pipe(map(data => data));
   }
 

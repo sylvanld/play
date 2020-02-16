@@ -100,14 +100,7 @@ export class ExportComponent implements OnInit {
             if (plateform === 'Spotify') {
               resultSpotify = this.spotifyUserService.createPlaylist(p);
             } else if (plateform === 'Deezer') {
-              console.log('Deezer Sortie');
               resultDeezer = this.deezerUserService.createPlaylist(p);
-              console.log('Deezer sortie 2', resultDeezer);
-              resultDeezer.subscribe(
-                data => {
-                  console.log('Deezer sortie 3', data);
-                }
-              );
             } else if (plateform === 'Youtube') {
               // resultYoutube = this.youtubeUserService.createPlaylist(p);
             }
@@ -133,21 +126,24 @@ export class ExportComponent implements OnInit {
           if (plateform === 'Spotify') {
             resultSpotify.subscribe(
               data => {
-                console.log(data);
-                // console.log(song);
+                console.log('sortie', data.id);
                 // this.spotifyUserService.addTrack(data.id, song);
               }
             );
           } else if (plateform === 'Deezer') {
-            // resultDeezer.subscribe(
-            //   data => {
-            //     console.log('sortie', data);
-            //     // this.deezerUserService.addTrack(data.id, song);
-            //   }
-            // );
+            resultDeezer.subscribe(
+              data => {
+                console.log('sortie', data.id);
+                // this.deezerUserService.addTrack(data.id, song);
+              }
+            );
           } else if (plateform === 'Youtube') {
-            // console.log(resultCreate);
-            // this.youtubeService.createPlaylist();
+            resultYoutube.subscribe(
+              data => {
+                console.log('sortie', data.id);
+                // this.youtubeService.createPlaylist();
+              }
+            );
           }
         }
       }

@@ -5,4 +5,5 @@ export interface ViewItem {
     secondaryContent: string;
     ro_diasabled?: boolean;
     identifier?: any;
+    isrc?: string;
 }

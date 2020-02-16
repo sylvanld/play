@@ -124,7 +124,7 @@ export class SpotifyService extends ProviderService {
                     return results.albums || [];
                 }
             )
-        )
+        );
     }
 
     searchTrack(query: string): Observable<Track[]> {
@@ -134,7 +134,7 @@ export class SpotifyService extends ProviderService {
                     return results.tracks || [];
                 }
             )
-        )
+        );
     }
 
     suggestions(queryParams: string): Observable<SearchResult> {
