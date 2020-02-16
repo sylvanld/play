@@ -1,35 +1,58 @@
-<form [formGroup]="importForm">
-  <!-- TODO: move inside list! -->
-  <h3 *ngIf="spotifyPlaylists.length === 0">No Playlist to import.</h3>
+<form [formGroup]="importForm" (ngSubmit)="onSubmit(importForm.value)">
 
-  <mat-selection-list formControlName="spotifyControl">
-    <h3 mat-subheader>Spotify</h3>
-    <mat-list-option *ngFor="let playlist of spotifyPlaylists" [value]="playlist">
-      <!-- TODO: make an item of 2 lines -->
-      {{ playlist.title }}
-    </mat-list-option>
-  </mat-selection-list>
-  <mat-selection-list formControlName="deezerControl">
-    <h3 mat-subheader>Deezer</h3>
-    <mat-list-option *ngFor="let playlist of deezerPlaylists" [value]="playlist">
-      <!-- TODO: make an item of 2 lines -->
-      {{ playlist.title }}
-    </mat-list-option>
-  </mat-selection-list>
+  <mat-accordion>
+    <!-- Spotify -->
+    <mat-expansion-panel [expanded]="step === 0" (opened)="step = 0" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h3>Spotify</h3>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
 
-  <!-- TODO: A floating button!-->
-  <mat-menu #importMenu="matMenu">
-    <button mat-menu-item>
-      <mat-icon>play_arrow</mat-icon>
-      <span>Play selected</span>
-    </button>
-    <button mat-menu-item (click)="onSubmit(importForm.value)">
-      <mat-icon>playlist_add</mat-icon>
-      <span>Import selected</span>
-    </button>
-  </mat-menu>
-  <button mat-fab *ngIf="!isEmpty" color="accent" [matMenuTriggerFor]="importMenu"
+      <h3 *ngIf="spotifyPlaylists.length === 0">No Playlist to import.</h3>
+      <mat-selection-list formControlName="spotifyControl">
+        <mat-list-option *ngFor="let playlist of spotifyPlaylists" [value]="playlist">
+          <img matListAvatar src="{{ playlist.cover }}" alt="No cover.">
+          <h3 matLine> {{ playlist.title }} </h3>
+          <p matLine>
+            <span> {{ playlist.author }} </span>
+          </p>
+        </mat-list-option>
+      </mat-selection-list>
+
+      <mat-action-row>
+        <button mat-button color="primary" (click)="step = 1" type="button">Next</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+
+    <!-- Deezer -->
+    <mat-expansion-panel [expanded]="step === 1" (opened)="step = 1" hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <h3>Deezer</h3>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <h3 *ngIf="deezerPlaylists.length === 0">No Playlist to import.</h3>
+      <mat-selection-list formControlName="deezerControl">
+        <mat-list-option *ngFor="let playlist of deezerPlaylists" [value]="playlist">
+          <img matListAvatar src="{{ playlist.cover }}" alt="No cover.">
+          <h3 matLine> {{ playlist.title }} </h3>
+          <p matLine>
+            <span> {{ playlist.author }} </span>
+          </p>
+        </mat-list-option>
+      </mat-selection-list>
+
+      <mat-action-row>
+        <button mat-button color="primary" (click)="step = 0" type="button">Previous</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <!-- A floating button! -->
+  <button mat-fab *ngIf="!isEmpty" color="accent" type="submit"
     style="position: fixed; right: 24px; bottom: 100px; z-index: 9999">
-    <mat-icon>more_vert</mat-icon>
+    <mat-icon>add</mat-icon>
   </button>
 </form>

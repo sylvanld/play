@@ -63,7 +63,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 // Be sure that you only ever include 'mat-core' mixin once!
 // it should not be included for each theme.
-@include mat-core(); 
+@include mat-core();
 
 $mat-secondary: (
     50 : #e7e7e7,
