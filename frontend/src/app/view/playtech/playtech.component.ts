@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./playtech.component.scss']
 })
 export class PlaytechComponent implements OnInit {
-  playlists: Observable<Playlist[]>;
+  private playlists: Observable<Playlist[]>;
 
   constructor(private playlistService: PlaylistsService) { }
 

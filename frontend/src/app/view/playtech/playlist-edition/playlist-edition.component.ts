@@ -44,6 +44,7 @@ export class PlaylistEditionComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
+      console.log('refresh playlist:', params);
       this.playlistId = params['id'];
 
       if (!this.playlistId) {
@@ -94,6 +95,9 @@ export class PlaylistEditionComponent implements OnInit {
     for (const t of tracks) {
       this.playlistService.addTrack(this.playlistId, t);
     }
+    console.log('selectionToPlaylist - selection:', this.selection.selected);
+    console.log('selectionToPlaylist - tracks:', tracks);
+    console.log('selectionToPlaylist - playlist:', this.playlist);
     this.selection.clear();
   }
 }
