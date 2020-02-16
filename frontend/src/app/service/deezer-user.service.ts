@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
-import { map } from 'rxjs/operators';
+import { map, mergeMap, flatMap } from 'rxjs/operators';
 import { ProviderService } from './provider.service';
 import { AuthenticationService } from './authentication.service';
 
 import { Playlist, Track, DeezerSearchResult, DeezerPlaylist, DeezerTrack } from '~types/index';
-import { Observable } from 'rxjs';
+import { Observable, of, forkJoin, merge } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +26,10 @@ export class DeezerUserService extends ProviderService {
 
 
   completeExternalId(track: Track): Observable<Track> {
-    return this.get<DeezerSearchResult>('/search/track?q=' + encodeURIComponent(track.title + ' ' + track.artist))
+    return this.get<DeezerTrack>('/2.0/track/isrc:' + track.isrc)
       .pipe(
         map((data) => {
-          track.external_ids.deezer = this.convertTrack(data[0].track).external_ids.deezer;
+          track.external_ids.deezer = this.convertTrack(data).external_ids.deezer;
           return track;
         })
       );
@@ -40,7 +40,7 @@ export class DeezerUserService extends ProviderService {
    */
   convertPlaylist(playlist: DeezerPlaylist): Playlist {
     return {
-      id: playlist.id,
+      id: `${playlist.id}`,
       cover: playlist.picture_medium,
       title: playlist.title,
       author: playlist.creator.name,
@@ -53,17 +53,39 @@ export class DeezerUserService extends ProviderService {
    */
   convertTrack(track: DeezerTrack): Track {
     return {
-      isrc: '', // no info
+      isrc: track.isrc, // no info
       title: track.title,
       artist: track.artist.name,
       album: track.album.title,
-      release: '', // no info
+      release: track.release_date, // no info
       external_ids: {
         spotify: undefined,
         youtube: undefined,
-        deezer: track.id
+        deezer: `${track.id}`
       }
     };
+  }
+
+  /**
+   * Retreive complete info from a track.
+   * @param track: A deezer track!
+   */
+  getTracksInfo(request: Observable<DeezerSearchResult>): Observable<Track[]> {
+    return request.pipe(
+      flatMap(
+        ({ data }: DeezerSearchResult) => {
+          const requests = [];
+          for (const track of data as DeezerTrack[]) {
+            requests.push(this.get(`/track/${track.id}`));
+          }
+          console.log(requests);
+          return forkJoin(requests);
+        }),
+      map(
+        (_tracks: DeezerTrack[]) => {
+          return _tracks.map((track: DeezerTrack) => this.convertTrack(track));
+        })
+    );
   }
 
   /**
@@ -72,20 +94,24 @@ export class DeezerUserService extends ProviderService {
    */
   getPlaylists(): Observable<Playlist[]> {
     return this.get<DeezerSearchResult>('/user/me/playlists')
-      .pipe(map(
-        ({ data }: DeezerSearchResult): Playlist[] => {
-          return data.map((playlist: DeezerPlaylist) => this.convertPlaylist(playlist));
-        })
+      .pipe(
+        map(
+          ({ data }: DeezerSearchResult): Playlist[] => {
+            return data.map((playlist: DeezerPlaylist) => this.convertPlaylist(playlist));
+          })
       );
   }
 
+  /**
+   * Retrieve tracks from the given playlist id.
+   * @param id: A playlist ID.
+   * @link https://developers.deezer.com/api/playlist/tracks
+   */
   getPlaylistTracks(id: string): Observable<Track[]> {
     return this.get<DeezerSearchResult>(`/playlist/${id}/tracks`)
-      .pipe(map(
-        ({ data }): Track[] => {
-          return data.map((track: DeezerTrack) => this.convertTrack(track));
-        }
-      ));
+      .pipe(
+        (result) => this.getTracksInfo(result)
+      );
   }
 
   //////////////////////////////////////////////

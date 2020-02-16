@@ -1,4 +1,4 @@
-<form [formGroup]="importForm" (ngSubmit)="onSubmit(importForm.value)">
+<form [formGroup]="importForm">
   <!-- TODO: move inside list! -->
   <h3 *ngIf="spotifyPlaylists.length === 0">No Playlist to import.</h3>
 
@@ -23,7 +23,7 @@
       <mat-icon>play_arrow</mat-icon>
       <span>Play selected</span>
     </button>
-    <button mat-menu-item type="submit">
+    <button mat-menu-item (click)="onSubmit(importForm.value)">
       <mat-icon>playlist_add</mat-icon>
       <span>Import selected</span>
     </button>

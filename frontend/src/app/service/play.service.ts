@@ -13,6 +13,7 @@ import { Track, Account, User, Playlist } from '~types/index';
 import { YoutubeService } from './youtube.service';
 import { DeezerUserService } from './deezer-user.service';
 import { SpotifyUserService } from './spotify-user.service';
+import { PlaylistsService } from './playlists.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,7 @@ export class PlayService extends ProviderService {
     private youtube: YoutubeService,
     private deezer: DeezerUserService,
     private spotify: SpotifyUserService,
+    private playlist: PlaylistsService
   ) {
     super(http, environment.play_api_url, { type: 'bearer' });
   }
@@ -148,16 +150,38 @@ export class PlayService extends ProviderService {
   /**
    * Create an external playlist from the given.
    */
-  createExternalPlalist(playlist, destination: 'DEEZER' | 'SPOTIFY') {
+  createExternalPlalist(playlist: Playlist, destination: 'DEEZER' | 'SPOTIFY') {
     // TODO: map deezer and spotify services
   }
 
   /**
    * Create a playlist from the given.
+   * @param playlist: The given playlist to create.
+   * @param source: The source where the play come from.
    */
   createPlalist(playlist: Playlist, source: 'PLAY' | 'DEEZER' | 'SPOTIFY'): Observable<Playlist> {
     // TODO: this.post<>('/users/me/playlists')
     // TODO: this.post<>('/users/me/playlists/{id}/tracks)
-    return of(playlist);
+
+    return of(playlist).pipe(
+      flatMap(
+        (_playlist: Playlist) => {
+          if (source === 'DEEZER') {
+            return this.deezer.getPlaylistTracks(_playlist.id);
+          }
+          if (source === 'SPOTIFY') {
+            return this.spotify.getPlaylistTracks(_playlist.id);
+          }
+          return of([]);
+        }
+      ),
+      map(
+        (tracks: Track[]) => {
+          playlist.tracks = tracks;
+          this.playlist.create(playlist);
+          return playlist;
+        }
+      )
+    );
   }
 }

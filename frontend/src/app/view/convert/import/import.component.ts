@@ -61,16 +61,23 @@ export class ImportComponent implements OnInit, OnDestroy {
   }
 
   onSubmit({ deezerControl, spotifyControl }) {
-    console.log("submit");
+    console.log(deezerControl, spotifyControl);
+
     for (const deezer of deezerControl) {
-      this.subscription.add(this.play.createPlalist(deezer, 'DEEZER').subscribe(
-        // TODO: update playlist localStorage.
-      ));
+      this.play.createPlalist(deezer, 'DEEZER')
+        .pipe(take(1))
+        .subscribe(
+          (playlist: Playlist) => console.log('deezer completed!', playlist)
+        );
     }
+
     for (const spotify of spotifyControl) {
-      this.subscription.add(this.play.createPlalist(spotify, 'SPOTIFY').subscribe(
-        // TODO: update playlist localStorage.
-      ));
+      this.play.createPlalist(spotify, 'SPOTIFY')
+        .pipe(take(1))
+        .subscribe(
+          // TODO: update playlist localStorage.
+          (playlist: Playlist) => console.log('spotify completed!', playlist)
+        );
     }
   }
 }
