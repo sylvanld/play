@@ -5,6 +5,8 @@ from src.addons import db, bcrypt
 class User(db.Model):
     id      = db.Column(db.Integer, primary_key=True)
     email   = db.Column(db.String, unique=True, nullable=False)
+    name    = db.Column(db.String)
+    lang    = db.Column(db.String)
     pwdhash = db.Column(db.String)
 
     @hybrid_property

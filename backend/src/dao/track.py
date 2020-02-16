@@ -33,26 +33,22 @@ class TrackDAO(DAO):
 
 
     @classmethod
-    def get_create_or_update(cls, track_data):
-        existings = cls.filter(
-            or_(
-                Track.isrc == track_data['isrc'],
-                Track.youtube == track_data['youtube'],
-                Track.spotify == track_data['spotify'],
-                Track.deezer == track_data['deezer'],
-            )
-        )
+    def get_or_create(cls, track_data={}, commit=True):
+        if not track_data.get('isrc'):
+            raise HttpError("No ISRC => fuck u", 400)
+
+        existings = cls.filter(Track.isrc == track_data['isrc'])
 
         instance = existings[0] if len(existings) > 0 else None
 
         if not instance:
-            instance = cls.create(track_data)
+            instance = cls.create(track_data, commit=commit)
         else:
             cls.add_externals_ids(
                 instance,
-                youtube=track_data['youtube'],
-                deezer=track_data['deezer'],
-                spotify=track_data['spotify']
+                youtube=track_data.get('youtube'),
+                deezer=track_data.get('deezer'),
+                spotify=track_data.get('spotify')
             )
 
         return instance
@@ -61,6 +57,7 @@ class TrackDAO(DAO):
     @classmethod
     def create_all(cls, tracks_data):
         tracks = []
-        for track_data in tracks_data:
-            tracks.append( cls.get_create_or_update(track_data) )
+        for track_data in (tracks_data or []):
+            tracks.append( cls.get_or_create(track_data, commit=False) )
+        db.session.commit()
         return tracks

@@ -9,18 +9,16 @@ playlists_ns = Namespace('Playlists', '...', path='/')
 
 @playlists_ns.route('/playlists')
 class PlaylistsResource(Resource):
-    @jwt_required
     def get(self):
         """
-        Get all playlists for current user
+        Get playlists
         """
         playlists = PlaylistDAO.filter()
         return PlaylistDAO.dump(playlists, many=True)
 
-    @jwt_required
     def post(self):
         """
-        Create a new playlist for current user
+        Create a playlist
         """
         playlist = PlaylistDAO.create(request.json)
         return PlaylistDAO.dump(playlist)
@@ -28,45 +26,29 @@ class PlaylistsResource(Resource):
 
 @playlists_ns.route('/playlists/<int:playlist_id>')
 class PlaylistResource(Resource):
-    @jwt_required
     def get(self, playlist_id):
         """
-        Get a playlist
+        Get a playlist and its tracks
         """
         playlist = PlaylistDAO.get_or_404(playlist_id)
-        return PlaylistDAO.dump(playlist)
-        
-    
-    @jwt_required
-    def put(self, playlist_id):
-        """
-        Edit a playlist
-        """
-
-    @jwt_required
-    def delete(self, playlist_id):
-        """
-        Delete a playlist
-        """
+        return PlaylistDAO.dump(playlist, schema='full')
 
 
 @playlists_ns.route('/playlists/<int:playlist_id>/tracks')
 class PlaylistTracksResource(Resource):
-    @jwt_required
     def post(self, playlist_id):
         """
-        Add tracks to a playlist.
+        Add tracks to a playlist
         """
         tracks = PlaylistDAO.add_tracks(playlist_id, request.json)
         return TrackDAO.dump(tracks, many=True)
 
-@playlists_ns.route('/playlists/<int:playlist_id>/tracks/<int:position>')
-class DeletePlaylistTrackResource(Resource):
-    @jwt_required
-    def delete(self, playlist_id, position):
+    def put(self, playlist_id):
         """
-        Delete track of a playlist at given position.
+        Edit tracks of a playlist (require to resend all to avoid ordering conflict with async)
         """
+        tracks = PlaylistDAO.update_tracks(playlist_id, request.json)
+        return TrackDAO.dump(tracks, many=True)
 
 
 @playlists_ns.route('/tracks/<string:isrc>/external_ids')
