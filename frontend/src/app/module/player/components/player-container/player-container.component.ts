@@ -1,13 +1,16 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
 import { PlayerService } from '../../player.service';
 import { PlayerState, Track } from '~types/index';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-player-container',
   templateUrl: './player-container.component.html',
   styleUrls: ['./player-container.component.scss']
 })
-export class PlayerContainerComponent implements OnInit {
+export class PlayerContainerComponent implements OnInit, OnDestroy {
+
+  private subscription: Subscription = new Subscription();
 
   private _prevVolume: number;
   private timeInterval;
@@ -41,12 +44,21 @@ export class PlayerContainerComponent implements OnInit {
   ////////////////////////////////////////////////
   constructor(private player: PlayerService) { }
   ngOnInit() {
-    this.player.state.subscribe((state: PlayerState) => this.state = state);
-    this.player.currentTrack.subscribe((track: Track) => {
-      this.title = track.title + ' -- ' + track.artist;
-    });
+    this.subscription.add(
+      this.player.state.subscribe((state: PlayerState) => this.state = state)
+    );
+    this.subscription.add(
+      this.player.currentTrack.subscribe((track: Track) => {
+        this.title = track.title + ' -- ' + track.artist;
+      })
+    );
 
     this.timeInterval = setInterval(() => { }, 500); // tricks to force update values
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    clearInterval(this.timeInterval);
   }
 
   ///////////////////////////////////////////////

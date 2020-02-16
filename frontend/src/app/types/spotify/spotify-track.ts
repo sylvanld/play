@@ -9,7 +9,7 @@ export interface SpotifyTrack {
     name: string;
     release_date: string;
   };
-  external_ids: { irsc: string; };
+  external_ids: { isrc: string; };
   id: string;
   name: string;
 }

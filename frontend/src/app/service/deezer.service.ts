@@ -9,9 +9,11 @@ import { PlayService } from './play.service';
 
 import {
   Track, Playlist, DeezerPlaylist,
-  DeezerTrack, DeezerSearchResult, DeezerArtist, DeezerAlbum,
+  DeezerTrack, DeezerSearchResult,
+  DeezerArtist, DeezerAlbum,
   DeezerGlobalSearchResult
 } from '~types/index';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,7 @@ export class DeezerService extends ProviderService {
 
   constructor(
     protected http: HttpClient,
-    private play: PlayService
+    private auth: AuthenticationService
   ) {
     super(
       http,
@@ -31,30 +33,70 @@ export class DeezerService extends ProviderService {
   }
 
   renewToken(): Observable<string> {
-    return this.play.getDeezerUserToken();
+    return this.auth.getDeezerUserToken();
+  }
+
+  completeExternalId(track: Track): Observable<Track> {
+    return this.get<DeezerSearchResult>('/search/track?q=' + encodeURIComponent(track.title + ' ' + track.artist))
+      .pipe(
+        map((data) => {
+          track.external_ids.deezer = this.convertTrack(data[0].track).external_ids.deezer;
+          return track;
+        })
+      );
   }
 
   /**
    * Convert a playlist from Deezer to Play.
    */
-
   convertPlaylist(playlist: DeezerPlaylist): Playlist {
     return {
-      id: '',
-      cover: '',
-      title: '',
-      author: '',
+      id: playlist.id,
+      cover: playlist.picture_medium,
+      title: playlist.title,
+      author: playlist.creator.name,
       tracks: []
     };
   }
 
+  /**
+   * Convert a track from Deezer to Play.
+   */
+  convertTrack(track: DeezerTrack): Track {
+    return {
+      isrc: '', // no info
+      title: track.title,
+      artist: track.artist.name,
+      album: track.album.title,
+      release: '', // no info
+      external_ids: {
+        spotify: undefined,
+        youtube: undefined,
+        deezer: track.id
+      }
+    };
+  }
+
+  /**
+   * Retrieve current Playlists for the authenticated User.
+   * @link https://developers.deezer.com/api/user/playlists
+   */
   getPlaylists(): Observable<Playlist[]> {
-    return this.get<any>('/user/me/playlists')
+    return this.get<DeezerPlaylist[]>('/user/me/playlists')
       .pipe(map(
         (playlists: DeezerPlaylist[]): Playlist[] => {
           return playlists.map(playlist => this.convertPlaylist(playlist));
         })
       );
+  }
+
+  getPlaylistTracks(id: string): Observable<Track[]> {
+    return this.get<DeezerSearchResult>(`/playlist/${id}/tracks`)
+      .pipe(map(
+        ({ data }): Track[] => {
+          return data.map((track: DeezerTrack) => this.convertTrack(track));
+        }
+      ));
   }
 
   /////////////////////////////////
@@ -73,6 +115,7 @@ export class DeezerService extends ProviderService {
   }
 
   searchTrack(query: string): Observable<Array<DeezerTrack>> {
+    // @ts-ignore
     return this.http.get<DeezerSearchResult>('/search/track?q=' + encodeURIComponent(query)
     ).pipe(map(
       (result: DeezerSearchResult) => {
@@ -82,6 +125,7 @@ export class DeezerService extends ProviderService {
   }
 
   searchArtist(query: string): Observable<Array<DeezerArtist>> {
+    // @ts-ignore
     return this.http.get<DeezerSearchResult>('/search/artist?q=' + encodeURIComponent(query)
     ).pipe(map(
       (result: DeezerSearchResult) => {
@@ -91,6 +135,7 @@ export class DeezerService extends ProviderService {
   }
 
   searchAlbum(query: string): Observable<Array<DeezerAlbum>> {
+    // @ts-ignore
     return this.http.get<DeezerSearchResult>('/search/album?q=' + encodeURIComponent(query)
     ).pipe(map(
       (result: DeezerSearchResult) => {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpUrlEncodingCodec } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, of, Observer, forkJoin } from 'rxjs';
 import { map, mergeMap, flatMap } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { PlayService } from './play.service';
 
 import {
   Album, Artist, SearchResult, Track, Playlist,
-  SpotifyPlaylist, SpotifyTrack, PagingObject, SpotifyTrackObject
+  SpotifyPlaylist, SpotifyTrack, PagingObject, SpotifyTrackResult
 } from '~types/index';
 
 const SPOTIFY_MAX_LIMIT = 50;
@@ -27,16 +27,15 @@ export class SpotifyService extends ProviderService {
 
   constructor(
     protected http: HttpClient,
-    private auth: AuthenticationService,
-    private play: PlayService
+    private auth: AuthenticationService
   ) {
     super(http, environment.spotify_api_url, { type: 'bearer' });
   }
 
   renewToken(): Observable<string> {
     return this._scope === 'application'
-      ? this.play.getSpotifyToken()
-      : this.play.getSpotifyUserToken();
+      ? this.auth.getSpotifyToken()
+      : this.auth.getSpotifyUserToken();
   }
 
   getGenres(): Observable<Array<string>> {
@@ -173,6 +172,14 @@ export class SpotifyService extends ProviderService {
   }
   //////////////////////////////////////////////////////////////
 
+  completeExternalId(track: Track): Observable<Track> {
+    this._scope = 'application';
+    return this.get<SearchResult>(`/v1/search?q=${encodeURIComponent(track.title + ' ' + track.artist)}&type=track`)
+      .pipe(
+        map((data) => this.convertTrack(data[0].track))
+      );
+  }
+
   convertPlaylist(playlist: SpotifyPlaylist): Playlist {
     return {
       id: playlist.id,
@@ -185,21 +192,18 @@ export class SpotifyService extends ProviderService {
 
   convertTrack(track: SpotifyTrack): Track {
     return {
-      isrc: track.external_ids.irsc,
+      isrc: track.external_ids.isrc,
       title: track.name,
       artist: track.artists[0].name,
       album: track.album.name,
       release: track.album.release_date,
       external_ids: {
         spotify: track.id,
-        youtube: null,
-        deezer: null
+        youtube: undefined,
+        deezer: undefined
       }
     };
   }
-
-
-  //////////////////////////////////////////////////////////////
 
   /**
    * Retrieved a all items by chuncks at a given endpoint.
@@ -249,9 +253,9 @@ export class SpotifyService extends ProviderService {
    * @link https://developer.spotify.com/documentation/web-api/reference/playlists/get-playlists-tracks
    */
   getPlaylistTracks(id: string): Observable<Track[]> {
-    return this.getAllItems<SpotifyTrackObject>(`/v1/playlists/${id}/tracks`)
+    return this.getAllItems<SpotifyTrackResult>(`/v1/playlists/${id}/tracks`)
       .pipe(map(
-        (object: SpotifyTrackObject[]): Track[] => {
+        (object: SpotifyTrackResult[]): Track[] => {
           return object.map(({ track }) => this.convertTrack(track));
         })
       );

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Observer, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Observer, forkJoin, of } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators';
 
 import { AuthenticationService } from './authentication.service';
 import { ProviderService } from './provider.service';
@@ -10,6 +10,10 @@ import { StorageService } from './storage.service';
 import { environment } from 'src/environments/environment';
 import { Track, Account, User } from '~types/index';
 
+import { YoutubeService } from './youtube.service';
+import { DeezerService } from './deezer.service';
+import { SpotifyService } from './spotify.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +21,10 @@ export class PlayService extends ProviderService {
   constructor(
     protected http: HttpClient,
     private auth: AuthenticationService,
-    private store: StorageService
+    private store: StorageService,
+    private youtube: YoutubeService,
+    private deezer: DeezerService,
+    private spotify: SpotifyService,
   ) {
     super(http, environment.play_api_url, { type: 'bearer' });
   }
@@ -39,30 +46,6 @@ export class PlayService extends ProviderService {
   }
 
   /**
-   * Call play backend to get a spotify application token.
-   */
-  getSpotifyToken(): Observable<string> {
-    return this.post('/spotify/token', {})
-      .pipe(map(({ access_token }) => access_token));
-  }
-
-  /**
-   * Call play backend to get a spotify user token.
-   */
-  getSpotifyUserToken(): Observable<string> {
-    return this.post('/spotify/token/me', {})
-      .pipe(map(({ access_token }) => access_token));
-  }
-
-  /**
-   * Call play backend to get a deezer use token.
-   */
-  getDeezerUserToken(): Observable<string> {
-    return this.post('/deezer/token/me', {})
-      .pipe(map(({ access_token }) => access_token));
-  }
-
-  /**
    * Complete youtube Id
    */
 
@@ -80,7 +63,29 @@ export class PlayService extends ProviderService {
   }
 
   completeExternalsIds(track: Track, externalIds: { spotify?: boolean, deezer?: boolean, youtube?: boolean }): Observable<Track> {
-    return of(track);
+    return of(track).pipe(
+      flatMap(
+        (t: Track) => {
+          const requests = [];
+          if (externalIds.spotify === true && !t.external_ids.spotify) {
+            requests.push(this.spotify.completeExternalId(t));
+          }
+          if (externalIds.deezer === true && !t.external_ids.deezer) {
+            requests.push(this.deezer.completeExternalId(t));
+          }
+          if (externalIds.youtube === true && !t.external_ids.youtube) {
+            requests.push(this.youtube.completeExternalId(t));
+          }
+          return forkJoin(requests);
+        }
+      ),
+      map((results: Track[]): Track => {
+        for (const result of results) {
+          track.external_ids = Object.assign(track.external_ids, result.external_ids);
+        }
+        return track;
+      })
+    );
   }
 
   /**

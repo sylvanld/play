@@ -135,7 +135,7 @@ export class AuthenticationService {
     )
       .pipe(
         map((token: Token) => {
-          // after tocken has been verified, set fresh token
+          // after token has been verified, set fresh token
           this.setToken(token);
 
           // remove potential token in query params
@@ -187,4 +187,38 @@ export class AuthenticationService {
     });
   }
 
+  /**
+   * Call play backend to get a spotify application token.
+   */
+  getSpotifyToken(): Observable<string> {
+    console.log(this.getToken());
+    return this.http.post(
+      environment.play_api_url + '/spotify/token',
+      {},
+      { headers: { Authorization: 'Bearer ' + this.getToken() } }
+    ).pipe(map(({ access_token }: Token) => access_token));
+  }
+
+  /**
+   * Call play backend to get a spotify user token.
+   */
+  getSpotifyUserToken(): Observable<string> {
+    console.log(this.getToken());
+    return this.http.post(
+      environment.play_api_url + '/spotify/token/me',
+      {},
+      { headers: { Authorization: 'Bearer ' + this.getToken() } }
+    ).pipe(map(({ access_token }: Token) => access_token));
+  }
+
+  /**
+   * Call play backend to get a deezer use token.
+   */
+  getDeezerUserToken(): Observable<string> {
+    return this.http.post(
+      environment.play_api_url + '/deezer/token/me',
+      {},
+      { headers: { Authorization: 'Bearer ' + this.getToken() } }
+    ).pipe(map(({ access_token }: Token) => access_token));
+  }
 }

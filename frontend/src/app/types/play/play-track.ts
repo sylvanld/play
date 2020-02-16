@@ -1,4 +1,4 @@
-export interface Identifier {
+export interface Identifiers {
   spotify: string;
   youtube?: string;
   deezer?: string;
@@ -10,5 +10,5 @@ export interface Track {
   artist: string;
   album: string;
   release: string;
-  external_ids: Identifier;
+  external_ids: Identifiers;
 }

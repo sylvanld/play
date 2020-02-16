@@ -10,7 +10,7 @@ export interface PagingObject {
   total: number;
 }
 
-export interface SpotifyTrackObject {
+export interface SpotifyTrackResult {
   added_at: string;
   added_by: {};
   is_local: boolean;

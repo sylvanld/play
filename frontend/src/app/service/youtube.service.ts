@@ -7,6 +7,15 @@ import { Track } from '~types/index';
 import { environment } from 'src/environments/environment';
 import { ProviderService } from './provider.service';
 
+// TODO: move to ~types/
+interface YoutubeResult {
+  items: {
+    id: {
+      videoId: string;
+    }
+  }[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -29,9 +38,20 @@ export class YoutubeService extends ProviderService {
     return this.get('/search?type=video&part=snippet&order=relevance&maxResults=1&q=' + query);
   }
 
+  completeExternalId(track: Track): Observable<Track> {
+    return this.searchTrack(encodeURIComponent(`${track.title} - ${track.artist}`))
+      .pipe(
+        map((result: YoutubeResult) => {
+          track.external_ids.youtube = result.items[0].id.videoId;
+          return track;
+        })
+      );
+  }
+
   /**
-   * Deprecated use playservice.completeExternalIds instead
+   * Complete YT id from a Track.
    * @param track: The track object.
+   * @deprecated Use playservice.completeExternalIds instead
    */
   completeId(track: Track): Observable<Track> {
     if (!!track.external_ids.youtube) {
@@ -42,7 +62,6 @@ export class YoutubeService extends ProviderService {
       track.artist + ' - ' + track.title
     ).pipe(map((object: any) => {
       track.external_ids.youtube = object.items[0].id.videoId;
-      // TODO: save the YT
       return track;
     }));
   }

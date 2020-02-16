@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { mergeMap } from 'rxjs/operators';
 
-import { YoutubeService } from 'src/app/service/youtube.service';
+import { PlayService } from 'src/app/service/play.service';
 import { PlayerService } from '../../player.service';
 import { Track, PlayerState } from '~types/index';
+import { Subscription } from 'rxjs';
 
 declare global {
   interface Window {
@@ -19,7 +20,9 @@ declare global {
   templateUrl: './youtube.component.html',
   styleUrls: ['./youtube.component.scss']
 })
-export class YoutubeComponent implements OnInit {
+export class YoutubeComponent implements OnInit, OnDestroy {
+
+  private subscription: Subscription = new Subscription();
 
   // @ts-ignore
   private _youtube: YT.Player = undefined;
@@ -33,7 +36,7 @@ export class YoutubeComponent implements OnInit {
   private get isReady(): boolean { return this.player.getState() !== PlayerState.UNSTARTED; }
 
 
-  constructor(private player: PlayerService, private youtubeS: YoutubeService) { }
+  constructor(private player: PlayerService, private play: PlayService) { }
 
   ngOnInit() {
 
@@ -66,14 +69,14 @@ export class YoutubeComponent implements OnInit {
       });
     };
 
-    this.player.currentTrack.pipe(
-      // retrieve the YT id, only in the YT player
-      mergeMap((track: Track) => this.youtubeS.completeId(track))
-    )
-      .subscribe((track: Track) => {
-        // actualise the current played video.
-        this.youtube.cueVideoById(track.external_ids.youtube, 0);
-      });
+    this.subscription.add(
+      this.player.currentTrack
+        .pipe(
+          // retrieve the YT id, only in the YT player
+          mergeMap((track: Track) => this.play.completeExternalsIds(track, { youtube: true }))
+          // play the track
+        ).subscribe((track: Track) => this.youtube.cueVideoById(track.external_ids.youtube, 0))
+    );
   }
 
   onStateChange(data) {
@@ -95,6 +98,13 @@ export class YoutubeComponent implements OnInit {
       // video is finished, so go to the next!
       this.player.nextTrack();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.youtube.stopVideo();
+    this.youtube.destroy();
+    this._youtube = undefined;
   }
 
   setVolume({ value }) {
