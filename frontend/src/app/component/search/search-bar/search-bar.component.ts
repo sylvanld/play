@@ -17,6 +17,23 @@ export class SearchbarComponent implements OnInit {
   // about filters
   filterIcon = { track: 'audiotrack', album: 'album', artist: 'people' };
   @Input() filtersList = ['track', 'album', 'artist'];
+
+  _resultsTypes = ['track', 'album', 'artist'];
+  @Input()
+  set resultsTypes(filters: string[]) {
+    this._resultsTypes = filters;
+    console.log('results types changes');
+    if (this.filters) {
+      this.filters.setValue(this._resultsTypes);
+    }
+
+    this.resultsTypesChange.emit(this._resultsTypes);
+  }
+  get resultsTypes() {
+    return this._resultsTypes;
+  }
+  @Output() resultsTypesChange = new EventEmitter();
+
   @Input() displayFilters = true;
   filters: FormControl;
 
@@ -41,12 +58,13 @@ export class SearchbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.filters = new FormControl(this.filtersList.slice());
+    this.filters = new FormControl(this.resultsTypes.slice());
 
     this.filters.setValidators(this.validateFilters);
     // update placeholder when filters change
     this.filters.valueChanges.subscribe((filters) => {
       this.placeholder = 'Search by ' + filters.join(',');
+      this.resultsTypes = filters;
     });
   }
 
@@ -77,5 +95,9 @@ export class SearchbarComponent implements OnInit {
     dialog.afterClosed().subscribe(
       filtersQueryParams => this.submitAdvancedSearch(filtersQueryParams)
     );
+  }
+
+  onResultsTypesChange() {
+    console.log(this.filters);
   }
 }

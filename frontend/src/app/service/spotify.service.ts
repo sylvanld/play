@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, of } from 'rxjs';
+import { Observable, of, forkJoin } from 'rxjs';
 import { map, flatMap } from 'rxjs/operators';
 
 import { AuthenticationService } from './authentication.service';
 import { ProviderService } from './provider.service';
 
 import { Album, Artist, SearchResult, Track, SpotifyTrack } from '~types/index';
+import { SpotifyAlbum } from '~types/spotify/spotify-album';
 
 @Injectable({
   providedIn: 'root'
@@ -82,6 +83,33 @@ export class SpotifyService extends ProviderService {
         deezer: undefined
       }
     };
+  }
+
+  getArtistAlbums(artistId: string): Observable<Album[]> {
+    return this.get(`/v1/artists/${artistId}/albums`)
+      .pipe(map(
+        (resp: { items: SpotifyAlbum[] }) => resp.items.map(this.convertAlbum)
+      ))
+  }
+
+  getArtistTopTracks(artistId: string): Observable<Track[]> {
+    return this.get(`/v1/artists/${artistId}/top-tracks?country=FR`)
+      .pipe(map(
+        (resp: { tracks: SpotifyTrack[] }) => resp.tracks.map(this.convertTrack)
+      ))
+  }
+
+  discoverArtist(artistId: string): Observable<SearchResult> {
+    return forkJoin([
+      this.getArtistAlbums(artistId),
+      this.getArtistTopTracks(artistId)
+    ]).pipe(map((result: { 0: Album[], 1: Track[] }) => {
+      return {
+        tracks: result[1],
+        artists: [],
+        albums: result[0]
+      }
+    }));
   }
 
   getAvailableGenres(): Observable<string[]> {

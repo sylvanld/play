@@ -1,1 +1,1 @@
-<app-artist-item *ngFor="let artist of artists.slice(0, 6)" [artist]="artist"></app-artist-item>
+<app-cardview [items]="items" (clicked)="onArtistClicked($event)"></app-cardview>
