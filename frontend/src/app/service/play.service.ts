@@ -74,22 +74,25 @@ export class PlayService extends ProviderService {
   }
 
   completeExternalsIds(track: Track, externalIds: { spotify?: boolean, deezer?: boolean, youtube?: boolean }): Observable<Track> {
-    return of(track).pipe(
-      flatMap(
-        (t: Track) => {
-          const requests = [];
-          if (externalIds.spotify === true && !t.external_ids.spotify) {
-            requests.push(this.spotify.completeExternalId(t));
-          }
-          if (externalIds.deezer === true && !t.external_ids.deezer) {
-            requests.push(this.deezer.completeExternalId(t));
-          }
-          if (externalIds.youtube === true && !t.external_ids.youtube) {
-            requests.push(this.youtube.completeExternalId(t));
-          }
-          return forkJoin(requests);
-        }
-      ),
+    const requests = [];
+    if (externalIds.spotify === true && !track.external_ids.spotify) {
+      requests.push(this.spotify.completeExternalId(track));
+    }
+    if (externalIds.deezer === true && !track.external_ids.deezer) {
+      requests.push(this.deezer.completeExternalId(track));
+    }
+    if (externalIds.youtube === true && !track.external_ids.youtube) {
+      requests.push(
+        this.get<{ id: string }>('/youtube/search?q=' + encodeURIComponent(track.title + ' - ' + track.artist))
+          .pipe(map(
+            ({ id }) => {
+              track.external_ids.youtube = id;
+              return track;
+            }
+          ))
+      );
+    }
+    return forkJoin(requests).pipe(
       map((results: Track[]): Track => {
         for (const result of results) {
           track.external_ids = Object.assign(track.external_ids, result.external_ids);
