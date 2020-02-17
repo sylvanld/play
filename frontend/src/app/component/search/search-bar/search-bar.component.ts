@@ -22,7 +22,13 @@ export class SearchbarComponent implements OnInit {
 
   @Output() results = new EventEmitter<SearchResult>();
 
-  constructor(private spotify: SpotifyService, private dialog: MatDialog) { }
+  constructor(private spotify: SpotifyService, private dialog: MatDialog) {
+    this.spotify.getNewReleases().subscribe(
+      (results: SearchResult) => {
+        this.results.emit(results);
+      }
+    )
+  }
 
   validateFilters(formControl) {
     return formControl.value && formControl.value.length

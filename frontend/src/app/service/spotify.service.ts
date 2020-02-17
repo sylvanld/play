@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, flatMap } from 'rxjs/operators';
 
 import { AuthenticationService } from './authentication.service';
 import { ProviderService } from './provider.service';
@@ -64,6 +64,7 @@ export class SpotifyService extends ProviderService {
       id: spotifyAlbum['id'],
       name: spotifyAlbum['name'],
       date: spotifyAlbum['release_date'],
+      artists: spotifyAlbum['artists'].map(artist => artist.name),
       cover: n === -1 ? null : spotifyAlbum['images'][n]['url']
     };
   }
@@ -134,6 +135,28 @@ export class SpotifyService extends ProviderService {
     );
   }
 
+  getTracksByIds(tracksIds: Array<string>): Observable<Track[]> {
+    return this.get('/v1/tracks/?ids=' + tracksIds.join(',')).pipe(
+      map(
+        (results: { tracks: SpotifyTrack[] }) => {
+          return results.tracks.map(this.convertTrack);
+        }
+      )
+    )
+  }
+
+  getAlbumTracks(albumId: string): Observable<SearchResult> {
+    return this.get(`/v1/albums/${albumId}/tracks`)
+      .pipe(
+        flatMap((resp: { items: Array<SpotifyTrack> }) => {
+          const tracksIds = resp.items.map(item => item.id);
+          return this.getTracksByIds(tracksIds).pipe(
+            map((tracks: Track[]) => ({ tracks: tracks, artists: [], albums: [] }))
+          );
+        })
+      );
+  }
+
   suggestions(queryParams: string): Observable<SearchResult> {
     return this.get<{ tracks }>(
       '/v1/recommendations?' + queryParams,
@@ -164,6 +187,18 @@ export class SpotifyService extends ProviderService {
           };
         })
       );
+  }
+
+  getNewReleases(): Observable<SearchResult> {
+    return this.get('/v1/browse/new-releases').pipe(
+      map(data => {
+        return {
+          tracks: [],
+          artists: [],
+          albums: data['albums']['items'].map(this.convertAlbum)
+        }
+      })
+    )
   }
 
 }
