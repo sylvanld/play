@@ -6,8 +6,8 @@
     <ng-template [ngIf]="editMode" [ngIfElse]="readOnly">
         <!-- Edit mode - Computer version -->
         <div class="only-desktop" cdkDropList (cdkDropListDropped)="moveItem($event)">
-            <div cdkDrag [cdkDragStartDelay]="200" class="list-item disable-text-selection" *ngFor="let item of items"
-                [cdkDragDisabled]="!isMovable()" (click)="clickItem(item)"
+            <div cdkDrag [cdkDragStartDelay]="200" class="list-item disable-text-selection" *ngFor="let item of items; let index = index"
+                [cdkDragDisabled]="!isMovable()" (click)="clickItem(index)"
             >
                 <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
                 <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="item.picture.length !== 0">
@@ -16,7 +16,7 @@
                     <div class="secondary-content">{{ item.secondaryContent }}</div>
                 </div>
                 <div class="options">
-                    <button  mat-icon-button (click)="deleteItem(item); $event.stopPropagation()">
+                    <button  mat-icon-button (click)="deleteItem(index); $event.stopPropagation()">
                         <mat-icon aria-hidden="false" aria-label="delete the item">
                             delete_outline
                         </mat-icon>
@@ -32,7 +32,7 @@
         <div class="only-mobile">
         <div cdkDropList (cdkDropListDropped)="moveItem($event)">
             <div cdkDrag [cdkDragStartDelay]="200" class="list-item disable-text-selection" *ngFor="let item of items"
-                [cdkDragDisabled]="!isMovable()" (click)="clickItem(item)"
+                [cdkDragDisabled]="!isMovable()" (click)="clickItem(index)"
             >
                 <!-- <div class="dragdrop-placeholder" *cdkDragPlaceholder></div> -->
                 <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="item.picture.length !== 0">
@@ -41,7 +41,7 @@
                     <div class="secondary-content">{{ item.secondaryContent }}</div>
                 </div>
                 <!-- <div class="options">
-                    <button  mat-icon-button (click)="deleteItem(item); $event.stopPropagation()">
+                    <button  mat-icon-button (click)="deleteItem(index); $event.stopPropagation()">
                         <mat-icon aria-hidden="false" aria-label="delete the item">
                             delete_outline
                         </mat-icon>
@@ -62,9 +62,9 @@
 
     <!-- Read-only mode - All version -->
     <ng-template #readOnly>
-        <div *ngFor="let item of items"
+        <div *ngFor="let item of items; let index = index"
             class="list-item disable-text-selection"
-            (click)="clickItem(item)"
+            (click)="clickItem(index)"
         >
             <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="item.picture.length !== 0">
             <div class="description">

@@ -45,12 +45,20 @@ export class ListviewComponent implements OnInit {
   }
 
   // event dispatch
-  clickItem(item: ViewItem) {
+  /*clickItem(item: ViewItem) {
     this.clickedItem.emit(item.id);
   }
 
   deleteItem(item: ViewItem) {
     this.deletedItem.emit(item.id);
+  }*/
+
+  clickItem(index: number) {
+    this.clickedItem.emit(index);
+  }
+
+  deleteItem(index: number) {
+    this.deletedItem.emit(index);
   }
 
   moveItem(event: CdkDragDrop<any>) {
@@ -62,8 +70,8 @@ export class ListviewComponent implements OnInit {
   }
 
   delete(event: CdkDragDrop<any>) {
-    const item = event.previousContainer.data[event.previousIndex];
-    this.deleteItem(item);
+    //const item = event.previousContainer.data[event.previousIndex];
+    this.deleteItem(event.previousIndex);
   }
 
   // longPress menu

@@ -59,8 +59,10 @@ export class PlaylistEditionComponent implements OnInit {
       );
       this.playlist.subscribe((playlist: Playlist) => {
         console.log('playlist.subscribe:', playlist);
-        this.titleEdition = playlist.title;
-        this.editMode = (playlist.tracks.length === 0) ? true : this.editMode;
+        if (playlist) {
+          this.titleEdition = playlist.title;
+          this.editMode = (playlist.tracks.length === 0) ? true : this.editMode;
+        }
       });
     });
   }

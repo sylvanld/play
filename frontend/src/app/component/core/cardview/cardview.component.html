@@ -2,8 +2,8 @@
     <div class="list-item disable-text-selection imported-btn">
         <ng-content class="picture"></ng-content>
     </div>
-    <div class="list-item disable-text-selection" *ngFor="let item of items"
-        (click)="clickItem(item)"
+    <div class="list-item disable-text-selection" *ngFor="let item of items; let index = index"
+        (click)="clickItem(index)"
     >
         <img class="picture" [src]="item.picture">
         <div class="description">
@@ -11,7 +11,7 @@
             <div class="secondary-content">{{ item.secondaryContent }}</div>
         </div>
         <div class="options" *ngIf="editMode">
-            <button  mat-icon-button (click)="deleteItem(item); $event.stopPropagation()">
+            <button  mat-icon-button (click)="deleteItem(index); $event.stopPropagation()">
                 <mat-icon aria-hidden="false" aria-label="delete the item">
                     delete_outline
                 </mat-icon>

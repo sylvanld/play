@@ -31,11 +31,19 @@ export class CardviewComponent implements OnInit {
   ngOnInit() {
   }
 
-  clickItem(item: ViewItem) {
+  /*clickItem(item: ViewItem) {
     this.clickedItem.emit(item.id);
   }
 
   deleteItem(item: ViewItem) {
     this.deletedItem.emit(item.id);
+  }*/
+
+  clickItem(index: number) {
+    this.clickedItem.emit(index);
+  }
+
+  deleteItem(index: number) {
+    this.deletedItem.emit(index);
   }
 }
