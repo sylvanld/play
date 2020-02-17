@@ -78,7 +78,6 @@ export class DeezerUserService extends ProviderService {
           for (const track of data as DeezerTrack[]) {
             requests.push(this.get(`/track/${track.id}`));
           }
-          console.log(requests);
           return forkJoin(requests);
         }),
       map(

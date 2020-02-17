@@ -170,7 +170,7 @@ export class PlayService extends ProviderService {
    * @param playlist: The given playlist to create.
    * @param source: The source where the play come from.
    */
-  createPlalist(playlist: Playlist, source: 'PLAY' | 'DEEZER' | 'SPOTIFY'): Observable<Playlist> {
+  createPlaylist(playlist: Playlist, source: 'PLAY' | 'DEEZER' | 'SPOTIFY'): Observable<Playlist> {
     // TODO: this.post<>('/users/me/playlists')
     // TODO: this.post<>('/users/me/playlists/{id}/tracks)
 
@@ -194,5 +194,28 @@ export class PlayService extends ProviderService {
         }
       )
     );
+  }
+
+  /**
+   *
+   */
+  createPlaylists(playlists: { deezer?: Playlist[], spotify?: Playlist[], play?: Playlist[] }): Observable<Playlist[]> {
+    // avoir empty param, and obviously, dont check if key is missing with 'if'...
+    const _playlist = Object.assign(
+      { deezer: [], spotify: [], play: [] },
+      playlists
+    );
+    const requests: Observable<Playlist>[] = [];
+
+    for (const playlist of _playlist.deezer) {
+      requests.push(this.createPlaylist(playlist, 'DEEZER'));
+    }
+    for (const playlist of _playlist.spotify) {
+      requests.push(this.createPlaylist(playlist, 'SPOTIFY'));
+    }
+    for (const playlist of _playlist.play) {
+      requests.push(this.createPlaylist(playlist, 'PLAY'));
+    }
+    return forkJoin(requests);
   }
 }

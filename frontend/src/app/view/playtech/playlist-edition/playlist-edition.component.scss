@@ -1,0 +1,121 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+    grid-area: content;
+
+    overflow-y: auto;
+    width: 100%;
+    height: 100%;
+}
+
+:host>*:not(:nth-child(1)) {
+    margin-top: 5px;
+}
+
+.playlist-management>*:nth-child(1) {
+    margin-right: 5px;
+}
+
+.playlist-management>*:nth-child(2) {
+    margin-left: 5px;
+}
+
+mat-icon {
+    cursor: pointer;
+}
+
+.playlist-management,
+.horizontal-align {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 15px 0;
+}
+
+.playlist-management .horizontal-align {
+    align-items: center;
+}
+
+.playlist-management>* {
+    order: 0;
+    flex: 1 1 0;
+    align-self: auto;
+    width: 100%;
+    transition: all 1s;
+}
+
+.horizontal-align>*:not(:nth-child(1)) {
+    margin-left: 5px;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.controls {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-content: stretch;
+    align-items: flex-start;
+}
+
+.centered-items {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: center;
+}
+
+.share-space {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: stretch;
+}
+
+.share-space>* {
+    flex: 1 1 auto;
+    width: 100%;
+    margin: 5px;
+}
+
+/*
+.back-btn {
+    position: absolute;
+    left: 15px;
+    z-index: 99;
+}
+
+.edit-btn {
+    position: absolute;
+    right: 15px;
+    z-index: 99;
+}
+
+.only-desktop.controls {
+    .back-btn {
+        top: 45px;
+    }
+
+    .edit-btn {
+        top: 45px;
+    }
+}
+
+.only-mobile.controls {
+    .back-btn {
+        top: 15px;
+    }
+
+    .edit-btn {
+        top: 15px;
+    }
+}
+*/

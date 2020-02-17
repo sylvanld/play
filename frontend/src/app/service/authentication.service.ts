@@ -96,6 +96,31 @@ export class AuthenticationService {
     );
   }
 
+  changePassword(oldPassword, newPassword) {
+    // use this.accessToken
+    // TODO
+    /*this.http.post(environment.play_api_url + '/play/token', {
+      email, oldPassword
+    }).subscribe(
+      (token: Token) => {
+        this.setToken(token);
+        this.router.navigateByUrl('/');
+      },
+      error => {
+        let message: string = null;
+        switch (error.status) {
+          case 401:
+            message = 'Wrong credentials. Please try again.';
+            break;
+          default:
+            message = 'Oops! Something went wrong on our end! Try again later.';
+            break;
+        }
+        this.notify.error(message);
+      }
+    );*/
+  }
+
   /**
    * Remove refresh token from cookies and change connected state to false.
    */
@@ -123,7 +148,7 @@ export class AuthenticationService {
   /**
    * Set token from response and verify its validity
    */
-  setAndVerifyToken(partialToken: Token): Observable<boolean> {
+  setAndVerifyToken(partialToken: Token, clearUrlParams = false): Observable<boolean> {
     if (!partialToken || !partialToken.refresh_token) {
       return of(false);
     }
@@ -140,10 +165,13 @@ export class AuthenticationService {
 
           // remove potential token in query params
           // Remove query params
-          this.router.navigate([], {
-            queryParams: {},
-            queryParamsHandling: 'merge'
-          });
+          if (clearUrlParams) {
+            this.router.navigate(['/accounts'], {
+              queryParams: {},
+              queryParamsHandling: 'merge'
+            });
+          }
+
           return true;
         }), catchError(error => {
           // if an error occured, this token is not valid, user is logged out
@@ -155,7 +183,9 @@ export class AuthenticationService {
   loadTokenFromUrl(): Observable<boolean> {
     console.log('call load token from url');
     const token = getUrlParams() as Token;
-    return this.setAndVerifyToken(token);
+    const clearUrlParams = !!token;
+
+    return this.setAndVerifyToken(token, clearUrlParams);
   }
 
   refreshToken(): Observable<boolean> {

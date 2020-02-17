@@ -1,0 +1,21 @@
+<div class="cardview" [@slide]>
+    <div class="list-item disable-text-selection imported-btn">
+        <ng-content class="picture"></ng-content>
+    </div>
+    <div class="list-item disable-text-selection" *ngFor="let item of items"
+        (click)="clickItem(item)"
+    >
+        <img class="picture" [src]="item.picture">
+        <div class="description">
+            <div class="main-content">{{ item.mainContent }}</div>
+            <div class="secondary-content">{{ item.secondaryContent }}</div>
+        </div>
+        <div class="options" *ngIf="editMode">
+            <button  mat-icon-button (click)="deleteItem(item); $event.stopPropagation()">
+                <mat-icon aria-hidden="false" aria-label="delete the item">
+                    delete_outline
+                </mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,0 @@
-<div [@slide]>
-    <div class="list-item disable-text-selection" [ngClass]="{disabled: item.ro_diasabled}" (click)="onClick(index)" *ngFor="let item of items; let index = index">
-        <img class="picture" [src]="item.picture" [alt]="item.mainContent">
-        <div class="description">
-            <div class="main-content">{{ item.mainContent }}</div>
-            <div class="secondary-content">{{ item.secondaryContent }}</div>
-        </div>
-    </div>
-</div>

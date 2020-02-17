@@ -11,7 +11,7 @@ import { PlayerProviders } from '~types/player';
 export class PlayerComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
-  private currentPlayer: PlayerProviders = undefined;
+  currentPlayer: PlayerProviders = undefined;
 
   constructor(private player: PlayerService) { }
 

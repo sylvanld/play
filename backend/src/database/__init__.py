@@ -5,7 +5,7 @@ from src.database.account import Account, Provider
 from src.database.friendship import Friendship
 
 from src.database.track import Track
-from src.database.playlist import Playlist, association_playlist_tracks
+from src.database.playlist import Playlist, PlaylistTrack
 
 
 def create_db(app):
@@ -15,6 +15,8 @@ def create_db(app):
         db.drop_all()
         db.create_all()
 
+        """
         user = User(email='sledeunf@gmail.com', password='toto')
         db.session.add(user)
         db.session.commit()
+        """

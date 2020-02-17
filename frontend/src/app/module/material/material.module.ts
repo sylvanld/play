@@ -22,6 +22,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const materialModules = [
   MatInputModule,
@@ -45,7 +47,9 @@ const materialModules = [
   MatDialogModule,
   MatCheckboxModule,
   MatStepperModule,
-  MatListModule
+  MatListModule,
+  MatExpansionModule,
+  MatProgressBarModule
 ];
 
 @NgModule({
