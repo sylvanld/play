@@ -17,6 +17,7 @@ export class EditPasswordComponent implements OnInit {
   @Input() passwordExist = false;
   editing = false;
   password: string = "";
+  confirmation: string = "";
   hint: string = "";
   pwdChecks: PasswordCheck[] = [
     {
@@ -56,10 +57,15 @@ export class EditPasswordComponent implements OnInit {
   }
 
   changePassword() {
-    console.log('submit form');
-    this.notify.info('Password has been changed!');
-    this.editing = false;
-    this.passwordExist = true;
+    if (this.passwordStrength < 50) {
+      this.notify.error('Password is too weak! Please look at recommandations.');
+    } else if (this.password != this.confirmation) {
+      this.notify.error('Password and confirmation must match.');
+    } else {
+      this.notify.info('Password successfully set/changed!');
+      this.editing = false;
+      this.passwordExist = true;
+    }
   }
 
   get passwordStrength() {
