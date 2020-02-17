@@ -100,6 +100,6 @@ export class PlaylistEditionComponent implements OnInit {
       this.playlistService.addTrack(this.playlistId, t);
     }
     this.resetSelectionSubject.next(true);
-    this.notify.info('track(s) added');
+    // this.notify.info('track(s) added');
   }
 }

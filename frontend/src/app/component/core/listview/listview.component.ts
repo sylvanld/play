@@ -30,8 +30,8 @@ export class ListviewComponent implements OnInit {
   @Output() clickedItem: EventEmitter<any> = new EventEmitter();
 
   // long press detection
-  longPressTimer ?: ReturnType<typeof setTimeout> = undefined;
-  mouseDown = false;
+  /*longPressTimer ?: ReturnType<typeof setTimeout> = undefined;
+  mouseDown = false;*/
 
   constructor(
     private bottomSheet: MatBottomSheet
@@ -53,7 +53,7 @@ export class ListviewComponent implements OnInit {
     this.deletedItem.emit(item.id);
   }
 
-  moveItem(event: CdkDragDrop<any[]>) {
+  moveItem(event: CdkDragDrop<any>) {
     this.movedItem.emit({
       id: this.items[event.currentIndex],
       oldIndex: event.previousIndex,
@@ -61,8 +61,13 @@ export class ListviewComponent implements OnInit {
     });
   }
 
+  delete(event: CdkDragDrop<any>) {
+    const item = event.previousContainer.data[event.previousIndex];
+    this.deleteItem(item);
+  }
+
   // longPress menu
-  longPressMenu(item: ViewItem) {
+  /*longPressMenu(item: ViewItem) {
     this.bottomSheet.open(BottomSheetMenuViewItemsComponent, {
       data: {
         delItem: () => { this.deleteItem(item); }
@@ -86,7 +91,7 @@ export class ListviewComponent implements OnInit {
       clearTimeout(this.longPressTimer);
       this.longPressTimer = undefined;
     }
-  }
+  }*/
 }
 
 /////////////////////////////////////////
@@ -107,8 +112,7 @@ export class ListviewComponent implements OnInit {
         </mat-icon> Cancel
       </button>
     </mat-nav-list>
-  `,
-  styles: [ 'mat-nav-list * { z-index: 100; }' ]
+  `
 })
 export class BottomSheetMenuViewItemsComponent {
   constructor(

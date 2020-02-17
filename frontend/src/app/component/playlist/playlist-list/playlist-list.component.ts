@@ -52,7 +52,8 @@ export class PlaylistListComponent implements OnInit {
   deletedItem(id: string) {
     let canceled = false;
     const snackBarRef = this.snackBar.open('playlist deletion', 'undo', {
-      duration: 2000,
+      duration: 4000,
+      panelClass: 'custom-snackBar'
     });
     snackBarRef.onAction().subscribe(() => {
       canceled = true;

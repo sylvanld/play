@@ -59,7 +59,8 @@ export class TrackListComponent implements OnInit {
   }
 
   deletedItem(id: string) {
-    let canceled = false;
+    this.playlistService.delTrack(this.lastPlaylist.id, +id);
+    /*let canceled = false;
     const snackBarRef = this.snackBar.open('track deletion', 'undo', {
       duration: 2000,
     });
@@ -68,7 +69,7 @@ export class TrackListComponent implements OnInit {
     });
     snackBarRef.afterDismissed().subscribe(() => {
       if (!canceled) { this.playlistService.delTrack(this.lastPlaylist.id, +id); }
-    });
+    });*/
   }
 
   // filters
