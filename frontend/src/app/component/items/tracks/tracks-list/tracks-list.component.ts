@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { PlayerService } from '~player/player.service';
 import { Track } from '~types/index';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-tracks-list',
@@ -11,13 +12,16 @@ import { Track } from '~types/index';
 export class TracksListComponent implements OnInit {
   @Input() tracks: Track[] = [];
   @Input() noActionBtn = false;
+  @Input() reset: Observable<boolean>;
   @Output() selected: EventEmitter<Track[]> = new EventEmitter();
   displayedColumns: string[] = ['select', 'title', 'artist', 'album', 'release'];
   selection = new SelectionModel<Track>(true, []);
 
   constructor(private player: PlayerService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.reset.subscribe((state: boolean) => { if (state) { this.selection.clear(); } });
+  }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -43,7 +47,8 @@ export class TracksListComponent implements OnInit {
   }
 
   playSelection() {
-    this.player.loadTracks(...this.selection.selected);
+    console.log('play selection', this.selection.selected);
+    this.player.loadTracks(0, ...this.selection.selected);
   }
 
   toggleSelection(track: Track) {

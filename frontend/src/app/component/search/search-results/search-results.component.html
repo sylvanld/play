@@ -3,4 +3,5 @@
 <app-albums-list *ngIf="displayAlbums()" [albums]="results.albums" (albumClicked)="onAlbumClicked($event)">
 </app-albums-list>
 <app-tracks-list *ngIf="displayTracks()" (selected)="onSelected($event)" [noActionBtn]="noActionBtn"
-    [tracks]="results.tracks"></app-tracks-list>
+    [reset]="reset" [tracks]="results.tracks"
+></app-tracks-list>

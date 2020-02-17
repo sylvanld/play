@@ -1,0 +1,7 @@
+<app-listview [items]="items" [editMode]="editMode" (clickedItem)="clickedItem($event)" 
+    (deletedItem)="deletedItem($event)" (movedItem)="movedItem($event)"
+></app-listview>
+
+<div *ngIf="items.length === 0">
+    no track is present
+</div>

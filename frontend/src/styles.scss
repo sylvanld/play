@@ -116,3 +116,22 @@ $play-theme: mat-light-theme($mat-blue, $play-palette-secondary);
     -ms-user-select: none;
     user-select: none;
 }
+
+// distinction between mobile and desktop display
+@import 'src/app/constants.scss';
+
+@media screen and (min-width: $mobile-max-width+1) {
+    .only-mobile {
+        display: none !important;
+    }
+}
+
+@media screen and (max-width: $mobile-max-width) {
+    .only-desktop {
+        display: none !important;
+    }
+}
+
+simple-snack-bar button {
+    color: white !important;
+}
