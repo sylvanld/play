@@ -17,21 +17,29 @@ class FriendshipDAO(DAO):
             user_id,
             cls.filter(
                 or_(
-                    Friendship.friend1 == user_id,
-                    Friendship.friend2 == user_id
+                    Friendship.friend1_id == user_id,
+                    Friendship.friend2_id == user_id
                 ),
                 Friendship.accepted == True
             )
         )
 
     @classmethod
-    def friends_requests_for_user(cls, user_id):
+    def friends_requests_incoming_for_user(cls, user_id):
         return cls.workout_friend_property(
+            user_id,
             cls.filter(
-                or_(
-                    Friendship.friend1 == user_id,
-                    Friendship.friend2 == user_id
-                ),
+                Friendship.friend2_id == user_id,
+                Friendship.accepted == False
+            )
+        )
+
+    @classmethod
+    def friends_requests_outgoing_for_user(cls, user_id):
+        return cls.workout_friend_property(
+            user_id,
+            cls.filter(
+                Friendship.friend1_id == user_id,
                 Friendship.accepted == False
             )
         )
@@ -39,7 +47,7 @@ class FriendshipDAO(DAO):
     @classmethod
     def workout_friend_property(cls, user_id, friendships):
         for friendship in friendships:
-            if friendship.friend1 == user_id:
+            if friendship.friend1_id == user_id:
                 friendship.friend = friendship.friend2
             else:
                 friendship.friend = friendship.friend1

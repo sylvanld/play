@@ -131,3 +131,7 @@ $play-theme: mat-light-theme($mat-blue, $play-palette-secondary);
         display: none !important;
     }
 }
+
+simple-snack-bar button {
+    color: white !important;
+}

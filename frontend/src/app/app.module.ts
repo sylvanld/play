@@ -30,9 +30,8 @@ import { PlaytechComponent } from './view/playtech/playtech.component';
 import { ArtistsListComponent } from './component/items/artists/artists-list/artists-list.component';
 import { ArtistItemComponent } from './component/items/artists/artist-item/artist-item.component';
 import { SearchResultsComponent } from './component/search/search-results/search-results.component';
-import { ListviewComponent, BottomSheetMenuViewItemsComponent } from './component/core/listview/listview.component';
+import { ListviewComponent } from './component/core/listview/listview.component';
 import { CardviewComponent } from './component/core/cardview/cardview.component';
-import { ViewToggleComponent } from './component/core/view-toggle/view-toggle.component';
 import { PlaylistEditionComponent } from './view/playtech/playlist-edition/playlist-edition.component';
 import { FloatingMenuComponent } from './component/floating-menu/floating-menu.component';
 import { LoginComponent } from './view/login/login.component';
@@ -64,15 +63,16 @@ import { TrackListComponent } from './component/playlist/track-list/track-list.c
 import { ConvertComponent } from './view/convert/convert.component';
 import { ImportComponent } from './view/convert/import/import.component';
 import { ExportComponent } from './view/convert/export/export.component';
+import { InputUsersComponent } from './component/search/filters/input-users/input-users.component';
 import { SelectLanguageComponent } from './component/lang/select-language/select-language.component';
 import { EditPasswordComponent } from './component/auth/edit-password/edit-password.component';
+import { FriendshipComponent } from './view/friendship/friendship.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListviewComponent,
     CardviewComponent,
-    ViewToggleComponent,
     FloatingMenuComponent,
     PlaylistEditionComponent,
     SearchbarComponent,
@@ -111,9 +111,10 @@ import { EditPasswordComponent } from './component/auth/edit-password/edit-passw
     ConvertComponent,
     ImportComponent,
     ExportComponent,
+    InputUsersComponent,
     SelectLanguageComponent,
     EditPasswordComponent,
-    BottomSheetMenuViewItemsComponent
+    FriendshipComponent
   ],
   imports: [
     BrowserModule,
@@ -136,7 +137,7 @@ import { EditPasswordComponent } from './component/auth/edit-password/edit-passw
     // custom modules
     PlayerModule.forRoot({ current: 'youtube' }),
   ],
-  entryComponents: [ForgetAccountDialogComponent, AdvancedSearchComponent, BottomSheetMenuViewItemsComponent],
+  entryComponents: [ForgetAccountDialogComponent, AdvancedSearchComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

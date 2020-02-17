@@ -66,4 +66,5 @@ class MyAccounts(Resource):
         Return friend accounts for a current user
         """
         users = FriendshipDAO.friends_for_user(current_user.id)
+        users = [ user.friend for user in users ]
         return UserDAO.dump(users, many=True)

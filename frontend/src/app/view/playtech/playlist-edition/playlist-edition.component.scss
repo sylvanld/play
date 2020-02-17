@@ -1,7 +1,7 @@
 :host {
     display: flex;
     flex-direction: column;
-    margin: 15px 0;
+    padding: 15px 0;
     grid-area: content;
 
     overflow-y: auto;
@@ -84,6 +84,15 @@ mat-icon {
     flex: 1 1 auto;
     width: 100%;
     margin: 5px;
+}
+
+:host ::ng-deep .mat-tab-body-wrapper {
+    flex-grow: 1;
+}
+
+:host ::ng-deep .mat-tab-body-content {
+    display: flex;
+    flex-direction: column;
 }
 
 /*

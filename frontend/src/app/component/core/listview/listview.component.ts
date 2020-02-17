@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
 import { ViewItem } from '~types/view-item';
-import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-listview',
@@ -12,7 +11,7 @@ import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angul
     trigger('slide', [
       transition(':enter', [
         query('.list-item', [
-          style({opacity: 0, transform: 'translateX(-100px)'}),
+          style({ opacity: 0, transform: 'translateX(-100px)' }),
           stagger(30, [
             animate('0.2s cubic-bezier(0.35, 0, 0.25, 1)', style({ opacity: 1, transform: 'none' }))
           ])
@@ -24,18 +23,19 @@ import { MatBottomSheet, MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angul
 export class ListviewComponent implements OnInit {
   @Input() items: ViewItem[] = [];
   @Input() editMode = true;
+  @Input() emptyMsg = 'no item is present'
 
   @Output() deletedItem: EventEmitter<any> = new EventEmitter();
   @Output() movedItem: EventEmitter<any> = new EventEmitter();
   @Output() clickedItem: EventEmitter<any> = new EventEmitter();
 
-  // long press detection
-  longPressTimer ?: ReturnType<typeof setTimeout> = undefined;
-  mouseDown = false;
+  private showBin = false;
 
-  constructor(
-    private bottomSheet: MatBottomSheet
-  ) { }
+  // long press detection
+  /*longPressTimer ?: ReturnType<typeof setTimeout> = undefined;
+  mouseDown = false;*/
+
+  constructor() { }
 
   ngOnInit() {
   }
@@ -45,24 +45,41 @@ export class ListviewComponent implements OnInit {
   }
 
   // event dispatch
-  clickItem(item: ViewItem) {
+  /*clickItem(item: ViewItem) {
     this.clickedItem.emit(item.id);
   }
 
   deleteItem(item: ViewItem) {
     this.deletedItem.emit(item.id);
+  }*/
+
+  clickItem(index: number) {
+    this.clickedItem.emit(index);
   }
 
-  moveItem(event: CdkDragDrop<any[]>) {
-    this.movedItem.emit({
-      id: this.items[event.currentIndex],
-      oldIndex: event.previousIndex,
-      newIndex: event.currentIndex
-    });
+  deleteItem(index: number) {
+    this.deletedItem.emit(index);
+  }
+
+  moveItem(event: CdkDragDrop<any>) {
+    if (this.isMovable()) {
+      this.movedItem.emit({
+        id: this.items[event.currentIndex],
+        oldIndex: event.previousIndex,
+        newIndex: event.currentIndex
+      });
+      this.showBin = false;
+    }
+  }
+
+  delete(event: CdkDragDrop<any>) {
+    //const item = event.previousContainer.data[event.previousIndex];
+    this.deleteItem(event.previousIndex);
+    this.showBin = false;
   }
 
   // longPress menu
-  longPressMenu(item: ViewItem) {
+  /*longPressMenu(item: ViewItem) {
     this.bottomSheet.open(BottomSheetMenuViewItemsComponent, {
       data: {
         delItem: () => { this.deleteItem(item); }
@@ -86,43 +103,5 @@ export class ListviewComponent implements OnInit {
       clearTimeout(this.longPressTimer);
       this.longPressTimer = undefined;
     }
-  }
-}
-
-/////////////////////////////////////////
-
-// bottom-sheet menu
-@Component({
-  selector: 'app-bottom-sheet',
-  template: `
-    <mat-nav-list fxLayout="column">
-      <button mat-button (click)="delItem($event)">
-        <mat-icon aria-hidden="false" aria-label="delete the item">
-          delete_outline
-        </mat-icon> Delete
-      </button>
-      <button mat-button (click)="hide($event)">
-        <mat-icon aria-hidden="false" aria-label="close bottom sheet">
-          arrow_back
-        </mat-icon> Cancel
-      </button>
-    </mat-nav-list>
-  `,
-  styles: [ 'mat-nav-list * { z-index: 100; }' ]
-})
-export class BottomSheetMenuViewItemsComponent {
-  constructor(
-    private bottomSheetRef: MatBottomSheetRef<BottomSheetMenuViewItemsComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any
-  ) {}
-
-  hide(event: MouseEvent): void {
-    this.bottomSheetRef.dismiss();
-    event.preventDefault();
-  }
-
-  delItem(event: MouseEvent) {
-    this.data.delItem();
-    this.hide(event);
-  }
+  }*/
 }

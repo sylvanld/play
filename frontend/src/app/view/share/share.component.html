@@ -6,13 +6,16 @@
       <h3 *ngIf="friends.length === 0">No Friends to share.</h3>
       <mat-selection-list formControlName="firendsControl">
         <mat-list-option *ngFor="let friend of friends" [value]="friend">
-          {{friend.name }}
+          {{friend.email }}
         </mat-list-option>
       </mat-selection-list>
 
       <!-- Nav -->
-      <div>
-        <button mat-button matStepperNext>Next</button>
+      <mat-divider></mat-divider>
+      <div style="display: flex;">
+        <button mat-button color="warn" type="button" routerLink="/friendship" routerLinkActive>Add friends</button>
+        <div style="flex: 1;"></div>
+        <button mat-button matStepperNext type="button">Next</button>
       </div>
     </mat-step>
 
@@ -20,17 +23,22 @@
 
       <!-- List of Playlist to share -->
       <h3 *ngIf="playlists.length === 0">No Playlist to share.</h3>
-      <mat-selection-list formControlName="playlistsControl">
+      <mat-selection-list formControlName="playlistsControl" dense>
         <mat-list-option *ngFor="let playlist of playlists" [value]="playlist">
-          {{playlist.title}}
+          <img matListAvatar src="{{ playlist.cover }}" alt="No cover." style="border-radius: 0% !important;">
+          <h3 matLine> {{ playlist.title }} </h3>
+          <p matLine>
+            <span> {{ playlist.author }} </span>
+          </p>
         </mat-list-option>
       </mat-selection-list>
 
       <!-- Nav -->
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <!-- Submit control -->
-        <button mat-raised-button [disabled]="!shareForm.valid" type="submit"> Submit</button>
+      <mat-divider></mat-divider>
+      <div style="display: flex;">
+        <div style="flex: 1;"></div>
+        <button mat-button matStepperPrevious type="button">Previous</button>
+        <button mat-button color="primary" [disabled]="!shareForm.valid" type="submit">Share</button>
       </div>
     </mat-step>
 

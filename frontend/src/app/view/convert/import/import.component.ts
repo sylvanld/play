@@ -26,6 +26,8 @@ export class ImportComponent implements OnInit, OnDestroy {
   spotifyPlaylists: Playlist[] = [];
 
   importForm: FormGroup;
+  init = false;
+  loading = false;
 
   constructor(
     private router: Router,
@@ -40,6 +42,7 @@ export class ImportComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.init = true;
 
     this.subscription.add(
       this.play.getExternalPlaylists()
@@ -47,6 +50,7 @@ export class ImportComponent implements OnInit, OnDestroy {
         .subscribe(({ deezer, spotify }) => {
           this.deezerPlaylists = deezer;
           this.spotifyPlaylists = spotify;
+          this.init = false;
         })
     );
 
@@ -64,7 +68,7 @@ export class ImportComponent implements OnInit, OnDestroy {
   }
 
   onSubmit({ deezerControl, spotifyControl }) {
-
+    this.loading = true;
     this.subscription.add(this.play.createPlaylists({ deezer: deezerControl, spotify: spotifyControl })
       .pipe(take(1))
       .subscribe(
@@ -72,12 +76,14 @@ export class ImportComponent implements OnInit, OnDestroy {
           this.notify.info(
             `${playlists.length} playlists were created!`
           );
+          this.loading = false;
           this.router.navigateByUrl('/');
         },
         (err) => {
           this.notify.error(
             `An error occured during the importation... Please do it again.`
           );
+          this.loading = false;
           console.log(err);
         }
       ));

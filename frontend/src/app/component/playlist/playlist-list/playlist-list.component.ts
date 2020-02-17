@@ -37,7 +37,7 @@ export class PlaylistListComponent implements OnInit {
     for (const p of playlists) {
       this.items.push({
         id: p.id,
-        picture: '',
+        picture: p.cover,
         mainContent: p.title,
         secondaryContent: p.author
       });
@@ -45,20 +45,25 @@ export class PlaylistListComponent implements OnInit {
   }
 
   // event responses
-  clickedItem(id: string) {
+  clickedItem(index: number) {
+    const id = this.lastPlaylists[index].id;
     this.router.navigate([`/playlist/edit/${id}`]);
   }
 
-  deletedItem(id: string) {
+  deletedItem(index: number) {
+    const id = this.lastPlaylists[index].id;
     let canceled = false;
+    this.items.splice(index, 1);
     const snackBarRef = this.snackBar.open('playlist deletion', 'undo', {
-      duration: 2000,
+      duration: 4000,
+      panelClass: 'custom-snackBar'
     });
     snackBarRef.onAction().subscribe(() => {
       canceled = true;
     });
     snackBarRef.afterDismissed().subscribe(() => {
       if (!canceled) { this.playlistService.removePlaylist(id); }
+      else { this.display(this.lastPlaylists); }
     });
   }
 

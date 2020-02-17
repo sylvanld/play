@@ -4,7 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { PlaytechComponent } from './view/playtech/playtech.component';
 import { BrowseComponent } from './view/browse/browse.component';
 import { ShareComponent } from './view/share/share.component';
-import { ExportComponent } from './view/convert/export/export.component';
 import { AccountsComponent } from './view/accounts/accounts.component';
 import { PlayerComponent } from './view/player/player.component';
 import { PlaylistEditionComponent } from './view/playtech/playlist-edition/playlist-edition.component';
@@ -15,6 +14,8 @@ import { NotAuthenticatedGuard } from './guard/not-authenticated.guard';
 import { MatListModule } from '@angular/material/list';
 import { ConvertComponent } from './view/convert/convert.component';
 import { ImportComponent } from './view/convert/import/import.component';
+import { ExportComponent } from './view/convert/export/export.component';
+import { FriendshipComponent } from './view/friendship/friendship.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'playtech', component: PlaytechComponent, canActivate: [AuthenticatedGuard] },
   { path: 'browse', component: BrowseComponent, canActivate: [AuthenticatedGuard] },
   { path: 'share', component: ShareComponent, canActivate: [AuthenticatedGuard] },
+  { path: 'friendship', component: FriendshipComponent, canActivate: [AuthenticatedGuard] },
   { path: 'accounts', component: AccountsComponent, canActivate: [AuthenticatedGuard] },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthenticatedGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthenticatedGuard] },

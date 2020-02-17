@@ -22,10 +22,6 @@ export class PlaylistsService {
     this.loadPlaylists();
   }
 
-  swapPlaylists(oldIndex, newIndex) {
-
-  }
-
   flushData() {
     this.storage.clear();
   }

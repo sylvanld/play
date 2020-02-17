@@ -6,8 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { PlayService } from 'src/app/service/play.service';
 
 import { Account, User } from '~types/index';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subscription, Observable, of } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './accounts.component.html',
@@ -21,7 +21,7 @@ export class AccountsComponent implements OnInit, OnDestroy {
   private newPwd = '';
 
   accounts: Account[] = [];
-  currentUser: User = undefined;
+  currentUser: User;
 
   constructor(
     private auth: AuthenticationService,
@@ -43,6 +43,7 @@ export class AccountsComponent implements OnInit, OnDestroy {
       this.play.myAccounts()
         .pipe(take(1))
         .subscribe((accounts: any[]) => {
+          console.log(accounts);
           this.accounts = accounts;
         })
     );
@@ -53,11 +54,11 @@ export class AccountsComponent implements OnInit, OnDestroy {
   }
 
   isSpotifyAccountBound(): boolean {
-    return this.accounts.filter(account => account.provider === 'SPOTIFY').length > 0;
+    return this.accounts.filter(account => account.provider === 'SPOTIFY').length > 0;;
   }
 
   isDeezerAccountBound() {
-    return this.accounts.filter(account => account.provider === 'DEEZER').length > 0;
+    return this.accounts.filter(account => account.provider === 'DEEZER').length > 0;;
   }
 
   logout() {

@@ -16,10 +16,55 @@ interface YoutubeResult {
   }[];
 }
 
+class KeyStore {
+  // token is OP for 24 hours
+  private lifetime = 1000 * 60 * 60 * 24;
+  private apiKeys: string[] = [];
+  private timestamps: number[] = [];
+  private currentToken: string = null;
+
+  constructor(api_keys: string[]) {
+    this.apiKeys = api_keys;
+    this.timestamps = this.apiKeys.map(data => new Date().getTime() - this.lifetime);
+  }
+
+
+  getSortedTokens(): string[] {
+    return this.apiKeys.sort((tokenA: string, tokenB: string) => {
+      const tA = this.timestamps[this.apiKeys.indexOf(tokenA)];
+      const tB = this.timestamps[this.apiKeys.indexOf(tokenB)];
+
+      if (tA === tB) {
+        return 0;
+      } else if (tA > tB) {
+        return -1;
+      } else {
+        return 1;
+      }
+    })
+  }
+
+  getValidToken(): Observable<string> {
+    const sortedTokens = this.getSortedTokens();
+    this.currentToken = sortedTokens[0];
+    console.log('set new token for youtube', this.currentToken);
+    return of(this.currentToken);
+  }
+
+  notifyTokenExpired() {
+    if (!!this.currentToken) {
+      // notify that token is not valid at this time
+      const i = this.apiKeys.indexOf(this.currentToken);
+      this.timestamps[i] = new Date().getTime();
+    }
+  }
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class YoutubeService extends ProviderService {
+  private keyStore = new KeyStore(environment.youtube_api_keys);
 
   constructor(protected http: HttpClient) {
     super(
@@ -31,7 +76,9 @@ export class YoutubeService extends ProviderService {
   }
 
   renewToken(): Observable<string> {
-    return of(environment.youtube_api_keys[0]);
+    console.log('error, must renew token');
+    this.keyStore.notifyTokenExpired();
+    return this.keyStore.getValidToken();
   }
 
   searchTrack(query: string) {

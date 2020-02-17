@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ViewItem } from '~types/view-item';
 import { PlaylistsService } from 'src/app/service/playlists.service';
 import { PlayerService } from '~player/player.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { Playlist } from '~types/play/play-playlist';
 import { Track } from '~types/play/play-track';
@@ -20,14 +19,15 @@ export class TrackListComponent implements OnInit {
 
   constructor(
     private playlistService: PlaylistsService,
-    private player: PlayerService,
-    private snackBar: MatSnackBar
+    private player: PlayerService
   ) { }
 
   ngOnInit() {
     this.playlist.subscribe((playlist: Playlist) => {
-      this.lastPlaylist = playlist;
-      this.display(playlist.tracks);
+      if (playlist) {
+        this.lastPlaylist = playlist;
+        this.display(playlist.tracks);
+      }
     });
   }
 
@@ -47,28 +47,18 @@ export class TrackListComponent implements OnInit {
   }
 
   // event responses
-  clickedItem(id: string) {
+  clickedItem(index: number) {
     // launch with the player
-    const selectedTrack = this.playlistService.getTrackAt(this.lastPlaylist.id, +id);
-    this.player.loadTracks(...this.lastPlaylist.tracks);
-    // TODO: play the song selectedTrack.external_ids
+    this.player.queueTracks(this.lastPlaylist.tracks[index]);
+    this.player.nextTrack();
   }
 
-  movedItem(event: {oldIndex: number, newIndex: number}) {
+  movedItem(event: { oldIndex: number, newIndex: number }) {
     this.playlistService.swapTracks(this.lastPlaylist.id, event.oldIndex, event.newIndex);
   }
 
-  deletedItem(id: string) {
-    let canceled = false;
-    const snackBarRef = this.snackBar.open('track deletion', 'undo', {
-      duration: 2000,
-    });
-    snackBarRef.onAction().subscribe(() => {
-      canceled = true;
-    });
-    snackBarRef.afterDismissed().subscribe(() => {
-      if (!canceled) { this.playlistService.delTrack(this.lastPlaylist.id, +id); }
-    });
+  deletedItem(index: number) {
+    this.playlistService.delTrack(this.lastPlaylist.id, index);
   }
 
   // filters

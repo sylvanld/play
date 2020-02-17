@@ -22,6 +22,7 @@ import { ViewItem } from '~types/index';
 export class CardviewComponent implements OnInit {
   @Input() items: ViewItem[] = [];
   @Input() editMode = true;
+  // @Input() emptyMsg = 'no item is present'
 
   @Output() clickedItem: EventEmitter<any> = new EventEmitter();
   @Output() deletedItem: EventEmitter<any> = new EventEmitter();
@@ -31,11 +32,19 @@ export class CardviewComponent implements OnInit {
   ngOnInit() {
   }
 
-  clickItem(item: ViewItem) {
+  /*clickItem(item: ViewItem) {
     this.clickedItem.emit(item.id);
   }
 
   deleteItem(item: ViewItem) {
     this.deletedItem.emit(item.id);
+  }*/
+
+  clickItem(index: number) {
+    this.clickedItem.emit(index);
+  }
+
+  deleteItem(index: number) {
+    this.deletedItem.emit(index);
   }
 }
