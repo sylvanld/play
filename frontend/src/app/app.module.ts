@@ -24,7 +24,6 @@ import { NavItemComponent } from './component/navigation/nav-item/nav-item.compo
 import { HeadingComponent } from './component/navigation/heading/heading.component';
 import { PlayerComponent } from './view/player/player.component';
 import { ShareComponent } from './view/share/share.component';
-import { RemovalExportComponent } from './view/export/export.component';
 import { AccountsComponent } from './view/accounts/accounts.component';
 import { BrowseComponent } from './view/browse/browse.component';
 import { PlaytechComponent } from './view/playtech/playtech.component';
@@ -82,7 +81,6 @@ import { EditPasswordComponent } from './component/auth/edit-password/edit-passw
     HeadingComponent,
     PlayerComponent,
     ShareComponent,
-    RemovalExportComponent,
     AccountsComponent,
     BrowseComponent,
     PlaytechComponent,
@@ -115,7 +113,6 @@ import { EditPasswordComponent } from './component/auth/edit-password/edit-passw
     ExportComponent,
     SelectLanguageComponent,
     EditPasswordComponent,
-    RemovalExportComponent,
     BottomSheetMenuViewItemsComponent
   ],
   imports: [

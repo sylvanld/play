@@ -87,6 +87,7 @@ export class DeezerUserService extends ProviderService {
     );
   }
 
+
   /**
    * Retrieve current Playlists for the authenticated User.
    * @link https://developers.deezer.com/api/user/playlists
@@ -121,12 +122,9 @@ export class DeezerUserService extends ProviderService {
   }
 
   addTrack(playlistID, track) {
-
-    return this.post(`/playlist/${playlistID}/tracks?songs=${track.identifier.deezer}`, {})
-      .subscribe(
-        (data: any) => {
-          console.log(data);
-        }
-      );
+    return this.completeExternalId(track).pipe(
+      mergeMap(
+        track_ => this.post(`/playlist/${playlistID}/tracks?songs=${track_.external_ids.deezer}`, {})
+      ))
   }
 }

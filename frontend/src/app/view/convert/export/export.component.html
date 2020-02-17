@@ -1,1 +1,29 @@
-<p>export works!</p>
+<aside id="playlist">
+    <mat-card>
+        <mat-card-content>
+            <h2>Playlists</h2>
+            <mat-list>
+                <mat-list-item *ngFor="let playlist of playlistsF">
+                    <mat-checkbox (change)="onSelectedPlaylist(playlist)">{{playlist.mainContent}}</mat-checkbox>
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+    <br>
+    <br>
+    <button mat-raised-button color="secondary" (click)="exportPlaylists()" *ngIf="selectionPlaylist.hasValue() && selectionPlateform.hasValue()">Export</button>
+</aside>
+<aside>
+    <mat-card>
+        <mat-card-content>
+            <h2>Plateforms</h2>
+            <mat-list>
+                <mat-list-item *ngFor="let plateform of plateforms">
+                    <mat-checkbox (change)="onSelectedPlatform(plateform)">{{plateform}}</mat-checkbox>
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+    <br>
+    <br>
+</aside>
