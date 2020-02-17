@@ -82,12 +82,13 @@ export class PlaylistEditionComponent implements OnInit {
 
   // search part
   onResultsChange(results: SearchResult) {
+    this.resetSelectionSubject.next(true);
     this.results = results;
   }
 
-  closeSearch() {
+  /*closeSearch() {
     this.results = { tracks: [], artists: [], albums: [] };
-  }
+  }*/
 
   onSelected(tracks: Track[]) {
     this.selection = tracks;
