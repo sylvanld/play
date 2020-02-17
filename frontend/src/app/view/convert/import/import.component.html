@@ -9,6 +9,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
 
+      <mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
       <h3 *ngIf="spotifyPlaylists.length === 0">No Playlist to import.</h3>
       <mat-selection-list formControlName="spotifyControl">
         <mat-list-option *ngFor="let playlist of spotifyPlaylists" [value]="playlist">
@@ -33,6 +34,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
 
+      <mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
       <h3 *ngIf="deezerPlaylists.length === 0">No Playlist to import.</h3>
       <mat-selection-list formControlName="deezerControl">
         <mat-list-option *ngFor="let playlist of deezerPlaylists" [value]="playlist">
@@ -53,6 +55,8 @@
   <!-- A floating button! -->
   <button mat-fab *ngIf="!isEmpty" color="accent" type="submit"
     style="position: fixed; right: 24px; bottom: 100px; z-index: 9999">
-    <mat-icon>add</mat-icon>
+    <mat-icon *ngIf="!loading">add</mat-icon>
+    <mat-progress-spinner *ngIf="loading" class="spinner-in-button" color="warn" mode="indeterminate">
+    </mat-progress-spinner>
   </button>
 </form>

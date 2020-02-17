@@ -55,11 +55,11 @@ export class AccountsComponent implements OnInit, OnDestroy {
   }
 
   isSpotifyAccountBound(): boolean {
-    return false;
+    return this.accounts.filter(account => account.provider === 'SPOTIFY').length > 0;;
   }
 
   isDeezerAccountBound() {
-    return false;
+    return this.accounts.filter(account => account.provider === 'DEEZER').length > 0;;
   }
 
   logout() {
