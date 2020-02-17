@@ -19,13 +19,13 @@ import { Router } from '@angular/router';
 })
 export class ImportComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
-  private isEmpty = true;
-  private step = 2;
+  isEmpty = true;
+  step = 2;
 
-  private deezerPlaylists: Playlist[] = [];
-  private spotifyPlaylists: Playlist[] = [];
+  deezerPlaylists: Playlist[] = [];
+  spotifyPlaylists: Playlist[] = [];
 
-  private importForm: FormGroup;
+  importForm: FormGroup;
 
   constructor(
     private router: Router,
