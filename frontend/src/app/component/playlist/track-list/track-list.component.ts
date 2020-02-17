@@ -50,11 +50,11 @@ export class TrackListComponent implements OnInit {
   clickedItem(id: string) {
     // launch with the player
     const selectedTrack = this.playlistService.getTrackAt(this.lastPlaylist.id, +id);
-    this.player.loadTracks(...this.lastPlaylist.tracks);
-    // TODO: play the song selectedTrack.external_ids
+    this.player.queueTracks(...this.lastPlaylist.tracks);
+    this.player.nextTrack();
   }
 
-  movedItem(event: {oldIndex: number, newIndex: number}) {
+  movedItem(event: { oldIndex: number, newIndex: number }) {
     this.playlistService.swapTracks(this.lastPlaylist.id, event.oldIndex, event.newIndex);
   }
 

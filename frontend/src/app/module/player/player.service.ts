@@ -29,6 +29,10 @@ export class PlayerService {
     this._state.next(state);
   }
 
+  findTrackIndex(track: Track): number {
+    return this._tracks.findIndex((t: Track) => t.isrc === track.isrc);
+  }
+
   loadTracks(...tracks: Track[]): void {
     this._tracks = tracks;
     this._currentTrack.next(this._tracks[this._index]);

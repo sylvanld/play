@@ -97,7 +97,9 @@ export class AccountsComponent implements OnInit, OnDestroy {
       .subscribe((frienship) => {
         console.log(frienship);
       });
-    changePwd() {
-      this.auth.changePassword(this.oldPwd, this.newPwd);
-    }
   }
+
+  changePwd() {
+    this.auth.changePassword(this.oldPwd, this.newPwd);
+  }
+}
