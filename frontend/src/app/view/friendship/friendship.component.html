@@ -1,1 +1,29 @@
-<p>friendship works!</p>
+<form (ngSubmit)="onSubmitFriendship()" style="display: flex;">
+  <app-input-users [items]="items" (itemsChange)="addItem($event)" style="flex: 1;"></app-input-users>
+  <button mat-button type="submit">submit</button>
+</form>
+
+<mat-divider></mat-divider>
+<div style="display: flex; width: 100%; flex-direction: column; overflow-y: auto; height: 86%;">
+  <div style="flex: 1;">
+    <mat-nav-list>
+      <h3>My Incoming requests</h3>
+      <h5 *ngIf="incoming.length === 0">No incoming requests</h5>
+      <mat-list-item *ngFor="let friendship of incoming">
+        <span matLine>{{ friendship.friend.email }}</span>
+        <button mat-icon-button (click)="acceptFrienship(friendship.id)">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
+  <div style="flex: 1;">
+    <mat-nav-list>
+      <h3>My Outgoing requests</h3>
+      <h5 *ngIf="outgoing.length === 0">No outgoing requests</h5>
+      <mat-list-item *ngFor="let friendship of outgoing">
+        {{ friendship.friend.email }}
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
+</div>

@@ -6,7 +6,7 @@
       <h3 *ngIf="friends.length === 0">No Friends to share.</h3>
       <mat-selection-list formControlName="firendsControl">
         <mat-list-option *ngFor="let friend of friends" [value]="friend">
-          {{friend.name }}
+          {{friend.email }}
         </mat-list-option>
       </mat-selection-list>
 

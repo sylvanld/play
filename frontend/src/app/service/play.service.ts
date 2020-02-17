@@ -131,8 +131,8 @@ export class PlayService extends ProviderService {
     return this.get<any>('/users/me/friendships');
   }
 
-  inviteFriend(me: string, userId: string): Observable<any> {
-    return this.post<any>('/friendships', { friend1: me, friend2: userId });
+  inviteFriend(userId: string): Observable<any> {
+    return this.post<any>('/friendships', { friend2_id: userId });
   }
 
   acceptFriendship(id): Observable<any> {

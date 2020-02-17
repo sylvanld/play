@@ -20,9 +20,6 @@ export class AccountsComponent implements OnInit, OnDestroy {
   private oldPwd = '';
   private newPwd = '';
 
-  private pending: User[] = [];
-  private accepted: User[] = [];
-
   accounts: Account[] = [];
   currentUser: User;
 
@@ -50,8 +47,6 @@ export class AccountsComponent implements OnInit, OnDestroy {
           this.accounts = accounts;
         })
     );
-
-    this.getFrienshipRequests();
   }
 
   ngOnDestroy() {
@@ -75,28 +70,6 @@ export class AccountsComponent implements OnInit, OnDestroy {
     this.subsciption.add(dialog.afterClosed().subscribe(() => {
       this.playlistService.flushData();
     }));
-  }
-
-
-  /// TODO: move to share component
-  getFrienshipRequests() {
-    this.subsciption.add(this.play.myRequestFriendships().pipe(
-      take(1),
-      map(
-        ({ accepted, pending }) => {
-          return pending.map(({ friend1, friend2 }) => this.play.whois(friend2));
-        }
-      )
-    ).subscribe((users: User[]) => {
-      this.pending = users;
-    }));
-  }
-
-  invitFriend($event) {
-    this.play.inviteFriend(this.currentUser.id, $event[0].id)
-      .subscribe((frienship) => {
-        console.log(frienship);
-      });
   }
 
   changePwd() {
