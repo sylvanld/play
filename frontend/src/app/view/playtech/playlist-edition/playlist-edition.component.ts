@@ -51,6 +51,7 @@ export class PlaylistEditionComponent implements OnInit {
       if (!this.playlistId) {
         // initialize a new playlist
         this.playlistId = this.playlistService.playlistGen();
+        this.router.navigate([`/playlist/edit/${this.playlistId}`]);
       }
 
       this.playlist = this.playlistService.playlists.pipe(

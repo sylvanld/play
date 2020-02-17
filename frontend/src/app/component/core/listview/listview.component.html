@@ -16,12 +16,12 @@
                     <div class="secondary-content">{{ item.secondaryContent }}</div>
                 </div>
                 <div class="options">
-                    <button mat-button (click)="deleteItem(item); $event.stopPropagation()">
+                    <button  mat-icon-button (click)="deleteItem(item); $event.stopPropagation()">
                         <mat-icon aria-hidden="false" aria-label="delete the item">
                             delete_outline
                         </mat-icon>
                     </button>
-                    <!-- <button mat-button> -->
+                    <!-- <button  mat-icon-button> -->
                         <mat-icon *ngIf="!noDragDrop" aria-hidden="false" aria-label="move the item" cdkDragHandle>
                             height
                         </mat-icon>
@@ -41,13 +41,13 @@
                     <div class="main-content">{{ item.mainContent }}</div>
                     <div class="secondary-content">{{ item.secondaryContent }}</div>
                 </div>
-                <div class="options">
-                    <button mat-button (click)="deleteItem(item); $event.stopPropagation()">
+                <!-- <div class="options">
+                    <button  mat-icon-button (click)="deleteItem(item); $event.stopPropagation()">
                         <mat-icon aria-hidden="false" aria-label="delete the item">
                             delete_outline
                         </mat-icon>
                     </button>
-                </div>
+                </div> -->
             </div>
         </div>
     </ng-template>

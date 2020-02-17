@@ -12,7 +12,7 @@
         align-self: auto;
     }
 
-    .options {
+    .list-item .options {
         flex: 0 0 fit-content;
         display: inline-flex;
         flex-direction: row;
@@ -20,6 +20,7 @@
         justify-content: flex-start;
         align-content: stretch;
         align-items: center;
+        visibility: hidden;
 
         >* {
             margin: 5px;
@@ -30,6 +31,10 @@
         >*:hover, >*:active {
             color: blue;
         }
+    }
+
+    .list-item:hover .options {
+        visibility: visible;
     }
 }
 

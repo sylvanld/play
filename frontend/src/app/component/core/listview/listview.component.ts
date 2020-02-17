@@ -63,7 +63,7 @@ export class ListviewComponent implements OnInit {
 
   // longPress menu
   longPressMenu(item: ViewItem) {
-    this.bottomSheet.open(BottomSheetMenuComponent, {
+    this.bottomSheet.open(BottomSheetMenuViewItemsComponent, {
       data: {
         delItem: () => { this.deleteItem(item); }
       },
@@ -95,7 +95,7 @@ export class ListviewComponent implements OnInit {
 @Component({
   selector: 'app-bottom-sheet',
   template: `
-    <mat-nav-list>
+    <mat-nav-list fxLayout="column">
       <button mat-button (click)="delItem($event)">
         <mat-icon aria-hidden="false" aria-label="delete the item">
           delete_outline
@@ -108,9 +108,13 @@ export class ListviewComponent implements OnInit {
       </button>
     </mat-nav-list>
   `,
+  styles: [ 'mat-nav-list * { z-index: 100; }' ]
 })
-class BottomSheetMenuComponent {
-  constructor(private bottomSheetRef: MatBottomSheetRef<BottomSheetMenuComponent>, @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {}
+export class BottomSheetMenuViewItemsComponent {
+  constructor(
+    private bottomSheetRef: MatBottomSheetRef<BottomSheetMenuViewItemsComponent>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any
+  ) {}
 
   hide(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();

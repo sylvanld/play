@@ -21,6 +21,7 @@ import { ViewItem } from '~types/index';
 })
 export class CardviewComponent implements OnInit {
   @Input() items: ViewItem[] = [];
+  @Input() editMode = true;
 
   @Output() clickedItem: EventEmitter<any> = new EventEmitter();
   @Output() deletedItem: EventEmitter<any> = new EventEmitter();
@@ -31,10 +32,10 @@ export class CardviewComponent implements OnInit {
   }
 
   clickItem(item: ViewItem) {
-    this.clickedItem.emit(item);
+    this.clickedItem.emit(item.id);
   }
 
   deleteItem(item: ViewItem) {
-    this.deletedItem.emit(item);
+    this.deletedItem.emit(item.id);
   }
 }

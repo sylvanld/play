@@ -10,8 +10,8 @@
             <div class="main-content">{{ item.mainContent }}</div>
             <div class="secondary-content">{{ item.secondaryContent }}</div>
         </div>
-        <div class="options">
-            <button mat-button (click)="deleteItem(item); $event.stopPropagation()">
+        <div class="options" *ngIf="editMode">
+            <button  mat-icon-button (click)="deleteItem(item); $event.stopPropagation()">
                 <mat-icon aria-hidden="false" aria-label="delete the item">
                     delete_outline
                 </mat-icon>

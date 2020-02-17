@@ -2,12 +2,12 @@
 <ng-template #search >
     <div fxLayout="column">
         <div fxLayout="row" fxLayoutAlign="start center">
-            <app-search-bar [displayFilters]="false" [filtersList]="['track']" (results)="onResultsChange($event)"></app-search-bar>
+            <app-search-bar [displayFilters]="false" [resultsTypes]="['track']" (results)="onResultsChange($event)"></app-search-bar>
             <button mat-flat-button (click)="selectionToPlaylist()" color="accent" *ngIf="selection.length"> <!-- *ngIf="selection.hasValue()"> -->
                 add
             </button>
         </div>
-        <app-search-results noActionBtn="true" [results]="results" [reset]="resetSelection" (selected)="onSelected($event)"></app-search-results>
+        <app-search-results noActionBtn="true" [resultsTypes]="['track']" [results]="results" [reset]="resetSelection" (selected)="onSelected($event)"></app-search-results>
     </div>
 </ng-template>
 

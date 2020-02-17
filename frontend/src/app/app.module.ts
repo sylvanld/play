@@ -12,7 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconRegistry } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 
@@ -30,7 +30,7 @@ import { PlaytechComponent } from './view/playtech/playtech.component';
 import { ArtistsListComponent } from './component/items/artists/artists-list/artists-list.component';
 import { ArtistItemComponent } from './component/items/artists/artist-item/artist-item.component';
 import { SearchResultsComponent } from './component/search/search-results/search-results.component';
-import { ListviewComponent } from './component/core/listview/listview.component';
+import { ListviewComponent, BottomSheetMenuViewItemsComponent } from './component/core/listview/listview.component';
 import { CardviewComponent } from './component/core/cardview/cardview.component';
 import { ViewToggleComponent } from './component/core/view-toggle/view-toggle.component';
 import { PlaylistEditionComponent } from './view/playtech/playlist-edition/playlist-edition.component';
@@ -115,7 +115,8 @@ import { RemovalExportComponent } from './view/export/export.component';
     ExportComponent,
     SelectLanguageComponent,
     EditPasswordComponent,
-    RemovalExportComponent
+    RemovalExportComponent,
+    BottomSheetMenuViewItemsComponent
   ],
   imports: [
     BrowserModule,
@@ -138,7 +139,7 @@ import { RemovalExportComponent } from './view/export/export.component';
     // custom modules
     PlayerModule.forRoot({ current: 'youtube' }),
   ],
-  entryComponents: [ForgetAccountDialogComponent, AdvancedSearchComponent],
+  entryComponents: [ForgetAccountDialogComponent, AdvancedSearchComponent, BottomSheetMenuViewItemsComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

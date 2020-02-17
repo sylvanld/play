@@ -44,14 +44,14 @@ export class TrackListComponent implements OnInit {
         });
       }
     }
-    console.log('items ('+tracks.length+'):', tracks);
   }
 
   // event responses
   clickedItem(id: string) {
     // launch with the player
     const selectedTrack = this.playlistService.getTrackAt(this.lastPlaylist.id, +id);
-    this.player.loadTracks(selectedTrack);
+    this.player.loadTracks(...this.lastPlaylist.tracks);
+    // TODO: play the song selectedTrack.external_ids
   }
 
   movedItem(event: {oldIndex: number, newIndex: number}) {
