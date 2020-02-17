@@ -23,6 +23,6 @@ export class PlayerComponent implements OnInit {
       external_ids: { spotify: 'n' }
     };
     const track = { ...track2, title: this.query, external_ids: { spotify: 'n' } };
-    this.player.loadTracks(...[track, track2]);
+    this.player.loadTracks(0, ...[track, track2]);
   }
 }
