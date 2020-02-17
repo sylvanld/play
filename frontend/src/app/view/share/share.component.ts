@@ -16,8 +16,8 @@ export class ShareComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
 
-  private friends = [];
-  private playlists: Playlist[];
+  friends = [];
+  playlists: Playlist[];
 
   shareForm: FormGroup;
 

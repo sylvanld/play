@@ -66,6 +66,7 @@ import { ImportComponent } from './view/convert/import/import.component';
 import { ExportComponent } from './view/convert/export/export.component';
 import { SelectLanguageComponent } from './component/lang/select-language/select-language.component';
 import { EditPasswordComponent } from './component/auth/edit-password/edit-password.component';
+import { RemovalExportComponent } from './view/export/export.component';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { EditPasswordComponent } from './component/auth/edit-password/edit-passw
     ExportComponent,
     SelectLanguageComponent,
     EditPasswordComponent,
+    RemovalExportComponent
   ],
   imports: [
     BrowserModule,

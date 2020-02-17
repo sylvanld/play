@@ -7,6 +7,7 @@ import { SearchResult } from '~types/index';
 })
 export class BrowseComponent implements OnInit {
   results: SearchResult = { tracks: [], artists: [], albums: [] };
+  resultsTypes = ['track', 'album', 'artist'];
 
   constructor() { }
 
@@ -14,5 +15,9 @@ export class BrowseComponent implements OnInit {
 
   onResultsChange(results: SearchResult) {
     this.results = results;
+  }
+
+  onTypeChange() {
+    console.log('type change', this.resultsTypes);
   }
 }

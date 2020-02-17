@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class SelectLanguageComponent implements OnInit {
   private _lang: 'EN' | 'FR' = 'EN';
-  private selectedLanguage = {
+  selectedLanguage = {
     code: 'EN',
     name: 'English',
     flag: '/assets/flags/EN.svg'
@@ -15,7 +15,7 @@ export class SelectLanguageComponent implements OnInit {
 
   @Input()
   set lang(lang: 'EN' | 'FR') {
-    console.log('set lang to', lang);
+    // TODO: use a subject instead of this
     this._lang = lang;
 
     this.selectedLanguage = this.languages.filter(
@@ -25,7 +25,6 @@ export class SelectLanguageComponent implements OnInit {
     this.langChange.next(this._lang);
   }
   get lang() {
-    console.log('get lang', this._lang);
     return this._lang;
   }
 

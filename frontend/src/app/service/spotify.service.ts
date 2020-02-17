@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, forkJoin } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators';
 
 import { AuthenticationService } from './authentication.service';
 import { ProviderService } from './provider.service';
 
 import { Album, Artist, SearchResult, Track, SpotifyTrack } from '~types/index';
+import { SpotifyAlbum } from '~types/spotify/spotify-album';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,7 @@ export class SpotifyService extends ProviderService {
       id: spotifyAlbum['id'],
       name: spotifyAlbum['name'],
       date: spotifyAlbum['release_date'],
+      artists: spotifyAlbum['artists'].map(artist => artist.name),
       cover: n === -1 ? null : spotifyAlbum['images'][n]['url']
     };
   }
@@ -81,6 +83,33 @@ export class SpotifyService extends ProviderService {
         deezer: undefined
       }
     };
+  }
+
+  getArtistAlbums(artistId: string): Observable<Album[]> {
+    return this.get(`/v1/artists/${artistId}/albums`)
+      .pipe(map(
+        (resp: { items: SpotifyAlbum[] }) => resp.items.map(this.convertAlbum)
+      ))
+  }
+
+  getArtistTopTracks(artistId: string): Observable<Track[]> {
+    return this.get(`/v1/artists/${artistId}/top-tracks?country=FR`)
+      .pipe(map(
+        (resp: { tracks: SpotifyTrack[] }) => resp.tracks.map(this.convertTrack)
+      ))
+  }
+
+  discoverArtist(artistId: string): Observable<SearchResult> {
+    return forkJoin([
+      this.getArtistAlbums(artistId),
+      this.getArtistTopTracks(artistId)
+    ]).pipe(map((result: { 0: Album[], 1: Track[] }) => {
+      return {
+        tracks: result[1],
+        artists: [],
+        albums: result[0]
+      }
+    }));
   }
 
   getAvailableGenres(): Observable<string[]> {
@@ -134,6 +163,28 @@ export class SpotifyService extends ProviderService {
     );
   }
 
+  getTracksByIds(tracksIds: Array<string>): Observable<Track[]> {
+    return this.get('/v1/tracks/?ids=' + tracksIds.join(',')).pipe(
+      map(
+        (results: { tracks: SpotifyTrack[] }) => {
+          return results.tracks.map(this.convertTrack);
+        }
+      )
+    )
+  }
+
+  getAlbumTracks(albumId: string): Observable<SearchResult> {
+    return this.get(`/v1/albums/${albumId}/tracks`)
+      .pipe(
+        flatMap((resp: { items: Array<SpotifyTrack> }) => {
+          const tracksIds = resp.items.map(item => item.id);
+          return this.getTracksByIds(tracksIds).pipe(
+            map((tracks: Track[]) => ({ tracks: tracks, artists: [], albums: [] }))
+          );
+        })
+      );
+  }
+
   suggestions(queryParams: string): Observable<SearchResult> {
     return this.get<{ tracks }>(
       '/v1/recommendations?' + queryParams,
@@ -164,6 +215,18 @@ export class SpotifyService extends ProviderService {
           };
         })
       );
+  }
+
+  getNewReleases(): Observable<SearchResult> {
+    return this.get('/v1/browse/new-releases').pipe(
+      map(data => {
+        return {
+          tracks: [],
+          artists: [],
+          albums: data['albums']['items'].map(this.convertAlbum)
+        }
+      })
+    )
   }
 
 }

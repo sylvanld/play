@@ -15,14 +15,14 @@ export class PlayerContainerComponent implements OnInit, OnDestroy {
   private _prevVolume: number;
   private timeInterval;
 
-  private volume = 100;
-  private title: string;
+  volume = 100;
+  title: string;
   private state: PlayerState;
 
-  private get isUnstated(): boolean { return this.state === PlayerState.UNSTARTED; }
-  private get isReady(): boolean { return this.state !== PlayerState.UNSTARTED; }
-  private get isPaused(): boolean { return this.state === PlayerState.PAUSED; }
-  private get isPlaying(): boolean { return this.state === PlayerState.PLAYING; }
+  get isUnstated(): boolean { return this.state === PlayerState.UNSTARTED; }
+  get isReady(): boolean { return this.state !== PlayerState.UNSTARTED; }
+  get isPaused(): boolean { return this.state === PlayerState.PAUSED; }
+  get isPlaying(): boolean { return this.state === PlayerState.PLAYING; }
 
   /////////////////////////////////////////////////
 
