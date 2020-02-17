@@ -86,6 +86,9 @@ export class RemovalExportComponent implements OnInit {
       let resultSpotify: any;
       let resultDeezer: any;
       let resultYoutube: any;
+      let dataSpotify: any;
+      let dataDeezer: any;
+      let dataYoutube: any;
 
       const playlistId = playList.id;
 
@@ -96,12 +99,13 @@ export class RemovalExportComponent implements OnInit {
       // load playlist data
       playlist.subscribe(
         p => {
-          for (const plateform of plateforms) {
-            if (plateform === 'Spotify') {
+          for (const i in plateforms) {
+            if (plateforms[i] === 'Spotify') {
+              console.log('plateform', plateforms[index]);
               resultSpotify = this.spotifyUserService.createPlaylist(p);
-            } else if (plateform === 'Deezer') {
-              resultDeezer = this.deezerUserService.createPlaylist(p);
-            } else if (plateform === 'Youtube') {
+            } else if (plateforms[i] === 'Deezer') {
+              //resultDeezer = this.deezerUserService.createPlaylist(p);
+            } else if (plateforms[i] === 'Youtube') {
               // resultYoutube = this.youtubeUserService.createPlaylist(p);
             }
           }
@@ -121,31 +125,36 @@ export class RemovalExportComponent implements OnInit {
           }
         }
       );
-      for (const song of this.songsF) {
-        for (const plateform of plateforms) {
-          if (plateform === 'Spotify') {
-            resultSpotify.subscribe(
-              data => {
-                console.log('sortie', data.id);
-                // this.spotifyUserService.addTrack(data.id, song);
-              }
-            );
-          } else if (plateform === 'Deezer') {
-            resultDeezer.subscribe(
-              data => {
-                console.log('sortie', data.id);
-                // this.deezerUserService.addTrack(data.id, song);
-              }
-            );
-          } else if (plateform === 'Youtube') {
-            resultYoutube.subscribe(
-              data => {
-                console.log('sortie', data.id);
-                // this.youtubeService.createPlaylist();
-              }
-            );
-          }
+      for (const j in plateforms) {
+        if (plateforms[j] === 'Spotify') {
+          dataSpotify = resultSpotify.subscribe(
+            data => data
+          );
+          console.log('dataSpotify', dataSpotify);
+          // {
+          //   console.log('sortie', data.id);
+          //   //this.spotifyUserService.addTrack(data.id, song);
+          // }
+        } else if (plateforms[j] === 'Deezer') {
+          dataDeezer = resultDeezer.subscribe(
+            data => data
+          );
+          // {
+          //   console.log('sortie', data.id);
+          //   // this.deezerUserService.addTrack(data.id, song);
+          // }
+        } else if (plateforms[j] === 'Youtube') {
+          dataYoutube = resultYoutube.subscribe(
+            data => data
+          );
+          // {
+          //   console.log('sortie', data.id);
+          //   // this.youtubeService.createPlaylist();
+          // }
         }
+      }
+      for (const song of this.songsF) {
+        // 
       }
     }
   }

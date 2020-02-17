@@ -119,7 +119,7 @@ export class SpotifyUserService extends ProviderService {
   createPlaylist(playlist: Playlist): any {
     const body = {
       name: playlist.title,
-      description: 'Create by ' + playlist.author,
+      description: 'Created by ' + playlist.author,
       public: false
     };
 
@@ -128,7 +128,7 @@ export class SpotifyUserService extends ProviderService {
   }
 
   addTrack(playlistID, track) {
-    this.post(`/v1/playlists/${playlistID}/tracks?uris=spotify%3Atrack%3A/${track.identifier.spotify}`, {})
+    this.post(`/v1/playlists/${playlistID}/tracks?uris=spotify%3Atrack%3A${track.identifier.spotify}`, {})
       .subscribe(
         (data: any) => {
           console.log(data);
