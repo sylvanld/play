@@ -4,10 +4,10 @@
   <div *ngIf="!!currentUser">
     <form>
       <mat-form-field>
-        <input matInput [(value)]="currentUser.name" placeholder="Username / Ex. Bob" readonly>
+        <input matInput [(value)]="currentUser.name" placeholder="Username" readonly>
       </mat-form-field>
       <mat-form-field>
-        <input matInput [(value)]="currentUser.email" placeholder="Email / Ex. pat@example.com" readonly>
+        <input matInput [(value)]="currentUser.email" placeholder="Email address" readonly>
       </mat-form-field>
       <app-select-language [(lang)]="currentUser.lang"></app-select-language>
     </form>
