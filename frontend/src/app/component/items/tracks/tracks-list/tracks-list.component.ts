@@ -47,7 +47,8 @@ export class TracksListComponent implements OnInit {
   }
 
   playSelection() {
-    this.player.loadTracks(...this.selection.selected);
+    console.log('play selection', this.selection.selected);
+    this.player.loadTracks(0, ...this.selection.selected);
   }
 
   toggleSelection(track: Track) {

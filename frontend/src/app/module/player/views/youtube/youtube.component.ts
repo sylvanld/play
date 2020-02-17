@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, map, flatMap, catchError, take } from 'rxjs/operators';
 
 import { PlayService } from 'src/app/service/play.service';
 import { PlayerService } from '../../player.service';
@@ -69,14 +69,17 @@ export class YoutubeComponent implements OnInit, OnDestroy {
       });
     };
 
-    this.subscription.add(
-      this.player.currentTrack
-        .pipe(
-          // retrieve the YT id, only in the YT player
-          mergeMap((track: Track) => this.play.completeExternalsIds(track, { youtube: true }))
-          // play the track
-        ).subscribe((track: Track) => this.youtube.cueVideoById(track.external_ids.youtube, 0))
-    );
+    this.subscription.add(this.player.currentTrack
+      .subscribe((track: Track) => {
+        console.log('track updated');
+
+        this.subscription.add(
+          this.play.completeExternalsIds(track, { youtube: true }).pipe(
+            take(1),
+          ).subscribe((completedTrack: Track) => {
+            this.youtube.cueVideoById(completedTrack.external_ids.youtube, 0);
+          }));
+      }));
   }
 
   onStateChange(data) {
