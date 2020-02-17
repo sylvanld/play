@@ -18,3 +18,7 @@
 ::ng-deep .mat-raised-button {
   background-color: $secondary;
 }
+
+::ng-deep .mat-horizontal-stepper-header {
+  padding: 5px 15px !important;
+}

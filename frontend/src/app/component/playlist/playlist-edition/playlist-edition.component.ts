@@ -121,7 +121,7 @@ export class PlaylistEditionComponent implements OnInit {
 
   openTrack(id: string) {
     const selectedTrack = this.playlistService.getTrackAt(this.playlistId, +id);
-    this.player.loadTracks(selectedTrack);
+    this.player.queueTracks(selectedTrack);
   }
 
   onResultsChange(results: SearchResult) {
