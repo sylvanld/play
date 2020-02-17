@@ -22,7 +22,6 @@ const routes: Routes = [
   { path: 'playtech', component: PlaytechComponent, canActivate: [AuthenticatedGuard] },
   { path: 'browse', component: BrowseComponent, canActivate: [AuthenticatedGuard] },
   { path: 'share', component: ShareComponent, canActivate: [AuthenticatedGuard] },
-  { path: 'export', component: ExportComponent, canActivate: [AuthenticatedGuard] },
   { path: 'accounts', component: AccountsComponent, canActivate: [AuthenticatedGuard] },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthenticatedGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthenticatedGuard] },
