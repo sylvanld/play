@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: play
+Version: 0.0.1
+Summary: A project deployment package
+Home-page: UNKNOWN
+Author: Sylvan LE DEUNFF
+Author-email: sledeunf@enssat.fr
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown

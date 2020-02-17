@@ -1,0 +1,3 @@
+[console_scripts]
+play = play.__main__:main
+

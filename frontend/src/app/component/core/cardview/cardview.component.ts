@@ -22,6 +22,7 @@ import { ViewItem } from '~types/index';
 export class CardviewComponent implements OnInit {
   @Input() items: ViewItem[] = [];
   @Input() editMode = true;
+  // @Input() emptyMsg = 'no item is present'
 
   @Output() clickedItem: EventEmitter<any> = new EventEmitter();
   @Output() deletedItem: EventEmitter<any> = new EventEmitter();
