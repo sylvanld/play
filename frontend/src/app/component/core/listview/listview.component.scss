@@ -5,6 +5,7 @@
     justify-content: flex-start;
     align-content: stretch;
     align-items: stretch;
+    flex: 1 1 auto;
 
     >* {
         order: 0;
@@ -38,7 +39,6 @@
     }
 }
 
-.bin-area,
 .imported-btn ::ng-deep button {
     flex-grow: 1;
     cursor: pointer;
@@ -151,14 +151,17 @@
 }
 
 .bin-area {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 999;
     background-color: #ccc;
     border: dotted 1px #999;
-    animation: slide-up 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-content: stretch;
+    align-items: center;
+    height: 50px;
+
+    animation: slide-up 1s ease;
 }
 .mat-tab-body {
     height: 100%;

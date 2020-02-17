@@ -53,6 +53,7 @@ export class PlaylistListComponent implements OnInit {
   deletedItem(index: number) {
     const id = this.lastPlaylists[index].id;
     let canceled = false;
+    this.items.splice(index, 1);
     const snackBarRef = this.snackBar.open('playlist deletion', 'undo', {
       duration: 4000,
       panelClass: 'custom-snackBar'
@@ -62,6 +63,7 @@ export class PlaylistListComponent implements OnInit {
     });
     snackBarRef.afterDismissed().subscribe(() => {
       if (!canceled) { this.playlistService.removePlaylist(id); }
+      else { this.display(this.lastPlaylists); }
     });
   }
 

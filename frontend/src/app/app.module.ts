@@ -30,7 +30,7 @@ import { PlaytechComponent } from './view/playtech/playtech.component';
 import { ArtistsListComponent } from './component/items/artists/artists-list/artists-list.component';
 import { ArtistItemComponent } from './component/items/artists/artist-item/artist-item.component';
 import { SearchResultsComponent } from './component/search/search-results/search-results.component';
-import { ListviewComponent, BottomSheetMenuViewItemsComponent } from './component/core/listview/listview.component';
+import { ListviewComponent } from './component/core/listview/listview.component';
 import { CardviewComponent } from './component/core/cardview/cardview.component';
 import { PlaylistEditionComponent } from './view/playtech/playlist-edition/playlist-edition.component';
 import { FloatingMenuComponent } from './component/floating-menu/floating-menu.component';
@@ -115,8 +115,7 @@ import { RemovalExportComponent } from './view/export/export.component';
     InputUsersComponent,
     SelectLanguageComponent,
     EditPasswordComponent,
-    RemovalExportComponent,
-    BottomSheetMenuViewItemsComponent
+    RemovalExportComponent
   ],
   imports: [
     BrowserModule,
@@ -139,7 +138,7 @@ import { RemovalExportComponent } from './view/export/export.component';
     // custom modules
     PlayerModule.forRoot({ current: 'youtube' }),
   ],
-  entryComponents: [ForgetAccountDialogComponent, AdvancedSearchComponent, BottomSheetMenuViewItemsComponent],
+  entryComponents: [ForgetAccountDialogComponent, AdvancedSearchComponent],
   providers: [],
   bootstrap: [AppComponent]
 })
