@@ -20,7 +20,9 @@ export class TracksListComponent implements OnInit {
   constructor(private player: PlayerService) { }
 
   ngOnInit() {
-    this.reset.subscribe((state: boolean) => { if (state) { this.selection.clear(); } });
+    if (this.reset) {
+      this.reset.subscribe((state: boolean) => { if (state) { this.selection.clear(); } });
+    }
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
@@ -47,7 +49,7 @@ export class TracksListComponent implements OnInit {
   }
 
   playSelection() {
-    this.player.loadTracks(...this.selection.selected);
+    this.player.loadTracks(0, ...this.selection.selected);
   }
 
   toggleSelection(track: Track) {

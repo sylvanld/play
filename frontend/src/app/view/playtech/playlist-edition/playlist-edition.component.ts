@@ -9,6 +9,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { NotificationService } from 'src/app/service/notification.service';
 import { Playlist } from '~types/play/play-playlist';
 import { Track } from '~types/play/play-track';
+import { PlayerService } from '~player/player.service';
 
 @Component({
   selector: 'app-playlist-edition',
@@ -30,6 +31,7 @@ import { Track } from '~types/play/play-track';
 export class PlaylistEditionComponent implements OnInit {
   private playlistId: string;
   private playlist: Observable<Playlist>;
+  private lastPlaylist: Playlist;
   private titleEdition: string;
   private editMode = false;
   private results: SearchResult = { tracks: [], artists: [], albums: [] };
@@ -41,7 +43,8 @@ export class PlaylistEditionComponent implements OnInit {
     private playlistService: PlaylistsService,
     private router: Router,
     private route: ActivatedRoute,
-    private notify: NotificationService
+    private notify: NotificationService,
+    private player: PlayerService
   ) { }
 
   ngOnInit(): void {
@@ -58,8 +61,9 @@ export class PlaylistEditionComponent implements OnInit {
         map(pList => pList.find(p => p.id === this.playlistId))
       );
       this.playlist.subscribe((playlist: Playlist) => {
-        console.log('playlist.subscribe:', playlist);
+        // console.log('playlist.subscribe:', playlist);
         if (playlist) {
+          this.lastPlaylist = playlist;
           this.titleEdition = playlist.title;
           this.editMode = (playlist.tracks.length === 0) ? true : this.editMode;
         }
@@ -81,6 +85,12 @@ export class PlaylistEditionComponent implements OnInit {
   // navigation
   goBack() {
     this.router.navigate(['/playtech']);
+  }
+
+  playAll() {
+    if (this.lastPlaylist && this.lastPlaylist.tracks) {
+      this.player.loadTracks(0, ...this.lastPlaylist.tracks);
+    }
   }
 
   // search part

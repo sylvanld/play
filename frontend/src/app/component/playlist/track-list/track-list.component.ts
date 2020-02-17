@@ -27,8 +27,6 @@ export class TrackListComponent implements OnInit {
       if (playlist) {
         this.lastPlaylist = playlist;
         this.display(playlist.tracks);
-        this.player.loadTracks(...playlist.tracks);
-        console.log('refresh !!!')
       }
     });
   }
@@ -51,15 +49,11 @@ export class TrackListComponent implements OnInit {
   // event responses
   clickedItem(index: number) {
     // launch with the player
-    console.log('index:', index);
-    const selectedTrack = this.lastPlaylist.tracks[index];
-    console.log('selectedTrack:', selectedTrack);
-    const indexPlayer = this.player.findTrackIndex(selectedTrack);
-    console.log('indexPlayer:', indexPlayer);
-    if (index !== -1) { this.player.nextTrack(indexPlayer); }
+    this.player.queueTracks(this.lastPlaylist.tracks[index]);
+    this.player.nextTrack();
   }
 
-  movedItem(event: {oldIndex: number, newIndex: number}) {
+  movedItem(event: { oldIndex: number, newIndex: number }) {
     this.playlistService.swapTracks(this.lastPlaylist.id, event.oldIndex, event.newIndex);
   }
 

@@ -1,33 +1,36 @@
 <!-- fragments -->
-<ng-template #search >
+<ng-template #search>
     <div fxLayout="column">
         <div fxLayout="row" fxLayoutAlign="start center">
-            <app-search-bar [displayFilters]="false" [resultsTypes]="['track']" (results)="onResultsChange($event)"></app-search-bar>
-            <button mat-flat-button (click)="selectionToPlaylist()" color="accent" *ngIf="selection.length"> <!-- *ngIf="selection.hasValue()"> -->
+            <app-search-bar [displayFilters]="false" [resultsTypes]="['track']" (results)="onResultsChange($event)">
+            </app-search-bar>
+            <button mat-flat-button (click)="selectionToPlaylist()" color="accent" *ngIf="selection.length">
+                <!-- *ngIf="selection.hasValue()"> -->
                 add
             </button>
         </div>
-        <app-search-results noActionBtn="true" [resultsTypes]="['track']" [results]="results" [reset]="resetSelection" (selected)="onSelected($event)"></app-search-results>
+        <app-search-results noActionBtn="true" [resultsTypes]="['track']" [results]="results" [reset]="resetSelection"
+            (selected)="onSelected($event)"></app-search-results>
     </div>
 </ng-template>
 
-<ng-template #playlistTitle >
+<ng-template #playlistTitle>
     <mat-form-field *ngIf="!locked">
         <input matInput type="text" placeholder="Playlist title" [(ngModel)]="titleEdition"
             (keydown.enter)="saveTitle()" (keydown.esc)="titleEdition=''" required>
-        <button mat-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button
+        <button mat-icon-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button
             aria-label="Clear" (click)="titleEdition=''">
             <mat-icon>close</mat-icon>
         </button>
-        <button mat-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button
+        <button mat-icon-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button
             aria-label="Confirm" (click)="saveTitle()">
             <mat-icon>done</mat-icon>
         </button>
     </mat-form-field>
 </ng-template>
 
-<ng-template #editModeBtn >
-    <button mat-button class="edit-btn" (click)="swapEditMode()">
+<ng-template #editModeBtn>
+    <button mat-icon-button class="edit-btn" (click)="swapEditMode()">
         <mat-icon *ngIf="!editMode" aria-hidden="false" aria-label="toggle edit mode">edit</mat-icon>
         <mat-icon *ngIf="editMode" aria-hidden="false" aria-label="toggle edit mode">visibility</mat-icon>
     </button>
@@ -35,8 +38,12 @@
 
 <ng-template #controls>
     <div class="controls">
-        <button class="back-btn" mat-button>
+        <button class="back-btn" mat-icon-button>
             <mat-icon (click)="goBack()" aria-hidden="false" aria-label="go back">keyboard_backspace</mat-icon>
+        </button>
+        <button class="play-btn" color="primary" mat-raised-button>
+            Play
+            <mat-icon (click)="playAll()" aria-hidden="false" aria-label="play all">play_arrow</mat-icon>
         </button>
         <ng-template [ngTemplateOutlet]="editModeBtn"></ng-template>
     </div>
@@ -88,7 +95,8 @@
         <!-- desktop -->
         <div class="only-desktop">
             <div fxLayout="row">
-                <!-- <app-search-bar></app-search-bar> --> <!-- TODO search on my track list -->
+                <!-- <app-search-bar></app-search-bar> -->
+                <!-- TODO search on my track list -->
             </div>
             <app-track-list [playlist]="playlist" [editMode]="false"></app-track-list>
         </div>
@@ -97,7 +105,8 @@
         <div class="only-mobile">
             <!-- read only -->
             <div fxLayout="row">
-                <!-- <app-search-bar></app-search-bar> --> <!-- TODO search on my track list -->
+                <!-- <app-search-bar></app-search-bar> -->
+                <!-- TODO search on my track list -->
             </div>
             <app-track-list [playlist]="playlist" [editMode]="false"></app-track-list>
         </div>
