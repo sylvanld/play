@@ -39,7 +39,7 @@ export class InputUsersComponent extends AutocompleteChipListComponent<User> imp
 
   display(item) {
     return {
-      title: ''
+      title: item.email
     };
   }
 
