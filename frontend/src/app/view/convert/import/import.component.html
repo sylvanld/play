@@ -9,11 +9,11 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
+      <mat-progress-bar mode="query" *ngIf="init"></mat-progress-bar>
       <h3 *ngIf="spotifyPlaylists.length === 0">No Playlist to import.</h3>
       <mat-selection-list formControlName="spotifyControl">
         <mat-list-option *ngFor="let playlist of spotifyPlaylists" [value]="playlist">
-          <img matListAvatar src="{{ playlist.cover }}" alt="No cover.">
+          <img matListAvatar src="{{ playlist.cover }}" alt="No cover." style="border-radius: 0% !important;">
           <h3 matLine> {{ playlist.title }} </h3>
           <p matLine>
             <span> {{ playlist.author }} </span>
@@ -34,11 +34,11 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
+      <mat-progress-bar mode="query" *ngIf="init"></mat-progress-bar>
       <h3 *ngIf="deezerPlaylists.length === 0">No Playlist to import.</h3>
       <mat-selection-list formControlName="deezerControl">
         <mat-list-option *ngFor="let playlist of deezerPlaylists" [value]="playlist">
-          <img matListAvatar src="{{ playlist.cover }}" alt="No cover.">
+          <img matListAvatar src="{{ playlist.cover }}" alt="No cover." style="border-radius: 0% !important;">
           <h3 matLine> {{ playlist.title }} </h3>
           <p matLine>
             <span> {{ playlist.author }} </span>
@@ -53,7 +53,7 @@
   </mat-accordion>
 
   <!-- A floating button! -->
-  <button mat-fab *ngIf="!isEmpty" color="accent" type="submit"
+  <button mat-fab *ngIf="!isEmpty" color="accent" type="submit" [disabled]="loading"
     style="position: fixed; right: 24px; bottom: 100px; z-index: 9999">
     <mat-icon *ngIf="!loading">add</mat-icon>
     <mat-progress-spinner *ngIf="loading" class="spinner-in-button" color="warn" mode="indeterminate">

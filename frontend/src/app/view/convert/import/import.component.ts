@@ -26,6 +26,7 @@ export class ImportComponent implements OnInit, OnDestroy {
   spotifyPlaylists: Playlist[] = [];
 
   importForm: FormGroup;
+  init = false;
   loading = false;
 
   constructor(
@@ -41,7 +42,7 @@ export class ImportComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.loading = true;
+    this.init = true;
 
     this.subscription.add(
       this.play.getExternalPlaylists()
@@ -49,7 +50,7 @@ export class ImportComponent implements OnInit, OnDestroy {
         .subscribe(({ deezer, spotify }) => {
           this.deezerPlaylists = deezer;
           this.spotifyPlaylists = spotify;
-          this.loading = false;
+          this.init = false;
         })
     );
 

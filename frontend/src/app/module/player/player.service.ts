@@ -33,16 +33,17 @@ export class PlayerService {
     return this._tracks.findIndex((t: Track) => t.isrc === track.isrc);
   }
 
-  loadTracks(...tracks: Track[]): void {
+  loadTracks(index: number, ...tracks: Track[]): void {
     this._tracks = tracks;
+    this._index = index;
     this._currentTrack.next(this._tracks[this._index]);
   }
   queueTracks(...tracks: Track[]): void {
     this._tracks = [...this._tracks, ...tracks];
   }
 
-  nextTrack(id?: number) {
-    this._index = id !== undefined ? id : Math.abs(this._index + 1) % this._tracks.length;
+  nextTrack() {
+    this._index = Math.abs(this._index + 1) % this._tracks.length;
     this._currentTrack.next(this._tracks[this._index]);
   }
   prevTrack() {
