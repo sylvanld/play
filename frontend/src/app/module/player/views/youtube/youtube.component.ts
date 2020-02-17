@@ -26,17 +26,17 @@ export class YoutubeComponent implements OnInit, OnDestroy {
 
   // @ts-ignore
   private _youtube: YT.Player = undefined;
-  private get youtube() { return this._youtube; }
+  get youtube() { return this._youtube; }
 
-  private isDisplayed = false;
+  isDisplayed = false;
 
-  private get currentTime(): number { return this.youtube ? Math.round(this.youtube.getCurrentTime()) : 0; }
-  private get duration(): number { return this.youtube ? this.youtube.getDuration() : 0; }
-  private get isMuted(): boolean { return this.youtube ? this.youtube.isMuted() : false; }
-  private get isReady(): boolean { return this.player.getState() !== PlayerState.UNSTARTED; }
+  get currentTime(): number { return this.youtube ? Math.round(this.youtube.getCurrentTime()) : 0; }
+  get duration(): number { return this.youtube ? this.youtube.getDuration() : 0; }
+  get isMuted(): boolean { return this.youtube ? this.youtube.isMuted() : false; }
+  get isReady(): boolean { return this.player.getState() !== PlayerState.UNSTARTED; }
 
 
-  constructor(private player: PlayerService, private play: PlayService) { }
+  constructor(public player: PlayerService, private play: PlayService) { }
 
   ngOnInit() {
 
