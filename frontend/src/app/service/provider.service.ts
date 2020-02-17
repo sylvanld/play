@@ -82,7 +82,7 @@ export abstract class ProviderService {
         error => {
           // if this requested is already replayed, don't loop infintely
           if (original) {
-            return this.handleTokenExpiration<T>(error);
+            return this.handleTokenExpiration<T>(error, { method, params });
           } else {
             console.log('already done');
             throw error;
@@ -114,8 +114,8 @@ export abstract class ProviderService {
     this.accessToken = accessToken;
   }
 
-  replayLastRequest(observer: Observer<any>) {
-    const { method, params } = this.lastRequest;
+  replayRequest(observer: Observer<any>, request: Request) {
+    const { method, params } = request;
     this.request(method, params, false).pipe(
       finalize(() => { observer.complete(); })
     ).subscribe(
@@ -125,7 +125,7 @@ export abstract class ProviderService {
   }
 
 
-  handleTokenExpiration<T>(error: HttpErrorResponse): Observable<T> {
+  handleTokenExpiration<T>(error: HttpErrorResponse, request: Request): Observable<T> {
     console.log('error during request to third party');
     // ce con de youtube file des 403 au lieu des 401
     if (this.authenticationErrorCodes.includes(error.status)) {
@@ -139,7 +139,7 @@ export abstract class ProviderService {
               // set the new access token in the provider store
               this.setToken(accessToken);
               // replace last request
-              this.replayLastRequest(observer);
+              this.replayRequest(observer, request);
             }
           );
         }
