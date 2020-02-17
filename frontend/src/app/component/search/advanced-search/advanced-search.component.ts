@@ -79,4 +79,8 @@ export class AdvancedSearchComponent implements OnInit {
   onSubmit() {
     this.dialogRef.close(this.filtersToUrl());
   }
+
+  onNoClick() {
+    this.dialogRef.close();
+  }
 }
