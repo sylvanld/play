@@ -1,44 +1,77 @@
-<div class="list-item" (click)="addItem()" *ngIf="showStartAddBtn()">
-    <mat-icon class="picture" aria-hidden="false" aria-label="add-btn">add_circle_outline</mat-icon>
-    <div class="description">
-        <div class="main-content">{{ addBtnLabel }}</div>
-    </div>
-</div>
-
 <div [@slide]>
-    <div *ngIf="locked">
-        <div class="list-item disable-text-selection" [ngClass]="{disabled: item.ro_diasabled}" (click)="onClick(index)" *ngFor="let item of items; let index = index">
-            <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="!noPicture">
+    <div class="list-item disable-text-selection imported-btn">
+        <ng-content></ng-content>
+    </div>
+
+    <ng-template [ngIf]="editMode" [ngIfElse]="readOnly">
+        <!-- Edit mode - Computer version -->
+        <div class="only-desktop" cdkDropList (cdkDropListDropped)="moveItem($event)">
+            <div cdkDrag [cdkDragStartDelay]="200" class="list-item disable-text-selection" *ngFor="let item of items"
+                [cdkDragDisabled]="!isMovable()" (click)="clickItem(item)"
+            >
+                <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
+                <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="item.picture.length !== 0">
+                <div class="description">
+                    <div class="main-content">{{ item.mainContent }}</div>
+                    <div class="secondary-content">{{ item.secondaryContent }}</div>
+                </div>
+                <div class="options">
+                    <button  mat-icon-button (click)="deleteItem(item); $event.stopPropagation()">
+                        <mat-icon aria-hidden="false" aria-label="delete the item">
+                            delete_outline
+                        </mat-icon>
+                    </button>
+                    <!-- <mat-icon *ngIf="!noDragDrop" aria-hidden="false" aria-label="move the item" cdkDragHandle>
+                            height
+                        </mat-icon> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit mode - Mobile version -->
+        <div class="only-mobile">
+        <div cdkDropList (cdkDropListDropped)="moveItem($event)">
+            <div cdkDrag [cdkDragStartDelay]="200" class="list-item disable-text-selection" *ngFor="let item of items"
+                [cdkDragDisabled]="!isMovable()" (click)="clickItem(item)"
+            >
+                <!-- <div class="dragdrop-placeholder" *cdkDragPlaceholder></div> -->
+                <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="item.picture.length !== 0">
+                <div class="description">
+                    <div class="main-content">{{ item.mainContent }}</div>
+                    <div class="secondary-content">{{ item.secondaryContent }}</div>
+                </div>
+                <!-- <div class="options">
+                    <button  mat-icon-button (click)="deleteItem(item); $event.stopPropagation()">
+                        <mat-icon aria-hidden="false" aria-label="delete the item">
+                            delete_outline
+                        </mat-icon>
+                    </button>
+                </div> -->
+            </div>
+        </div>
+        <div 
+            cdkDropList
+            (cdkDropListDropped)="delete($event)"
+            class="bin-area">
+            <mat-icon aria-hidden="false" aria-label="delete the item">
+                delete_outline
+            </mat-icon>
+        </div>
+    </div>
+    </ng-template>
+
+    <!-- Read-only mode - All version -->
+    <ng-template #readOnly>
+        <div *ngFor="let item of items"
+            class="list-item disable-text-selection"
+            (click)="clickItem(item)"
+        >
+            <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="item.picture.length !== 0">
             <div class="description">
                 <div class="main-content">{{ item.mainContent }}</div>
                 <div class="secondary-content">{{ item.secondaryContent }}</div>
             </div>
         </div>
-    </div>
+    </ng-template>
 
-    <div cdkDropList (cdkDropListDropped)="moveItem($event)" *ngIf="!locked">
-        <div class="list-item disable-text-selection" (click)="onClick(index)" *ngFor="let item of items; let index = index" cdkDrag>
-            <div class="dragdrop-placeholder" *cdkDragPlaceholder></div>
-            <img class="picture" [src]="item.picture" [alt]="item.mainContent" *ngIf="!noPicture">
-            <div class="description">
-                <div class="main-content">{{ item.mainContent }}</div>
-                <div class="secondary-content">{{ item.secondaryContent }}</div>
-            </div>
-            <div class="options">
-                <mat-icon (click)="delItem(item)" aria-hidden="false" aria-label="delete the item">
-                    delete_outline
-                </mat-icon>
-                <mat-icon aria-hidden="false" aria-label="move the item" cdkDragHandle>
-                    height
-                </mat-icon>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="list-item" (click)="addItem()" *ngIf="showEndAddBtn()">
-    <mat-icon class="picture" aria-hidden="false" aria-label="add-btn">add_circle_outline</mat-icon>
-    <div class="description">
-        <div class="main-content">Ajouter des titres</div>
-    </div>
 </div>

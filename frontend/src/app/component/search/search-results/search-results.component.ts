@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Track, SearchResult } from '~types/index';
 import { SpotifyService } from 'src/app/service/spotify.service';
+import { Observable } from 'rxjs';
 
 interface ResultsTypes extends Array<'track' | 'artist' | 'album'> { }
 
@@ -12,6 +13,7 @@ interface ResultsTypes extends Array<'track' | 'artist' | 'album'> { }
 export class SearchResultsComponent implements OnInit {
   @Input() results: SearchResult = { tracks: [], artists: [], albums: [] };
   @Input() noActionBtn = false;
+  @Input() reset: Observable<boolean>;
   @Output() selected: EventEmitter<Track[]> = new EventEmitter();
 
   _resultsTypes: ResultsTypes = ['track', 'album', 'artist'];
@@ -30,7 +32,6 @@ export class SearchResultsComponent implements OnInit {
   ngOnInit() { }
 
   onSelected(tracks: Track[]) {
-    console.log('tracks selected', tracks);
     this.selected.emit(tracks);
   }
 
@@ -39,7 +40,7 @@ export class SearchResultsComponent implements OnInit {
       (results: SearchResult) => {
         this.results = results;
       }
-    )
+    );
   }
 
   onArtistClicked(artistId) {
@@ -47,7 +48,7 @@ export class SearchResultsComponent implements OnInit {
       (results: SearchResult) => {
         this.results = results;
       }
-    )
+    );
   }
 
   displayArtists() {

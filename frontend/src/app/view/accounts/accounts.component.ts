@@ -15,6 +15,10 @@ import { take, map } from 'rxjs/operators';
 })
 export class AccountsComponent implements OnInit, OnDestroy {
   private subsciption: Subscription = new Subscription();
+  private hideOldPwd = true;
+  private hideNewPwd = true;
+  private oldPwd = '';
+  private newPwd = '';
 
   private pending: User[] = [];
   private accepted: User[] = [];
@@ -93,5 +97,7 @@ export class AccountsComponent implements OnInit, OnDestroy {
       .subscribe((frienship) => {
         console.log(frienship);
       });
+    changePwd() {
+      this.auth.changePassword(this.oldPwd, this.newPwd);
+    }
   }
-}

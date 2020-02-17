@@ -13,6 +13,19 @@ aside{
   box-sizing: border-box;
 }
 
+.pwd-form {
+  flex-direction: column;
+  box-sizing: border-box;
+  display: inline-flex;
+  place-content: flex-start;
+  align-items: flex-start;
+  margin-top: 10px;
+
+  button {
+    align-self: stretch;
+  }
+}
+
 @media screen and (max-width: $mobile-max-width){
   :host{
     flex-direction: column;
