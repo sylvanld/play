@@ -28,8 +28,8 @@ import { PlaytechComponent } from './view/playtech/playtech.component';
 import { ArtistsListComponent } from './component/items/artists/artists-list/artists-list.component';
 import { ArtistItemComponent } from './component/items/artists/artist-item/artist-item.component';
 import { SearchResultsComponent } from './component/search/search-results/search-results.component';
-import { ListviewComponent } from './component/playlist/view/listview/listview.component';
-import { CardviewComponent } from './component/playlist/view/cardview/cardview.component';
+import { ListviewComponent } from './component/core/listview/listview.component';
+import { CardviewComponent } from './component/core/cardview/cardview.component';
 import { ViewToggleComponent } from './component/playlist/view/view-toggle/view-toggle.component';
 import { PlaylistEditionComponent } from './component/playlist/playlist-edition/playlist-edition.component';
 import { FloatingMenuComponent } from './component/floating-menu/floating-menu.component';
@@ -62,6 +62,9 @@ import { ConvertComponent } from './view/convert/convert.component';
 import { ImportComponent } from './view/convert/import/import.component';
 import { ExportComponent } from './view/convert/export/export.component';
 import { InputUsersComponent } from './component/search/filters/input-users/input-users.component';
+import { SelectLanguageComponent } from './component/lang/select-language/select-language.component';
+import { EditPasswordComponent } from './component/auth/edit-password/edit-password.component';
+import { RemovalExportComponent } from './view/export/export.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +111,9 @@ import { InputUsersComponent } from './component/search/filters/input-users/inpu
     ImportComponent,
     ExportComponent,
     InputUsersComponent,
+    SelectLanguageComponent,
+    EditPasswordComponent,
+    RemovalExportComponent
   ],
   imports: [
     BrowserModule,

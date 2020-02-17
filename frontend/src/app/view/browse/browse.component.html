@@ -1,2 +1,3 @@
-<app-search-bar (results)="onResultsChange($event)"></app-search-bar>
-<app-search-results [results]="results"></app-search-results>
+<app-search-bar (results)="onResultsChange($event)" [(resultsTypes)]="resultsTypes"
+    (resultsTypesChange)="onTypeChange()"></app-search-bar>
+<app-search-results [results]="results" [(resultsTypes)]="resultsTypes"></app-search-results>

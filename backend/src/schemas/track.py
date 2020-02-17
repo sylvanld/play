@@ -11,7 +11,7 @@ class TrackSchema(ma.ModelSchema):
 
     class Meta:
         fields = ('isrc', 'title', 'album', 'artists', 'youtube', 'deezer', 'spotify', 'external_ids')
-        dump_only = ('id', 'external_ids',)
+        dump_only = ('id',)
         model = Track
 
 
@@ -31,8 +31,13 @@ class TrackSchema(ma.ModelSchema):
             return self._serialize_single(track_or_tracks, **kwargs)
 
     def _deserialize_single(self, data, **kwargs):
-        # TODO: remove this useless method
-        #print('deserializing 1', data)
+        external_ids = data.get('external_ids', {})
+
+        data['spotify'] = external_ids.get('spotify')
+        data['youtube'] = external_ids.get('youtube')
+        data['deezer'] = external_ids.get('deezer')
+
+        data.pop('external_ids', None)
         
         return super(TrackSchema, self)._deserialize(data, **kwargs)
 

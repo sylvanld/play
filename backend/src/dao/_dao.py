@@ -45,11 +45,12 @@ class DAO:
         return cls.model.query.filter(*filters).all()
 
     @classmethod
-    def create(cls, data, schema='default'):
+    def create(cls, data, commit=True, schema='default'):
         try:    
             instance = cls.load(data, schema=schema)
             db.session.add(instance)
-            db.session.commit()
+            if commit:
+                db.session.commit()
             return instance
         except IntegrityError as e:
             error = str(e).lower()

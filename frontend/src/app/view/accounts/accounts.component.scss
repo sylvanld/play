@@ -9,6 +9,8 @@
 
 aside{
   flex: 1;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width: $mobile-max-width){
@@ -19,4 +21,8 @@ aside{
 
 i{
   font-size: 1.5em;
+}
+
+mat-form-field{
+  width: 100%;
 }

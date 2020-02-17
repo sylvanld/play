@@ -12,8 +12,8 @@ export class PlaylistCreationComponent implements OnInit {
   @ViewChild('stepper', { static: false }) private stepper: MatStepper;
   playlistTitle: string;
   private viewMode: string = null;
-  private step = 0;
-  private sectionTitle = 'Création';
+  step = 0;
+  sectionTitle = 'Création';
 
   constructor(private playlistService: PlaylistsService, private route: ActivatedRoute, private router: Router) { }
 

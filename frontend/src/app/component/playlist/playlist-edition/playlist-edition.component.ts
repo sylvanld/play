@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { NotificationService } from 'src/app/service/notification.service';
 import { PlaylistsService } from 'src/app/service/playlists.service';
 import { PlayerService } from '~player/player.service';
-import { Position } from '../view/listview/listview.component';
+import { Position } from '../../core/listview/listview.component';
 
 import { Playlist, Track, SearchResult, ViewItem } from '~types/index';
 

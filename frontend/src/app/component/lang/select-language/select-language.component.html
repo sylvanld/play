@@ -1,0 +1,11 @@
+<mat-select [(ngModel)]="lang">
+    <mat-select-trigger>
+        <img with="15" height="15" [src]="selectedLanguage.flag">
+        {{selectedLanguage.name}}
+    </mat-select-trigger>
+
+    <mat-option *ngFor="let language of languages" [value]="language.code">
+        <img with="15" height="15" [src]="language.flag">
+        {{language.name}}
+    </mat-option>
+</mat-select>

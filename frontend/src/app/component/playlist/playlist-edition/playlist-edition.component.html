@@ -23,7 +23,7 @@
   <div class="playlist-management" [@slide]>
     <div class="vertical-align animate" *ngIf="showSearchBar()">
       <div class="horizontal-align">
-        <app-search-bar [displayFilters]="false" [filtersList]="['track']" (results)="onResultsChange($event)">
+        <app-search-bar [displayFilters]="false" [resultsTypes]="['track']" (results)="onResultsChange($event)">
         </app-search-bar>
         <button mat-flat-button (click)="selectionToPlaylist()" color="accent"
           *ngIf="selection.hasValue()">ajouter</button>
