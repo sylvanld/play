@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Observer, forkJoin, of, from, concat, merge } from 'rxjs';
-import { map, flatMap, mergeMap, concatAll, filter, mergeAll, pluck } from 'rxjs/operators';
+import { Observable, Observer, forkJoin, of } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators';
 
 import { AuthenticationService } from './authentication.service';
 import { ProviderService } from './provider.service';
@@ -185,6 +185,7 @@ export class PlayService extends ProviderService {
    */
   createExternalPlalist(playlist: Playlist, destination: 'DEEZER' | 'SPOTIFY') {
     // TODO: map deezer and spotify services
+
   }
 
   /**
@@ -222,20 +223,20 @@ export class PlayService extends ProviderService {
    *
    */
   createPlaylists(playlists: { deezer?: Playlist[], spotify?: Playlist[], play?: Playlist[] }): Observable<Playlist[]> {
-    // avoir empty param, and obviously, dont check if key is missing with 'if'...
-    const _playlist = Object.assign(
+    // avoid empty param, and obviously, dont check if key is missing with 'if'...
+    const _playlists = Object.assign(
       { deezer: [], spotify: [], play: [] },
       playlists
     );
     const requests: Observable<Playlist>[] = [];
 
-    for (const playlist of _playlist.deezer) {
+    for (const playlist of _playlists.deezer) {
       requests.push(this.createPlaylist(playlist, 'DEEZER'));
     }
-    for (const playlist of _playlist.spotify) {
+    for (const playlist of _playlists.spotify) {
       requests.push(this.createPlaylist(playlist, 'SPOTIFY'));
     }
-    for (const playlist of _playlist.play) {
+    for (const playlist of _playlists.play) {
       requests.push(this.createPlaylist(playlist, 'PLAY'));
     }
     return forkJoin(requests);

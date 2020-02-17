@@ -41,6 +41,10 @@ export class PlayerService {
   queueTracks(...tracks: Track[]): void {
     this._tracks = [...this._tracks, ...tracks];
   }
+  stopTracks(): void {
+    this._tracks = [];
+    this._currentTrack.next(undefined);
+  }
 
   nextTrack() {
     this._index = Math.abs(this._index + 1) % this._tracks.length;
