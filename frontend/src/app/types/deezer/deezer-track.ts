@@ -4,6 +4,9 @@ export interface DeezerTrack {
   id: string;
   title: string;
 
+  isrc?: string;
+  release_date?: string;
+
   album: {
     id: string,
     title: string;

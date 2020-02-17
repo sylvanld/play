@@ -31,8 +31,33 @@
     {{currentUser.name ? currentUser.name : '' }}
     {{currentUser.email ? currentUser.email : ''}}
     {{currentUser.lang ? currentUser.lang : ''}}
+
+  <div *ngIf="!!currentUser">
+    <form>
+      <mat-form-field>
+        <input matInput [(value)]="currentUser.name" placeholder="Username / Ex. Bob">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [(value)]="currentUser.email" placeholder="Email / Ex. pat@example.com">
+      </mat-form-field>
+      <app-select-language [(lang)]="currentUser.lang"></app-select-language>
+    </form>
+
+    <hr>
+
+    <app-edit-password></app-edit-password>
   </div>
--->
+
+  <hr>
+
+  <div style="display: flex">
+    <button mat-raised-button color="secondary" style="flex: 1" (click)="logout()">
+      <mat-icon>power_settings_new</mat-icon> Logout
+    </button>
+    <button mat-raised-button color="warn" style="flex: 1" (click)="forgetAccountDialog()">
+      <mat-icon>clear</mat-icon> Forget my playlists
+    </button>
+  </div>
 
 </aside>
 <aside>

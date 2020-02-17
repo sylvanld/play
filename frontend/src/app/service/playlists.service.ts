@@ -113,6 +113,17 @@ export class PlaylistsService {
   }
 
   /**
+   *
+   * @param playlist: The given playlist.
+   * @param track: The track to append.
+   */
+  addTracks(playlist: Playlist, ...tracks: Track[]): Playlist {
+    tracks.forEach((track: Track) => this._playlists[playlist.id].tracks.push(track));
+    this.notifyPlaylistsChange();
+    return this._playlists[playlist.id];
+  }
+
+  /**
    * Add a track to a playlist
    */
   addTrack(playlistId: string, track: Track) {

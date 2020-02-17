@@ -64,6 +64,8 @@ import { TrackListComponent } from './component/playlist/track-list/track-list.c
 import { ConvertComponent } from './view/convert/convert.component';
 import { ImportComponent } from './view/convert/import/import.component';
 import { ExportComponent } from './view/convert/export/export.component';
+import { SelectLanguageComponent } from './component/lang/select-language/select-language.component';
+import { EditPasswordComponent } from './component/auth/edit-password/edit-password.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +112,8 @@ import { ExportComponent } from './view/convert/export/export.component';
     ConvertComponent,
     ImportComponent,
     ExportComponent,
+    SelectLanguageComponent,
+    EditPasswordComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,8 @@ import { DeezerUserService } from 'src/app/service/deezer-user.service';
 import { PlayService } from 'src/app/service/play.service';
 
 import { Playlist, Track } from '~types/index';
+import { NotificationService } from 'src/app/service/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-import',
@@ -18,6 +20,7 @@ import { Playlist, Track } from '~types/index';
 export class ImportComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private isEmpty = true;
+  private step = 2;
 
   private deezerPlaylists: Playlist[] = [];
   private spotifyPlaylists: Playlist[] = [];
@@ -25,10 +28,10 @@ export class ImportComponent implements OnInit, OnDestroy {
   private importForm: FormGroup;
 
   constructor(
-    private builder: FormBuilder,
+    private router: Router,
     private play: PlayService,
-    private spotify: SpotifyUserService,
-    private deezer: DeezerUserService) {
+    private builder: FormBuilder,
+    private notify: NotificationService) {
 
     this.importForm = this.builder.group({
       spotifyControl: new FormControl([], []),
@@ -61,16 +64,22 @@ export class ImportComponent implements OnInit, OnDestroy {
   }
 
   onSubmit({ deezerControl, spotifyControl }) {
-    console.log("submit");
-    for (const deezer of deezerControl) {
-      this.subscription.add(this.play.createPlalist(deezer, 'DEEZER').subscribe(
-        // TODO: update playlist localStorage.
+
+    this.subscription.add(this.play.createPlaylists({ deezer: deezerControl, spotify: spotifyControl })
+      .pipe(take(1))
+      .subscribe(
+        (playlists: Playlist[]) => {
+          this.notify.info(
+            `${playlists.length} playlists were created!`
+          );
+          this.router.navigateByUrl('/');
+        },
+        (err) => {
+          this.notify.error(
+            `An error occured during the importation... Please do it again.`
+          );
+          console.log(err);
+        }
       ));
-    }
-    for (const spotify of spotifyControl) {
-      this.subscription.add(this.play.createPlalist(spotify, 'SPOTIFY').subscribe(
-        // TODO: update playlist localStorage.
-      ));
-    }
   }
 }
