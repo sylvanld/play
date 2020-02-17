@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { ViewItem } from '~types/view-item';
-import { Playlist } from '~types/playlist';
 import { Router } from '@angular/router';
 import { PlaylistsService } from 'src/app/service/playlists.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { Playlist } from '~types/play/play-playlist';
 
 @Component({
   selector: 'app-playlist-list',

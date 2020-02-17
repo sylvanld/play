@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Track, SearchResult } from '~types/index';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-search-results',
@@ -9,6 +10,7 @@ import { Track, SearchResult } from '~types/index';
 export class SearchResultsComponent implements OnInit {
   @Input() results: SearchResult = { tracks: [], artists: [], albums: [] };
   @Input() noActionBtn = false;
+  @Input() reset: Observable<boolean>;
   @Output() selected: EventEmitter<Track[]> = new EventEmitter();
 
   constructor() { }
@@ -16,7 +18,6 @@ export class SearchResultsComponent implements OnInit {
   ngOnInit() { }
 
   onSelected(tracks: Track[]) {
-    console.log('tracks selected', tracks);
     this.selected.emit(tracks);
   }
 }

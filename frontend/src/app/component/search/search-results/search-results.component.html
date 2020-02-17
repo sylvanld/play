@@ -1,4 +1,4 @@
 
 <app-artists-list *ngIf="results.artists.length > 0" [artists]="results.artists"></app-artists-list>
 <app-albums-list *ngIf="results.albums.length > 0" [albums]="results.albums"></app-albums-list>
-<app-tracks-list *ngIf="results.tracks.length > 0" (selected)="onSelected($event)" [noActionBtn]="noActionBtn" [tracks]="results.tracks"></app-tracks-list >
+<app-tracks-list *ngIf="results.tracks.length > 0" (selected)="onSelected($event)" [noActionBtn]="noActionBtn" [reset]="reset" [tracks]="results.tracks"></app-tracks-list >

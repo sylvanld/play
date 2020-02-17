@@ -35,7 +35,7 @@ export class PlaylistsService {
      * Sauvegarde des playlists dans le localStorage
      */
     // recupere les playlists de tous les utilisateurs
-    const allUsersPlaylists = this.storage.get(this.PLAYLISTS_BY_USER_KEY) || {};
+    const allUsersPlaylists: any = this.storage.get(this.PLAYLISTS_BY_USER_KEY) || {};
     // ecrase les playlists de l'utilisateur courant par la valeur en mémoire
     allUsersPlaylists[this.currentUser.id] = this._playlists;
     // sauvegarde tout ca dans le localstorage

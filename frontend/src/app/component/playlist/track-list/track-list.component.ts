@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Track } from '~types/track';
 import { ViewItem } from '~types/view-item';
 import { PlaylistsService } from 'src/app/service/playlists.service';
 import { PlayerService } from '~player/player.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Playlist } from '~types/playlist';
 import { Observable } from 'rxjs';
+import { Playlist } from '~types/play/play-playlist';
+import { Track } from '~types/play/play-track';
 
 @Component({
   selector: 'app-track-list',
@@ -44,6 +44,7 @@ export class TrackListComponent implements OnInit {
         });
       }
     }
+    console.log('items ('+tracks.length+'):', tracks);
   }
 
   // event responses

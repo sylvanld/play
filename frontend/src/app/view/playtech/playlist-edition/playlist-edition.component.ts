@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { PlaylistsService } from '../../../service/playlists.service';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Track } from 'src/app/types/track';
 import { map } from 'rxjs/operators';
-import { Playlist } from 'src/app/types/playlist';
 import { SearchResult } from '~types/search-result';
 import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
 import { SelectionModel } from '@angular/cdk/collections';
 import { NotificationService } from 'src/app/service/notification.service';
+import { Playlist } from '~types/play/play-playlist';
+import { Track } from '~types/play/play-track';
 
 @Component({
   selector: 'app-playlist-edition',
@@ -33,7 +33,9 @@ export class PlaylistEditionComponent implements OnInit {
   private titleEdition: string;
   private editMode = false;
   private results: SearchResult = { tracks: [], artists: [], albums: [] };
-  private selection = new SelectionModel<Track>(true, []);
+  private resetSelectionSubject = new BehaviorSubject<boolean>(false);
+  readonly resetSelection = this.resetSelectionSubject.asObservable();
+  private selection: Track[] = [];
 
   constructor(
     private playlistService: PlaylistsService,
@@ -44,7 +46,6 @@ export class PlaylistEditionComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      console.log('refresh playlist:', params);
       this.playlistId = params['id'];
 
       if (!this.playlistId) {
@@ -56,7 +57,9 @@ export class PlaylistEditionComponent implements OnInit {
         map(pList => pList.find(p => p.id === this.playlistId))
       );
       this.playlist.subscribe((playlist: Playlist) => {
+        console.log('playlist.subscribe:', playlist);
         this.titleEdition = playlist.title;
+        this.editMode = (playlist.tracks.length === 0) ? true : this.editMode;
       });
     });
   }
@@ -86,18 +89,15 @@ export class PlaylistEditionComponent implements OnInit {
     this.results = { tracks: [], artists: [], albums: [] };
   }
 
-  onSelected(row) {
-    this.selection.toggle(row);
+  onSelected(tracks: Track[]) {
+    this.selection = tracks;
   }
 
   selectionToPlaylist() {
-    const tracks: Track[] = this.selection.selected;
-    for (const t of tracks) {
+    for (const t of this.selection) {
       this.playlistService.addTrack(this.playlistId, t);
     }
-    console.log('selectionToPlaylist - selection:', this.selection.selected);
-    console.log('selectionToPlaylist - tracks:', tracks);
-    console.log('selectionToPlaylist - playlist:', this.playlist);
-    this.selection.clear();
+    this.resetSelectionSubject.next(true);
+    this.notify.info('track(s) added');
   }
 }

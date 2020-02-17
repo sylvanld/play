@@ -1,4 +1,4 @@
-:host {
+.cardview {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -55,7 +55,12 @@
         box-shadow: inset 0px 0px 0px 5px #eae9e9;
     }
 }
+.list-item:hover.imported-btn ::ng-deep button {
+    box-shadow: inset 0px 0px 0px 5px #eae9e9;
+}
 
+
+.list-item:active.imported-btn ::ng-deep button,
 .list-item:active .picture {
     transition: box-shadow 0.3s ease;
     box-shadow: inset 0px 0px 0px 5px #ccdbe9;
@@ -82,15 +87,32 @@
     align-items: stretch;
 }
 
+.imported-btn ::ng-deep button,
 .picture {
     --size: 200px;
     min-height: var(--size);
     max-height: var(--size);
     min-width: var(--size);
     max-width: var(--size);
-    font-size: var(--size);
+    //font-size: var(--size);
     object-fit: cover;
     background-color: lightgray;
+}
+
+.imported-btn ::ng-deep button {
+    border: 0;
+    cursor: pointer;
+
+    >* {
+        --size: 50px;
+        font-size: var(--size);
+        width: var(--size);
+        height: var(--size);
+    }
+}
+
+.imported-btn:empty {
+    display: none;
 }
 
 .main-content,
@@ -99,8 +121,8 @@
     text-overflow: "...";
 }
 
-:host:hover.main-content,
-:host:hover.secondary-content {
+.cardview:hover.main-content,
+.cardview:hover.secondary-content {
     text-overflow: clip;
     white-space: nowrap;
     animation: text-defilement 15s infinite linear;

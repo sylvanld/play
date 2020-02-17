@@ -96,6 +96,31 @@ export class AuthenticationService {
     );
   }
 
+  changePassword(oldPassword, newPassword) {
+    // use this.accessToken
+    // TODO
+    /*this.http.post(environment.play_api_url + '/play/token', {
+      email, oldPassword
+    }).subscribe(
+      (token: Token) => {
+        this.setToken(token);
+        this.router.navigateByUrl('/');
+      },
+      error => {
+        let message: string = null;
+        switch (error.status) {
+          case 401:
+            message = 'Wrong credentials. Please try again.';
+            break;
+          default:
+            message = 'Oops! Something went wrong on our end! Try again later.';
+            break;
+        }
+        this.notify.error(message);
+      }
+    );*/
+  }
+
   /**
    * Remove refresh token from cookies and change connected state to false.
    */
