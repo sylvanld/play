@@ -30,7 +30,8 @@
 </ng-template>
 
 <ng-template #editModeBtn>
-    <button mat-icon-button class="edit-btn" (click)="swapEditMode()">
+    <button mat-icon-button *ngIf="lastPlaylist && lastPlaylist.tracks.length !== 0" class="edit-btn"
+        (click)="swapEditMode()">
         <mat-icon *ngIf="!editMode" aria-hidden="false" aria-label="toggle edit mode">edit</mat-icon>
         <mat-icon *ngIf="editMode" aria-hidden="false" aria-label="toggle edit mode">visibility</mat-icon>
     </button>
@@ -41,11 +42,13 @@
         <button class="back-btn" mat-icon-button>
             <mat-icon (click)="goBack()" aria-hidden="false" aria-label="go back">keyboard_backspace</mat-icon>
         </button>
-        <button class="play-btn" color="primary" mat-raised-button>
+        <button *ngIf="lastPlaylist && lastPlaylist.tracks.length !== 0" class="play-btn" color="primary"
+            mat-raised-button>
             Play
             <mat-icon (click)="playAll()" aria-hidden="false" aria-label="play all">play_arrow</mat-icon>
         </button>
-        <ng-template [ngTemplateOutlet]="editModeBtn"></ng-template>
+        <ng-template [ngTemplateOutlet]="editModeBtn">
+        </ng-template>
     </div>
 </ng-template>
 
@@ -74,16 +77,16 @@
         </div>
 
         <!-- mobile -->
-        <div class="only-mobile">
+        <div class="only-mobile" fxFlex>
             <!-- edit mode -->
-            <mat-tab-group mat-stretch-tabs [dynamicHeight]="true">
-                <mat-tab label="Playlist">
+            <mat-tab-group mat-stretch-tabs fxFlex>
+                <mat-tab label="Playlist" fxLayout="column" fxLayoutAlign="start stretch" fxFlex>
                     <div class="centered-items">
                         <ng-template [ngTemplateOutlet]="playlistTitle"></ng-template>
                     </div>
-                    <app-track-list [playlist]="playlist"></app-track-list>
+                    <app-track-list [playlist]="playlist" fxFlex></app-track-list>
                 </mat-tab>
-                <mat-tab label="Search">
+                <mat-tab label="Search" fxLayout="column" fxLayoutAlign="start stretch" fxFlex>
                     <ng-template [ngTemplateOutlet]="search"></ng-template>
                 </mat-tab>
             </mat-tab-group>

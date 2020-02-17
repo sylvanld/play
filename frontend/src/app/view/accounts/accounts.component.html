@@ -9,18 +9,16 @@
       <mat-form-field appearance="fill">
         <mat-label>Old password</mat-label>
         <input matInput [type]="hideOldPwd ? 'password' : 'text'" [(ngModel)]="oldPwd">
-        <button mat-icon-button matSuffix (mousedown)="hideOldPwd = false" (mouseup)="hideOldPwd = true" 
-          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"
-        >
+        <button mat-icon-button matSuffix (mousedown)="hideOldPwd = false" (mouseup)="hideOldPwd = true"
+          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hideOldPwd ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>New password</mat-label>
         <input matInput [type]="hideNewPwd ? 'password' : 'text'" [(ngModel)]="newPwd">
-        <button mat-icon-button matSuffix (mousedown)="hideNewPwd = false" (mouseup)="hideNewPwd = true" 
-          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"
-        >
+        <button mat-icon-button matSuffix (mousedown)="hideNewPwd = false" (mouseup)="hideNewPwd = true"
+          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hideNewPwd ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
       </mat-form-field>
@@ -61,7 +59,7 @@
     </button>
   </div>
 
-  <!-- Search new friends because im so alone :'( -->
+  Search new friends because im so alone :'( -->
 
   <!-- Friends to add -->
   <mat-list dense>
@@ -87,4 +85,3 @@
   <app-spotify-login-button *ngIf="!isSpotifyAccountBound()"></app-spotify-login-button>
   <app-deezer-login-button *ngIf="!isDeezerAccountBound()"></app-deezer-login-button>
 </aside>
--->
