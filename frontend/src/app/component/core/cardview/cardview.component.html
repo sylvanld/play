@@ -1,12 +1,13 @@
-<ng-template #empty>
+<!-- <ng-template #empty>
     {{ emptyMsg }}
-</ng-template>
+</ng-template> -->
 
 <div class="cardview" [@slide]>
+    <div class="list-item disable-text-selection imported-btn">
+        <ng-content class="picture"></ng-content>
+    </div>
+
     <ng-template [ngIf]="items.length !== 0" [ngIfElse]="empty">
-        <div class="list-item disable-text-selection imported-btn">
-            <ng-content class="picture"></ng-content>
-        </div>
         <div class="list-item disable-text-selection" *ngFor="let item of items; let index = index"
             (click)="clickItem(index)">
             <img class="picture" [src]="item.picture">

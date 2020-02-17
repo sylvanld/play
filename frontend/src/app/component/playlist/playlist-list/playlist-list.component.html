@@ -5,7 +5,8 @@
 </ng-template>
 
 <app-cardview class="only-desktop" [items]="items" (clickedItem)="clickedItem($event)"
-    (deletedItem)="deletedItem($event)" emptyMsg="no playlist is present" fxFlex>
+    (deletedItem)="deletedItem($event)" fxFlex>
+    <!-- emptyMsg="no playlist is present" -->
     <ng-template [ngTemplateOutlet]="addBtn"></ng-template>
 </app-cardview>
 

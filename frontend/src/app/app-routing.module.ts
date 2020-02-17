@@ -14,6 +14,7 @@ import { NotAuthenticatedGuard } from './guard/not-authenticated.guard';
 import { ConvertComponent } from './view/convert/convert.component';
 import { ImportComponent } from './view/convert/import/import.component';
 import { ExportComponent } from './view/convert/export/export.component';
+import { FriendshipComponent } from './view/friendship/friendship.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'playtech', component: PlaytechComponent, canActivate: [AuthenticatedGuard] },
   { path: 'browse', component: BrowseComponent, canActivate: [AuthenticatedGuard] },
   { path: 'share', component: ShareComponent, canActivate: [AuthenticatedGuard] },
+  { path: 'friendship', component: FriendshipComponent, canActivate: [AuthenticatedGuard] },
   { path: 'accounts', component: AccountsComponent, canActivate: [AuthenticatedGuard] },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthenticatedGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthenticatedGuard] },

@@ -67,6 +67,7 @@ import { InputUsersComponent } from './component/search/filters/input-users/inpu
 import { SelectLanguageComponent } from './component/lang/select-language/select-language.component';
 import { EditPasswordComponent } from './component/auth/edit-password/edit-password.component';
 import { RemovalExportComponent } from './view/export/export.component';
+import { FriendshipComponent } from './view/friendship/friendship.component';
 
 @NgModule({
   declarations: [
@@ -115,7 +116,8 @@ import { RemovalExportComponent } from './view/export/export.component';
     InputUsersComponent,
     SelectLanguageComponent,
     EditPasswordComponent,
-    RemovalExportComponent
+    RemovalExportComponent,
+    FriendshipComponent
   ],
   imports: [
     BrowserModule,
