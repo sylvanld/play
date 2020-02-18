@@ -8,21 +8,6 @@ import { Track, Artist } from '~types/index';
   styleUrls: ['./advanced-search.component.scss']
 })
 export class AdvancedSearchComponent implements OnInit {
-  itemsTypes = [{
-    name: 'track',
-    icon: 'audiotrack'
-  }, {
-    name: 'album',
-    icon: 'album'
-  }, {
-    name: 'artist',
-    icon: 'people'
-  }];
-
-  query = {
-    itemsTypes: ['track', 'album']
-  }
-
   simpleFilters = {
     startDate: null,
     endDate: null,
@@ -34,10 +19,6 @@ export class AdvancedSearchComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<AdvancedSearchComponent>) { }
 
   ngOnInit() {
-  }
-
-  search() {
-    console.log(this.query);
   }
 
   appendArtists(filtersList) {

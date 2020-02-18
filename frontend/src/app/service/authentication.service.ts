@@ -166,7 +166,7 @@ export class AuthenticationService {
           // remove potential token in query params
           // Remove query params
           if (clearUrlParams) {
-            this.router.navigate(['/accounts'], {
+            this.router.navigate([window.location.pathname], {
               queryParams: {},
               queryParamsHandling: 'merge'
             });
