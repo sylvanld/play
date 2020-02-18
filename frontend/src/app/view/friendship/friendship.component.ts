@@ -12,13 +12,13 @@ import { flatMap } from 'rxjs/operators';
 export class FriendshipComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
-  private items = [];
+  items = [];
 
   private me: User;
 
-  private accepted: { accepted: boolean, friend: User, id: number }[];
-  private incoming: { accepted: boolean, friend: User, id: number }[];
-  private outgoing: { accepted: boolean, friend: User, id: number }[];
+  accepted: { accepted: boolean, friend: User, id: number }[];
+  incoming: { accepted: boolean, friend: User, id: number }[];
+  outgoing: { accepted: boolean, friend: User, id: number }[];
 
   constructor(
     private play: PlayService

@@ -16,8 +16,13 @@ interface PasswordCheck {
 export class EditPasswordComponent implements OnInit {
   @Input() passwordExist = false;
   editing = false;
+
   password: string = "";
   confirmation: string = "";
+  hidePassword = true;
+  hideConfirmation = true;
+
+
   hint: string = "";
   pwdChecks: PasswordCheck[] = [
     {

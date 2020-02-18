@@ -1,8 +1,9 @@
 <aside>
   <h2>Play account</h2>
-  <button mat-raised-button color="secondary" (click)="logout()">Logout</button>
-  <button mat-raised-button color="warn" (click)="forgetAccountDialog()">Forget my account</button>
 
+  <!-- TODO: resolve this error!
+    <button mat-raised-button color="secondary" (click)="logout()">Logout</button>
+  <button mat-raised-button color="warn" (click)="forgetAccountDialog()">Forget my account</button>
   <div>
     <div class="pwd-form">
       <h4>Change password</h4>
@@ -26,12 +27,12 @@
     </div>
   </div>
 
-  <!-- TODO: resolve this error!
+  
   <div *ngIf="currentUser !== null">
     {{currentUser.name ? currentUser.name : '' }}
     {{currentUser.email ? currentUser.email : ''}}
     {{currentUser.lang ? currentUser.lang : ''}}
-
+  -->
   <div *ngIf="!!currentUser">
     <form>
       <mat-form-field>
@@ -58,7 +59,6 @@
       <mat-icon>clear</mat-icon> Forget my playlists
     </button>
   </div>
- -->
 
 </aside>
 <aside>
