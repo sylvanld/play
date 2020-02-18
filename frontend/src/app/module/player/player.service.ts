@@ -54,10 +54,14 @@ export class PlayerService {
     return this._tracks.findIndex((t: Track) => t.isrc === track.isrc);
   }
 
+  setPosition(index: number) {
+    this._index = Math.abs(index) % this._tracks.length;
+    this._currentTrack.next(this._tracks[this._index]);
+  }
+
   loadTracks(index: number, ...tracks: Track[]): void {
     this._tracks = tracks;
-    this._index = index;
-    this._currentTrack.next(this._tracks[this._index]);
+    this.setPosition(index);
     this._tracksQueue.next(this._tracks);
   }
 
@@ -68,15 +72,13 @@ export class PlayerService {
 
   nextTrack() {
     if (this._tracks.length > 0) {
-      this._index = Math.abs(this._index + 1) % this._tracks.length;
-      this._currentTrack.next(this._tracks[this._index]);
+      this.setPosition(this._index + 1);
     }
   }
 
   prevTrack() {
     if (this._tracks.length > 0) {
-      this._index = Math.abs(this._index - 1) % this._tracks.length;
-      this._currentTrack.next(this._tracks[this._index]);
+      this.setPosition(this._index - 1);
     }
   }
 

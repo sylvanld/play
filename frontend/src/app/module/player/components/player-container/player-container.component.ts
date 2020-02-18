@@ -111,9 +111,12 @@ export class PlayerContainerComponent implements OnInit, OnDestroy {
   }
 
   showQueue() {
-    this.bottomQueue.open(TracksQueueComponent, {
+    const queue = this.bottomQueue.open(TracksQueueComponent, {
       data: { currentTrack: this.currentTrack, tracksQueue: this.queue }
     });
+    queue.instance.selection.subscribe(index => {
+      this.player.setPosition(index);
+    })
   }
 
 }
