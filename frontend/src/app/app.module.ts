@@ -67,6 +67,7 @@ import { InputUsersComponent } from './component/search/filters/input-users/inpu
 import { SelectLanguageComponent } from './component/lang/select-language/select-language.component';
 import { EditPasswordComponent } from './component/auth/edit-password/edit-password.component';
 import { FriendshipComponent } from './view/friendship/friendship.component';
+import { PlaylistBottomsheetComponent } from './component/playlist/playlist-bottomsheet/playlist-bottomsheet.component';
 
 @NgModule({
   declarations: [
@@ -114,7 +115,8 @@ import { FriendshipComponent } from './view/friendship/friendship.component';
     InputUsersComponent,
     SelectLanguageComponent,
     EditPasswordComponent,
-    FriendshipComponent
+    FriendshipComponent,
+    PlaylistBottomsheetComponent
   ],
   imports: [
     BrowserModule,
@@ -137,7 +139,11 @@ import { FriendshipComponent } from './view/friendship/friendship.component';
     // custom modules
     PlayerModule.forRoot({ current: 'youtube' }),
   ],
-  entryComponents: [ForgetAccountDialogComponent, AdvancedSearchComponent],
+  entryComponents: [
+    ForgetAccountDialogComponent,
+    AdvancedSearchComponent,
+    PlaylistBottomsheetComponent
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

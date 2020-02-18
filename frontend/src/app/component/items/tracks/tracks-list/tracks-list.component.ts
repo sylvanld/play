@@ -1,8 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { PlayerService } from '~player/player.service';
-import { Track } from '~types/index';
+import { Playlist } from '~types/play/play-playlist';
 import { Observable } from 'rxjs';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { PlaylistBottomsheetComponent } from 'src/app/component/playlist/playlist-bottomsheet/playlist-bottomsheet.component';
+import { PlaylistsService } from 'src/app/service/playlists.service';
+import { Track } from '~types/play/play-track';
+import { NotificationService } from 'src/app/service/notification.service';
 
 @Component({
   selector: 'app-tracks-list',
@@ -17,7 +22,12 @@ export class TracksListComponent implements OnInit {
   displayedColumns: string[] = ['select', 'title', 'artist', 'album', 'release'];
   selection = new SelectionModel<Track>(true, []);
 
-  constructor(private player: PlayerService) { }
+  constructor(
+    private player: PlayerService,
+    private bottomSheet: MatBottomSheet,
+    private playlistsService: PlaylistsService,
+    private notify: NotificationService
+  ) { }
 
   ngOnInit() {
     if (this.reset) {
@@ -55,5 +65,18 @@ export class TracksListComponent implements OnInit {
   toggleSelection(track: Track) {
     this.selection.toggle(track);
     this.selected.emit(this.selection.selected);
+  }
+
+  addToQueue() {
+    this.player.queueTracks(...this.selection.selected);
+  }
+
+  openSelectPlaylists() {
+    const ref = this.bottomSheet.open(PlaylistBottomsheetComponent);
+    ref.instance.onSelection.subscribe((selectedPlaylist: Playlist) => {
+      const tracks = this.selection.selected;
+      this.playlistsService.addTracks(selectedPlaylist, ...tracks);
+      this.notify.info(`${tracks.length} tracks have been added to the playlist ${selectedPlaylist.title}`);
+    });
   }
 }

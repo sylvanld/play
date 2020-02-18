@@ -1,0 +1,9 @@
+<mat-list role="list">
+    <mat-list-item *ngFor="let playlist of playlists" (click)="selectPlaylist(playlist)">
+        <img matListAvatar src="{{ playlist.cover }}" alt="No cover." style="border-radius: 0% !important;">
+        <h3 matLine> {{ playlist.title }} </h3>
+        <p matLine>
+            <span> {{ playlist.author }} </span>
+        </p>
+    </mat-list-item>
+</mat-list>

@@ -25,6 +25,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 
 const materialModules = [
   MatInputModule,
@@ -51,7 +52,8 @@ const materialModules = [
   MatListModule,
   MatExpansionModule,
   MatProgressBarModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatBottomSheetModule
 ];
 
 @NgModule({
