@@ -6,8 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { PlayService } from 'src/app/service/play.service';
 
 import { Account, User } from '~types/index';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { Subscription, Observable, of } from 'rxjs';
+import { take, map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './accounts.component.html',
@@ -15,9 +15,13 @@ import { take } from 'rxjs/operators';
 })
 export class AccountsComponent implements OnInit, OnDestroy {
   private subsciption: Subscription = new Subscription();
+  private hideOldPwd = true;
+  private hideNewPwd = true;
+  private oldPwd = '';
+  private newPwd = '';
 
   accounts: Account[] = [];
-  currentUser: User = undefined;
+  currentUser: User;
 
   constructor(
     private auth: AuthenticationService,
@@ -39,6 +43,7 @@ export class AccountsComponent implements OnInit, OnDestroy {
       this.play.myAccounts()
         .pipe(take(1))
         .subscribe((accounts: any[]) => {
+          console.log(accounts);
           this.accounts = accounts;
         })
     );
@@ -65,5 +70,9 @@ export class AccountsComponent implements OnInit, OnDestroy {
     this.subsciption.add(dialog.afterClosed().subscribe(() => {
       this.playlistService.flushData();
     }));
+  }
+
+  changePwd() {
+    this.auth.changePassword(this.oldPwd, this.newPwd);
   }
 }

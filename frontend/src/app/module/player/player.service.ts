@@ -29,12 +29,21 @@ export class PlayerService {
     this._state.next(state);
   }
 
-  loadTracks(...tracks: Track[]): void {
+  findTrackIndex(track: Track): number {
+    return this._tracks.findIndex((t: Track) => t.isrc === track.isrc);
+  }
+
+  loadTracks(index: number, ...tracks: Track[]): void {
     this._tracks = tracks;
+    this._index = index;
     this._currentTrack.next(this._tracks[this._index]);
   }
-  queueTracks(tracks: Track[]): void {
+  queueTracks(...tracks: Track[]): void {
     this._tracks = [...this._tracks, ...tracks];
+  }
+  stopTracks(): void {
+    this._tracks = [];
+    this._currentTrack.next(undefined);
   }
 
   nextTrack() {

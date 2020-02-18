@@ -21,16 +21,30 @@ import { ViewItem } from '~types/index';
 })
 export class CardviewComponent implements OnInit {
   @Input() items: ViewItem[] = [];
-  @Output() clicked: EventEmitter<any> = new EventEmitter();
+  @Input() editMode = true;
+  // @Input() emptyMsg = 'no item is present'
+
+  @Output() clickedItem: EventEmitter<any> = new EventEmitter();
+  @Output() deletedItem: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  onClick(index) {
-    if (!this.items[index].ro_diasabled) {
-      this.clicked.emit(index);
-    }
+  /*clickItem(item: ViewItem) {
+    this.clickedItem.emit(item.id);
+  }
+
+  deleteItem(item: ViewItem) {
+    this.deletedItem.emit(item.id);
+  }*/
+
+  clickItem(index: number) {
+    this.clickedItem.emit(index);
+  }
+
+  deleteItem(index: number) {
+    this.deletedItem.emit(index);
   }
 }

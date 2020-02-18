@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 import { Observable, forkJoin } from 'rxjs';
-import { map, flatMap } from 'rxjs/operators';
+import { map, flatMap, mergeMap } from 'rxjs/operators';
 import { ProviderService } from './provider.service';
 import { AuthenticationService } from './authentication.service';
 
@@ -29,9 +29,12 @@ export class SpotifyUserService extends ProviderService {
    * @param track The given track.
    */
   completeExternalId(track: Track): Observable<Track> {
-    return this.get<SearchResult>(`/v1/search?q=${encodeURIComponent(track.title + ' ' + track.artist)}&type=track`)
+    return this.get<any>(`/v1/search?type=track&q=isrc:${track.isrc}`)
       .pipe(
-        map((data) => this.convertTrack(data[0].track))
+        map((data) => {
+          track.external_ids.spotify = this.convertTrack(data.tracks.items[0]).external_ids.spotify;
+          return track;
+        })
       );
   }
 
@@ -117,24 +120,20 @@ export class SpotifyUserService extends ProviderService {
   //////////////////////////////////////////////////////////
 
   createPlaylist(playlist: Playlist): any {
-    const userID = 'USER_ID';
-
     const body = {
       name: playlist.title,
-      description: 'Create by ' + playlist.author,
+      description: 'Created by ' + playlist.author,
       public: false
     };
 
-    return this.post(`/v1/users/${userID}/playlists`, body)
+    return this.post(`/v1/me/playlists`, body)
       .pipe(map(data => data));
   }
 
   addTrack(playlistID, track) {
-    this.post(`/v1/playlists/${playlistID}/tracks?uris=spotify%3Atrack%3A/${track.identifier.spotify}`, {})
-      .subscribe(
-        (data: any) => {
-          console.log(data);
-        }
-      );
+    return this.completeExternalId(track).pipe(
+      mergeMap(
+        track_ => this.post(`/v1/playlists/${playlistID}/tracks?uris=spotify%3Atrack%3A${track_.external_ids.spotify}`, {})
+      ))
   }
 }

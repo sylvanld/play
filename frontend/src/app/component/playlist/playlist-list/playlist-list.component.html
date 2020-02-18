@@ -1,0 +1,16 @@
+<ng-template #addBtn>
+    <button routerLink="/playlist/edit">
+        <mat-icon class="picture" aria-hidden="false" aria-label="add-btn">add_circle_outline</mat-icon>
+    </button>
+</ng-template>
+
+<app-cardview class="only-desktop" [items]="items" (clickedItem)="clickedItem($event)"
+    (deletedItem)="deletedItem($event)" fxFlex>
+    <!-- emptyMsg="no playlist is present" -->
+    <ng-template [ngTemplateOutlet]="addBtn"></ng-template>
+</app-cardview>
+
+<app-listview class="only-mobile" [items]="items" (clickedItem)="clickedItem($event)"
+    (deletedItem)="deletedItem($event)" emptyMsg="no playlist is present" fxFlex>
+    <ng-template [ngTemplateOutlet]="addBtn"></ng-template>
+</app-listview>

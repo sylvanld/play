@@ -4,4 +4,5 @@
   grid-template-rows: 10% 90%;
   grid-template-areas: "nav" "container";
   overflow-y: hidden;
+  grid-area: content;
 }

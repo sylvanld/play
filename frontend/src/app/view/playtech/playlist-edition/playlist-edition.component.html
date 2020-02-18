@@ -1,0 +1,118 @@
+<!-- fragments -->
+<ng-template #search>
+    <div fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <app-search-bar [displayFilters]="false" [resultsTypes]="['track']" (results)="onResultsChange($event)">
+            </app-search-bar>
+            <button mat-flat-button (click)="selectionToPlaylist()" color="accent" *ngIf="selection.length">
+                <!-- *ngIf="selection.hasValue()"> -->
+                add
+            </button>
+        </div>
+        <app-search-results noActionBtn="true" [resultsTypes]="['track']" [results]="results" [reset]="resetSelection"
+            (selected)="onSelected($event)"></app-search-results>
+    </div>
+</ng-template>
+
+<ng-template #playlistTitle>
+    <mat-form-field *ngIf="!locked">
+        <input matInput type="text" placeholder="Playlist title" [(ngModel)]="titleEdition"
+            (keydown.enter)="saveTitle()" (keydown.esc)="titleEdition=''" required>
+        <button mat-icon-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button
+            aria-label="Clear" (click)="titleEdition=''">
+            <mat-icon>close</mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button
+            aria-label="Confirm" (click)="saveTitle()">
+            <mat-icon>done</mat-icon>
+        </button>
+    </mat-form-field>
+</ng-template>
+
+<ng-template #editModeBtn>
+    <button mat-icon-button *ngIf="lastPlaylist && lastPlaylist.tracks.length !== 0" class="edit-btn"
+        (click)="swapEditMode()">
+        <mat-icon *ngIf="!editMode" aria-hidden="false" aria-label="toggle edit mode">edit</mat-icon>
+        <mat-icon *ngIf="editMode" aria-hidden="false" aria-label="toggle edit mode">visibility</mat-icon>
+    </button>
+</ng-template>
+
+<ng-template #controls>
+    <div class="controls">
+        <button class="back-btn" mat-icon-button>
+            <mat-icon (click)="goBack()" aria-hidden="false" aria-label="go back">keyboard_backspace</mat-icon>
+        </button>
+        <button *ngIf="lastPlaylist && lastPlaylist.tracks.length !== 0" class="play-btn" color="primary"
+            mat-raised-button>
+            Play
+            <mat-icon (click)="playAll()" aria-hidden="false" aria-label="play all">play_arrow</mat-icon>
+        </button>
+        <ng-template [ngTemplateOutlet]="editModeBtn">
+        </ng-template>
+    </div>
+</ng-template>
+
+<ng-template #unknow>
+    playlist doesn't exist...
+</ng-template>
+
+
+<!-- assembly -->
+<ng-template [ngIf]="playlist !== undefined" [ngIfElse]="unknow">
+
+    <ng-template [ngTemplateOutlet]="controls"></ng-template>
+
+    <!-- edit mode -->
+    <ng-template [ngIf]="editMode" [ngIfElse]="readOnly">
+        <!-- desktop -->
+        <div class="only-desktop">
+            <!-- edit mode -->
+            <div class="centered-items">
+                <ng-template [ngTemplateOutlet]="playlistTitle"></ng-template>
+            </div>
+            <div class="share-space">
+                <ng-template [ngTemplateOutlet]="search"></ng-template>
+                <app-track-list [playlist]="playlist"></app-track-list>
+            </div>
+        </div>
+
+        <!-- mobile -->
+        <div class="only-mobile" fxFlex>
+            <!-- edit mode -->
+            <mat-tab-group mat-stretch-tabs fxFlex>
+                <mat-tab label="Playlist" fxLayout="column" fxLayoutAlign="start stretch" fxFlex>
+                    <div class="centered-items">
+                        <ng-template [ngTemplateOutlet]="playlistTitle"></ng-template>
+                    </div>
+                    <app-track-list [playlist]="playlist" fxFlex></app-track-list>
+                </mat-tab>
+                <mat-tab label="Search" fxLayout="column" fxLayoutAlign="start stretch" fxFlex>
+                    <ng-template [ngTemplateOutlet]="search"></ng-template>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </ng-template>
+
+    <!-- read-only mode -->
+    <ng-template #readOnly>
+        <!-- desktop -->
+        <div class="only-desktop">
+            <div fxLayout="row">
+                <!-- <app-search-bar></app-search-bar> -->
+                <!-- TODO search on my track list -->
+            </div>
+            <app-track-list [playlist]="playlist" [editMode]="false"></app-track-list>
+        </div>
+
+        <!-- mobile -->
+        <div class="only-mobile">
+            <!-- read only -->
+            <div fxLayout="row">
+                <!-- <app-search-bar></app-search-bar> -->
+                <!-- TODO search on my track list -->
+            </div>
+            <app-track-list [playlist]="playlist" [editMode]="false"></app-track-list>
+        </div>
+    </ng-template>
+
+</ng-template>

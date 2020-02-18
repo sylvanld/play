@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Observer, forkJoin, of, from, concat, merge } from 'rxjs';
-import { map, flatMap, mergeMap, concatAll, filter, mergeAll, pluck } from 'rxjs/operators';
+import { Observable, Observer, forkJoin, of } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators';
 
 import { AuthenticationService } from './authentication.service';
 import { ProviderService } from './provider.service';
@@ -19,6 +19,7 @@ import { PlaylistsService } from './playlists.service';
   providedIn: 'root'
 })
 export class PlayService extends ProviderService {
+  idPlaylist: string;
 
   private _accounts: Account[];
 
@@ -50,6 +51,16 @@ export class PlayService extends ProviderService {
     });
   }
 
+  getSpotifyUserToken(): Observable<string> {
+    return this.post('/spotify/token/me', {})
+      .pipe(map(({ access_token }) => access_token));
+  }
+
+  getDeezerUserToken(): Observable<string> {
+    return this.post('/deezer/token/me', {})
+      .pipe(map(({ access_token }) => access_token));
+  }
+
   /**
    * Complete youtube Id
    */
@@ -63,22 +74,25 @@ export class PlayService extends ProviderService {
   }
 
   completeExternalsIds(track: Track, externalIds: { spotify?: boolean, deezer?: boolean, youtube?: boolean }): Observable<Track> {
-    return of(track).pipe(
-      flatMap(
-        (t: Track) => {
-          const requests = [];
-          if (externalIds.spotify === true && !t.external_ids.spotify) {
-            requests.push(this.spotify.completeExternalId(t));
-          }
-          if (externalIds.deezer === true && !t.external_ids.deezer) {
-            requests.push(this.deezer.completeExternalId(t));
-          }
-          if (externalIds.youtube === true && !t.external_ids.youtube) {
-            requests.push(this.youtube.completeExternalId(t));
-          }
-          return forkJoin(requests);
-        }
-      ),
+    const requests = [];
+    if (externalIds.spotify === true && !track.external_ids.spotify) {
+      requests.push(this.spotify.completeExternalId(track));
+    }
+    if (externalIds.deezer === true && !track.external_ids.deezer) {
+      requests.push(this.deezer.completeExternalId(track));
+    }
+    if (externalIds.youtube === true && !track.external_ids.youtube) {
+      requests.push(
+        this.get<{ id: string }>('/youtube/search?q=' + encodeURIComponent(track.title + ' - ' + track.artist))
+          .pipe(map(
+            ({ id }) => {
+              track.external_ids.youtube = id;
+              return track;
+            }
+          ))
+      );
+    }
+    return forkJoin(requests).pipe(
       map((results: Track[]): Track => {
         for (const result of results) {
           track.external_ids = Object.assign(track.external_ids, result.external_ids);
@@ -108,6 +122,39 @@ export class PlayService extends ProviderService {
    */
   whoami() {
     return this.get<User>('/users/me');
+  }
+
+  /**
+   * Retrive the user.
+   */
+  whois(id: string) {
+    return this.get<User>(`/users/${id}`);
+  }
+
+  /**
+   *
+   */
+  getUsers() {
+    return this.get<User[]>('/users');
+  }
+
+  /**
+   * List of Accepted/Pending request of firends.
+   */
+  myRequestFriendships(): Observable<any> {
+    return this.get<any>('/users/me/friendships');
+  }
+
+  inviteFriend(userId: string): Observable<any> {
+    return this.post<any>('/friendships', { friend2_id: userId });
+  }
+
+  acceptFriendship(id): Observable<any> {
+    return this.put<any>(`/friendships/${id}`, { accepted: true });
+  }
+
+  rejectOrDeleteFriendship(id): Observable<any> {
+    return this.delete<any>(`/friendships/${id}`);
   }
 
   /**
@@ -152,6 +199,7 @@ export class PlayService extends ProviderService {
    */
   createExternalPlalist(playlist: Playlist, destination: 'DEEZER' | 'SPOTIFY') {
     // TODO: map deezer and spotify services
+
   }
 
   /**
@@ -189,20 +237,20 @@ export class PlayService extends ProviderService {
    *
    */
   createPlaylists(playlists: { deezer?: Playlist[], spotify?: Playlist[], play?: Playlist[] }): Observable<Playlist[]> {
-    // avoir empty param, and obviously, dont check if key is missing with 'if'...
-    const _playlist = Object.assign(
+    // avoid empty param, and obviously, dont check if key is missing with 'if'...
+    const _playlists = Object.assign(
       { deezer: [], spotify: [], play: [] },
       playlists
     );
     const requests: Observable<Playlist>[] = [];
 
-    for (const playlist of _playlist.deezer) {
+    for (const playlist of _playlists.deezer) {
       requests.push(this.createPlaylist(playlist, 'DEEZER'));
     }
-    for (const playlist of _playlist.spotify) {
+    for (const playlist of _playlists.spotify) {
       requests.push(this.createPlaylist(playlist, 'SPOTIFY'));
     }
-    for (const playlist of _playlist.play) {
+    for (const playlist of _playlists.play) {
       requests.push(this.createPlaylist(playlist, 'PLAY'));
     }
     return forkJoin(requests);

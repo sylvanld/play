@@ -6,15 +6,16 @@ import { BrowseComponent } from './view/browse/browse.component';
 import { ShareComponent } from './view/share/share.component';
 import { AccountsComponent } from './view/accounts/accounts.component';
 import { PlayerComponent } from './view/player/player.component';
-import { PlaylistCreationComponent } from './component/playlist/playlist-creation/playlist-creation.component';
-import { PlaylistEditionComponent } from './component/playlist/playlist-edition/playlist-edition.component';
+import { PlaylistEditionComponent } from './view/playtech/playlist-edition/playlist-edition.component';
 import { LoginComponent } from './view/login/login.component';
 import { RegisterComponent } from './view/register/register.component';
 import { AuthenticatedGuard } from './guard/authenticated.guard';
 import { NotAuthenticatedGuard } from './guard/not-authenticated.guard';
+import { MatListModule } from '@angular/material/list';
 import { ConvertComponent } from './view/convert/convert.component';
 import { ImportComponent } from './view/convert/import/import.component';
 import { ExportComponent } from './view/convert/export/export.component';
+import { FriendshipComponent } from './view/friendship/friendship.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'playtech', component: PlaytechComponent, canActivate: [AuthenticatedGuard] },
   { path: 'browse', component: BrowseComponent, canActivate: [AuthenticatedGuard] },
   { path: 'share', component: ShareComponent, canActivate: [AuthenticatedGuard] },
+  { path: 'friendship', component: FriendshipComponent, canActivate: [AuthenticatedGuard] },
   { path: 'accounts', component: AccountsComponent, canActivate: [AuthenticatedGuard] },
   { path: 'login', component: LoginComponent, canActivate: [NotAuthenticatedGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [NotAuthenticatedGuard] },
@@ -35,8 +37,8 @@ const routes: Routes = [
   //
   {
     path: 'playlist', canActivate: [AuthenticatedGuard], children: [
-      { path: 'create', component: PlaylistCreationComponent },
-      { path: 'edit/:id', component: PlaylistEditionComponent }
+      { path: 'edit/:id', component: PlaylistEditionComponent }, // edit playlist
+      { path: 'edit', component: PlaylistEditionComponent }      // new playlist
     ]
   },
   // redirection
@@ -46,6 +48,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule, MatListModule]
 })
 export class AppRoutingModule { }

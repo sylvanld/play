@@ -37,7 +37,10 @@ export class ShareComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.play.myFriends()
         .pipe(take(1))
-        .subscribe((users) => this.friends = users)
+        .subscribe((users) => {
+          console.log(users);
+          this.friends = users;
+        })
     );
 
     this.subscription.add(

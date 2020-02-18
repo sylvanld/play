@@ -1,9 +1,7 @@
-import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { ViewItem } from '~types/index';
-
-export enum Position { Start = 'start', End = 'end', Both = 'both', None = 'none' }
+import { trigger, transition, query, style, stagger, animate } from '@angular/animations';
+import { ViewItem } from '~types/view-item';
 
 @Component({
   selector: 'app-listview',
@@ -23,44 +21,87 @@ export enum Position { Start = 'start', End = 'end', Both = 'both', None = 'none
   ]
 })
 export class ListviewComponent implements OnInit {
-  @Input() noPicture = false;
   @Input() items: ViewItem[] = [];
-  @Input() locked = true;
-  @Input() addBtnPosition: Position = Position.Start;
-  @Input() addBtnLabel = 'Nouvel élément';
-  @Output() addItemEvent: EventEmitter<any> = new EventEmitter();
-  @Output() delItemEvent: EventEmitter<any> = new EventEmitter();
-  @Output() moveItemEvent: EventEmitter<any> = new EventEmitter();
-  @Output() clicked: EventEmitter<any> = new EventEmitter();
+  @Input() editMode = true;
+  @Input() emptyMsg = 'no item is present'
+
+  @Output() deletedItem: EventEmitter<any> = new EventEmitter();
+  @Output() movedItem: EventEmitter<any> = new EventEmitter();
+  @Output() clickedItem: EventEmitter<any> = new EventEmitter();
+
+  private showBin = false;
+
+  // long press detection
+  /*longPressTimer ?: ReturnType<typeof setTimeout> = undefined;
+  mouseDown = false;*/
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  addItem() {
-    this.addItemEvent.emit();
+  isMovable(): boolean {
+    return this.movedItem.observers.length !== 0;
   }
 
-  delItem(item: ViewItem) {
-    this.delItemEvent.emit(item.id);
+  // event dispatch
+  /*clickItem(item: ViewItem) {
+    this.clickedItem.emit(item.id);
   }
 
-  moveItem(event: CdkDragDrop<any[]>) {
-    this.moveItemEvent.emit({ oldIndex: event.previousIndex, newIndex: event.currentIndex });
+  deleteItem(item: ViewItem) {
+    this.deletedItem.emit(item.id);
+  }*/
+
+  clickItem(index: number) {
+    this.clickedItem.emit(index);
   }
 
-  showStartAddBtn(): boolean {
-    return (!this.locked && (this.addBtnPosition === Position.Start || this.addBtnPosition === Position.Both));
+  deleteItem(index: number) {
+    this.deletedItem.emit(index);
   }
 
-  showEndAddBtn(): boolean {
-    return (!this.locked && (this.addBtnPosition === Position.End || this.addBtnPosition === Position.Both));
-  }
-
-  onClick(index) {
-    if (!(this.locked && this.items[index].ro_diasabled)) {
-      this.clicked.emit(index);
+  moveItem(event: CdkDragDrop<any>) {
+    if (this.isMovable()) {
+      this.movedItem.emit({
+        id: this.items[event.currentIndex],
+        oldIndex: event.previousIndex,
+        newIndex: event.currentIndex
+      });
+      this.showBin = false;
     }
   }
+
+  delete(event: CdkDragDrop<any>) {
+    //const item = event.previousContainer.data[event.previousIndex];
+    this.deleteItem(event.previousIndex);
+    this.showBin = false;
+  }
+
+  // longPress menu
+  /*longPressMenu(item: ViewItem) {
+    this.bottomSheet.open(BottomSheetMenuViewItemsComponent, {
+      data: {
+        delItem: () => { this.deleteItem(item); }
+      },
+    });
+  }
+
+  // long press detection
+  mousedown(item: ViewItem): void {
+    this.mouseDown = true;
+    this.longPressTimer = setTimeout(() => {
+      if (this.mouseDown) {
+        this.longPressMenu(item);
+      }
+     }, 800);
+  }
+
+  mouseup(): void {
+    this.mouseDown = false;
+    if (this.longPressTimer) {
+      clearTimeout(this.longPressTimer);
+      this.longPressTimer = undefined;
+    }
+  }*/
 }
