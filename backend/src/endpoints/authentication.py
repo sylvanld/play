@@ -43,7 +43,6 @@ class TokenResource(Resource):
         return UserDAO.get_token(user)
 
 
-
 @auth_ns.route('/spotify/token')
 class SpotifyTokenResource(Resource):
     @jwt_required
@@ -72,7 +71,6 @@ class SpotifyTokenResource(Resource):
         Return deezer application access token
         """
         return Deezer.get_token_for_user(current_user)
-
 
 
 # Third party authorization follow
