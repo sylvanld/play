@@ -29,7 +29,7 @@ export class ListviewComponent implements OnInit {
   @Output() movedItem: EventEmitter<any> = new EventEmitter();
   @Output() clickedItem: EventEmitter<any> = new EventEmitter();
 
-  private showBin = false;
+  showBin = false;
 
   // long press detection
   /*longPressTimer ?: ReturnType<typeof setTimeout> = undefined;

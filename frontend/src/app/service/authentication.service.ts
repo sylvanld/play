@@ -96,7 +96,7 @@ export class AuthenticationService {
     );
   }
 
-  changePassword(oldPassword, newPassword) {
+  changePassword(newPassword): Observable<any> {
     // use this.accessToken
     // TODO
     /*this.http.post(environment.play_api_url + '/play/token', {
@@ -119,6 +119,7 @@ export class AuthenticationService {
         this.notify.error(message);
       }
     );*/
+    return of("toto");
   }
 
   /**

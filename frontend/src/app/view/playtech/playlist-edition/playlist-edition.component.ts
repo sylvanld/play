@@ -30,14 +30,14 @@ import { PlayerService } from '~player/player.service';
 })
 export class PlaylistEditionComponent implements OnInit {
   private playlistId: string;
-  private playlist: Observable<Playlist>;
-  private lastPlaylist: Playlist;
-  private titleEdition: string;
-  private editMode = false;
-  private results: SearchResult = { tracks: [], artists: [], albums: [] };
+  playlist: Observable<Playlist>;
+  lastPlaylist: Playlist;
+  titleEdition: string;
+  editMode = false;
+  results: SearchResult = { tracks: [], artists: [], albums: [] };
   private resetSelectionSubject = new BehaviorSubject<boolean>(false);
   readonly resetSelection = this.resetSelectionSubject.asObservable();
-  private selection: Track[] = [];
+  selection: Track[] = [];
 
   constructor(
     private playlistService: PlaylistsService,

@@ -14,7 +14,7 @@ import { Track } from '~types/play/play-track';
 export class TrackListComponent implements OnInit {
   @Input() playlist: Observable<Playlist>;
   @Input() editMode = true;
-  private items: ViewItem[] = [];
+  items: ViewItem[] = [];
   private lastPlaylist: Playlist;
 
   constructor(

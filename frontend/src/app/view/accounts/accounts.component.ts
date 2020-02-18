@@ -15,10 +15,6 @@ import { take, map } from 'rxjs/operators';
 })
 export class AccountsComponent implements OnInit, OnDestroy {
   private subsciption: Subscription = new Subscription();
-  private hideOldPwd = true;
-  private hideNewPwd = true;
-  private oldPwd = '';
-  private newPwd = '';
 
   accounts: Account[] = [];
   currentUser: User;
@@ -70,9 +66,5 @@ export class AccountsComponent implements OnInit, OnDestroy {
     this.subsciption.add(dialog.afterClosed().subscribe(() => {
       this.playlistService.flushData();
     }));
-  }
-
-  changePwd() {
-    this.auth.changePassword(this.oldPwd, this.newPwd);
   }
 }

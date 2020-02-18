@@ -13,7 +13,7 @@ import { Playlist } from '~types/play/play-playlist';
 })
 export class PlaylistListComponent implements OnInit {
   @Input() playlists: Observable<Playlist[]>;
-  private items: ViewItem[] = [];
+  items: ViewItem[] = [];
   private lastPlaylists: Playlist[];
 
   constructor(

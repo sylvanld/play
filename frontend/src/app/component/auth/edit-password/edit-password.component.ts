@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NotificationService } from 'src/app/service/notification.service';
+import { AuthenticationService } from 'src/app/service/authentication.service';
 
 interface PasswordCheck {
   function: () => number;
@@ -52,7 +53,10 @@ export class EditPasswordComponent implements OnInit {
   ];
 
 
-  constructor(private notify: NotificationService) { }
+  constructor(
+    private notify: NotificationService,
+    private auth: AuthenticationService
+  ) { }
 
   ngOnInit() {
   }
@@ -67,9 +71,15 @@ export class EditPasswordComponent implements OnInit {
     } else if (this.password != this.confirmation) {
       this.notify.error('Password and confirmation must match.');
     } else {
-      this.notify.info('Password successfully set/changed!');
-      this.editing = false;
-      this.passwordExist = true;
+      console.log('submit password change');
+      this.auth.changePassword(this.password).subscribe(
+        resp => {
+          console.log('password changed');
+          this.notify.info('Password successfully set/changed!');
+          this.editing = false;
+          this.passwordExist = true;
+        }
+      )
     }
   }
 

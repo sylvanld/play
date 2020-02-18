@@ -15,7 +15,7 @@
 </ng-template>
 
 <ng-template #playlistTitle>
-    <mat-form-field *ngIf="!locked">
+    <mat-form-field *ngIf="editMode">
         <input matInput type="text" placeholder="Playlist title" [(ngModel)]="titleEdition"
             (keydown.enter)="saveTitle()" (keydown.esc)="titleEdition=''" required>
         <button mat-icon-button *ngIf="titleEdition && titleEdition.length > 0" matSuffix mat-icon-button

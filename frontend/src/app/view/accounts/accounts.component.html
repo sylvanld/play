@@ -1,38 +1,6 @@
 <aside>
   <h2>Play account</h2>
 
-  <!-- TODO: resolve this error!
-    <button mat-raised-button color="secondary" (click)="logout()">Logout</button>
-  <button mat-raised-button color="warn" (click)="forgetAccountDialog()">Forget my account</button>
-  <div>
-    <div class="pwd-form">
-      <h4>Change password</h4>
-      <mat-form-field appearance="fill">
-        <mat-label>Old password</mat-label>
-        <input matInput [type]="hideOldPwd ? 'password' : 'text'" [(ngModel)]="oldPwd">
-        <button mat-icon-button matSuffix (mousedown)="hideOldPwd = false" (mouseup)="hideOldPwd = true"
-          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hideOldPwd ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>New password</mat-label>
-        <input matInput [type]="hideNewPwd ? 'password' : 'text'" [(ngModel)]="newPwd">
-        <button mat-icon-button matSuffix (mousedown)="hideNewPwd = false" (mouseup)="hideNewPwd = true"
-          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hideNewPwd ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
-      </mat-form-field>
-      <button mat-raised-button color="secondary" (click)="changePwd()">Validate</button>
-    </div>
-  </div>
-
-  
-  <div *ngIf="currentUser !== null">
-    {{currentUser.name ? currentUser.name : '' }}
-    {{currentUser.email ? currentUser.email : ''}}
-    {{currentUser.lang ? currentUser.lang : ''}}
-  -->
   <div *ngIf="!!currentUser">
     <form>
       <mat-form-field>
