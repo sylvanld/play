@@ -20,8 +20,8 @@
   </div>
 
   <!-- Track Info -->
-  <div class="player-track">
-    {{ title }}
+  <div class="player-track" *ngIf="!!currentTrack">
+    {{ currentTrack.title }}
   </div>
 
   <!-- Timer bar -->
@@ -34,6 +34,10 @@
 </div>
 
 <div class="player-container-extracontrols">
+  <button mat-icon-button color="player" (click)="showQueue()">
+    <mat-icon>playlist_play</mat-icon>
+  </button>
+
   <!-- external controls -->
   <ng-content></ng-content>
 

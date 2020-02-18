@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter, Input, OnDestroy } from '@angu
 import { PlayerService } from '../../player.service';
 import { PlayerState, Track } from '~types/index';
 import { Subscription } from 'rxjs';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { TracksQueueComponent } from '../tracks-queue/tracks-queue.component';
 
 @Component({
   selector: 'app-player-container',
@@ -15,8 +17,10 @@ export class PlayerContainerComponent implements OnInit, OnDestroy {
   private _prevVolume: number;
   private timeInterval;
 
+  queue: Track[] = [];
+  currentTrack: Track;
+
   volume = 100;
-  title: string;
   private state: PlayerState;
 
   get isUnstated(): boolean { return this.state === PlayerState.UNSTARTED; }
@@ -42,16 +46,25 @@ export class PlayerContainerComponent implements OnInit, OnDestroy {
   @Output() volumeChange = new EventEmitter();
 
   ////////////////////////////////////////////////
-  constructor(private player: PlayerService) { }
+  constructor(
+    private player: PlayerService,
+    private bottomQueue: MatBottomSheet
+  ) { }
+
   ngOnInit() {
     this.subscription.add(
       this.player.state.subscribe((state: PlayerState) => this.state = state)
     );
     this.subscription.add(
       this.player.currentTrack.subscribe((track: Track) => {
-        this.title = track.title + ' -- ' + track.artist;
+        this.currentTrack = track;
       })
     );
+    this.subscription.add(
+      this.player.tracksQueue.subscribe((tracks: Track[]) => {
+        this.queue = tracks;
+      })
+    )
 
     this.timeInterval = setInterval(() => { }, 500); // tricks to force update values
   }
@@ -95,6 +108,12 @@ export class PlayerContainerComponent implements OnInit, OnDestroy {
       this.volume = this._prevVolume;
       this.isMuted = false;
     }
+  }
+
+  showQueue() {
+    this.bottomQueue.open(TracksQueueComponent, {
+      data: { currentTrack: this.currentTrack, tracksQueue: this.queue }
+    });
   }
 
 }

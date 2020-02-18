@@ -16,17 +16,38 @@ export class PlayerService {
   public readonly state = this._state.asObservable();
 
   private _tracks: Track[] = [];
+  private _tracksQueue = new Subject<Track[]>();
+  public readonly tracksQueue = this._tracksQueue.asObservable();
+
   private _index = 0;
   private _currentTrack = new Subject<Track>();
   public readonly currentTrack = this._currentTrack.asObservable();
 
   constructor(@Inject(PlayerConfigService) public config: PlayerConfig) {
     console.log('~[DEBUG]~ Player sevice is started with ' + config.current + ' player!');
+    this.bindKeysListener();
   }
 
   getState(): PlayerState { return this._state.getValue(); }
   setState(state: PlayerState): void {
     this._state.next(state);
+  }
+
+  keysListener(evt) {
+    console.log(evt.code);
+
+    switch (evt.code) {
+      case 'ArrowRight':
+        this.nextTrack();
+        break;
+      case 'ArrowLeft':
+        this.prevTrack();
+        break;
+    }
+  }
+
+  bindKeysListener() {
+    window.addEventListener('keydown', (evt) => this.keysListener(evt))
   }
 
   findTrackIndex(track: Track): number {
@@ -37,18 +58,26 @@ export class PlayerService {
     this._tracks = tracks;
     this._index = index;
     this._currentTrack.next(this._tracks[this._index]);
+    this._tracksQueue.next(this._tracks);
   }
+
   queueTracks(...tracks: Track[]): void {
     this._tracks = [...this._tracks, ...tracks];
+    this._tracksQueue.next(this._tracks);
   }
 
   nextTrack() {
-    this._index = Math.abs(this._index + 1) % this._tracks.length;
-    this._currentTrack.next(this._tracks[this._index]);
+    if (this._tracks.length > 0) {
+      this._index = Math.abs(this._index + 1) % this._tracks.length;
+      this._currentTrack.next(this._tracks[this._index]);
+    }
   }
+
   prevTrack() {
-    this._index = Math.abs(this._index - 1) % this._tracks.length;
-    this._currentTrack.next(this._tracks[this._index]);
+    if (this._tracks.length > 0) {
+      this._index = Math.abs(this._index - 1) % this._tracks.length;
+      this._currentTrack.next(this._tracks[this._index]);
+    }
   }
 
 }

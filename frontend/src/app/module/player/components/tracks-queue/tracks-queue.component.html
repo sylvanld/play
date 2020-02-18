@@ -1,0 +1,8 @@
+<mat-list>
+    <h3 mat-subheader>Currently playing</h3>
+    <mat-list-item *ngFor="let track of data.tracksQueue" [class.active]="track.isrc === data.currentTrack.isrc">
+        <mat-icon mat-list-icon>audiotrack</mat-icon>
+        <h4 mat-line style="font-size: 1.1em">{{track.title}}</h4>
+        <p mat-line>{{track.artist}}</p>
+    </mat-list-item>
+</mat-list>
