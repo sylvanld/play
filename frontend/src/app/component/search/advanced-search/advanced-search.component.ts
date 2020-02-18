@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Track, Artist } from '~types/index';
 
+interface AdvancedFilter {
+  range: number[];
+  selection: number[];
+  name: string;
+}
+
 @Component({
   selector: 'app-advanced-search',
   templateUrl: './advanced-search.component.html',
@@ -15,6 +21,8 @@ export class AdvancedSearchComponent implements OnInit {
     tracks: [],
     genres: []
   };
+
+  advancedFilters: AdvancedFilter[] = [];
 
   constructor(public dialogRef: MatDialogRef<AdvancedSearchComponent>) { }
 
@@ -49,12 +57,24 @@ export class AdvancedSearchComponent implements OnInit {
     }
   }
 
+  appendProsodics(filtersList) {
+    this.advancedFilters.map((parameter) => {
+      filtersList.push('min_' + parameter.name + '=' + parameter.selection[0]);
+      filtersList.push('max_' + parameter.name + '=' + parameter.selection[1]);
+    });
+  }
+
   filtersToUrl() {
     const filters = [];
     this.appendArtists(filters);
     this.appendTracks(filters);
     this.appendGenres(filters);
+    this.appendProsodics(filters);
     return filters.join('&');
+  }
+
+  onAdvancedFiltersChange(advancedFilters) {
+    this.advancedFilters = advancedFilters;
   }
 
   onSubmit() {

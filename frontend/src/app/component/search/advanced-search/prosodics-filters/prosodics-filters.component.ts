@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-search-prosodics-filters',
@@ -6,49 +6,52 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./prosodics-filters.component.scss']
 })
 export class ProsodicsFiltersComponent implements OnInit {
+  @Output() advancedFiltersChange = new EventEmitter();
+
   rangedParameters = [
-    /*{
-      name: "acousticness",
-      range: [0.0, 1.0]
-    },*/
     {
       name: 'danceability',
       range: [0.0, 1.0],
+      step: 0.01,
+      selection: [0.0, 1.0],
       description: `Danceability describes how suitable a track is for dancing based on a combination of musical elements`
-    },
-    /*{
-      name: "energy",
-      range: [0.0, 1.0]
-    },
-    {
-      name: "loudness",
-      range: [-60, 0.0]
-    },
-    {
-      name: "speechiness",
-      range: [0.0, 1.0]
     },
     {
       name: "instrumentalness",
-      range: [0.0, 1.0]
+      range: [0.0, 1.0],
+      step: 0.01,
+      selection: [0.0, 1.0],
+      description: `whether a track contains no vocals.`
     },
     {
-      name: "liveness",
-      range: [0.0, 1.0]
+      name: "energy",
+      range: [0.0, 1.0],
+      step: 0.01,
+      selection: [0.0, 1.0],
+      description: `Energy represents a perceptual measure of intensity and activity.`
     },
     {
-      name: "valence",
-      range: [0.0, 1.0]
-    },*/
+      name: "speechiness",
+      range: [0.0, 1.0],
+      step: 0.01,
+      selection: [0.0, 1.0],
+      description: `	Speechiness quantify the presence of spoken words in a track.`
+    },
     {
       name: 'tempo',
       range: [0.0, 200],
+      step: 2,
+      selection: [0.0, 200],
       description: `Tempo measure the average beat duration.`
     }
   ];
   constructor() { }
 
   ngOnInit() {
+  }
+
+  notifyObservers() {
+    this.advancedFiltersChange.next(this.rangedParameters);
   }
 
 }

@@ -6,6 +6,6 @@
     <mat-icon title="hover a parameter for help" [title]="parameter.description">info</mat-icon>
     <span>{{parameter.name}}</span>
 
-    <p-slider [name]="parameter.name" [step]="0.1" [min]="parameter.range[0]" [max]="parameter.range[1]"
-        [(ngModel)]="parameter.range" [range]="true"></p-slider>
+    <p-slider [step]="parameter.step" [min]="parameter.range[0]" [max]="parameter.range[1]"
+        [(ngModel)]="parameter.selection" for="decimal" [range]="true" (ngModelChange)="notifyObservers()"></p-slider>
 </div>
