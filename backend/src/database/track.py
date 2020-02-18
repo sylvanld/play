@@ -10,5 +10,5 @@ class Track(db.Model):
     release = db.Column(db.DateTime)
 
     youtube = db.Column(db.String, nullable=True)
-    spotify = db.Column(db.String, nullable=False)
+    spotify = db.Column(db.String, nullable=True)
     deezer  = db.Column(db.Integer, nullable=True)
