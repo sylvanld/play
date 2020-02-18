@@ -7,7 +7,7 @@
         <ng-content class="picture"></ng-content>
     </div>
 
-    <ng-template *ngIf="items.length !== 0">
+    <ng-template [ngIf]="items.length !== 0">
         <div class="list-item disable-text-selection" *ngFor="let item of items; let index = index"
             (click)="clickItem(index)">
             <img class="picture" [src]="item.picture">
