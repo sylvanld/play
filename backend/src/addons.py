@@ -11,3 +11,5 @@ ma = Marshmallow()
 cors = CORS()
 bcrypt = Bcrypt()
 jwt = JWTManager()
+
+jwt._set_error_handler_callbacks(api)
