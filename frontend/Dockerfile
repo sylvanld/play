@@ -18,7 +18,15 @@ FROM nginx:alpine
 ## Remove default nginx website
 #RUN rm -rf /usr/share/nginx/html/*
 
+# Create the directories we will need
+RUN mkdir -p /var/log/nginx && \
+    mkdir -p /var/www/html
+
+# Copy the respective nginx configuration files
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+
 ## From 'builder' copy website to default nginx public folder
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /var/www/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
