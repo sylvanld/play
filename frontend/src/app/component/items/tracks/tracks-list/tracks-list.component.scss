@@ -1,4 +1,19 @@
+@import 'src/app/constants.scss';
+
 .mat-row:hover {
     background-color: lightgray;
     cursor: pointer;
+}
+
+.action-button{
+    position: fixed;
+    right: 24px;
+    bottom: 100px;
+    z-index: 999
+}
+
+@media screen and (max-width: $mobile-max-width){
+    .action-button{
+        bottom: 160px;
+    }
 }

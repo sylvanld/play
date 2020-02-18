@@ -49,14 +49,13 @@
       <span>Add to queue</span>
       <mat-icon>queue</mat-icon>
     </button>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="openSelectPlaylists()">
       <span>Add to playlist</span>
       <mat-icon>queue_music</mat-icon>
     </button>
   </mat-menu>
 
-  <button mat-fab *ngIf="selection.hasValue()" color="accent" [matMenuTriggerFor]="actionsMenu"
-    style="position: fixed; right: 24px; bottom: 100px; z-index: 999">
+  <button mat-fab *ngIf="selection.hasValue()" class="action-button" color="accent" [matMenuTriggerFor]="actionsMenu">
     <mat-icon>more_vert</mat-icon>
   </button>
 </ng-template>
