@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
 
-  deezer_api_url: 'https://api.deezer.com',
+  deezer_api_url: 'https://cors-anywhere.herokuapp.com/https://api.deezer.com',
   play_api_url: 'https://api.play.sylvan.ovh',
 
   spotify_api_url: 'https://api.spotify.com',
