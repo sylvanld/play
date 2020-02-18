@@ -2,10 +2,12 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from src.addons import db, bcrypt
 
 # TODO: move somewhere else
-import requests
+from random import randint
+alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 def random_username():
-    r = requests.get('https://api.namefake.com/')
-    return r.json()['username']
+    return ''.join([
+        alpha[randint(0, 61)] for _ in range(randint(6, 10) )
+    ])
 
 
 class User(db.Model):
