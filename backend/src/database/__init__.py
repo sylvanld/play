@@ -24,13 +24,13 @@ def create_db(app):
 
 def populate_db_friendship(db):
 
-    user1 = User(email="user1@gmail.com", password="toto")
-    user2 = User(email="user2@gmail.com", password="toto")
-    user3 = User(email="user3@gmail.com", password="toto")
-    user4 = User(email="user4@gmail.com", password="toto")
-    user5 = User(email="user5@gmail.com", password="toto")
-    user6 = User(email="user6@gmail.com", password="toto")
-    user7 = User(email="user7@gmail.com", password="toto")
+    user1 = User(email="user1@gmail.com", password="toto", name="ddede")
+    user2 = User(email="user2@gmail.com", password="toto", name="ddee")
+    user3 = User(email="user3@gmail.com", password="toto", name="dezdz")
+    user4 = User(email="user4@gmail.com", password="toto", name="dezde")
+    user5 = User(email="user5@gmail.com", password="toto", name="cdcez")
+    user6 = User(email="user6@gmail.com", password="toto", name="cs")
+    user7 = User(email="user7@gmail.com", password="toto", name="edzdez")
 
     db.session.add_all([user1, user2, user3, user4, user5, user6, user7])
 

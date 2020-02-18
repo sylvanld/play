@@ -49,8 +49,7 @@ export class TrackListComponent implements OnInit {
   // event responses
   clickedItem(index: number) {
     // launch with the player
-    this.player.queueTracks(this.lastPlaylist.tracks[index]);
-    this.player.nextTrack();
+    this.player.loadTracks(index, ...this.lastPlaylist.tracks);
   }
 
   movedItem(event: { oldIndex: number, newIndex: number }) {

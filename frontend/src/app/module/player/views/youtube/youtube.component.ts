@@ -71,13 +71,10 @@ export class YoutubeComponent implements OnInit, OnDestroy {
 
     this.subscription.add(this.player.currentTrack
       .subscribe((track: Track) => {
-        console.log('track updated');
-
         this.subscription.add(
-          this.play.completeExternalsIds(track, { youtube: true }).pipe(
-            take(1),
-          ).subscribe((completedTrack: Track) => {
-            this.youtube.cueVideoById(completedTrack.external_ids.youtube, 0);
+          this.play.completeExternalsIds(track, { youtube: true }).subscribe((completedTrack: Track) => {
+            console.log(`${completedTrack.title} is played with ${completedTrack.external_ids.youtube}`);
+            this.youtube.loadVideoById(completedTrack.external_ids.youtube, 0);
           }));
       }));
   }

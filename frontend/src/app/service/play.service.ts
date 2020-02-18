@@ -83,6 +83,7 @@ export class PlayService extends ProviderService {
     }
     if (externalIds.youtube === true && !track.external_ids.youtube) {
       requests.push(
+        // TODO: make a function ?
         this.get<{ id: string }>('/youtube/search?q=' + encodeURIComponent(track.title + ' - ' + track.artist))
           .pipe(map(
             ({ id }) => {
