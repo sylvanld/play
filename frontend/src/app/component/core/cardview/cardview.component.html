@@ -1,27 +1,50 @@
-<!-- <ng-template #empty>
-    {{ emptyMsg }}
-</ng-template> -->
-
 <div class="cardview" [@slide]>
-    <div class="list-item disable-text-selection imported-btn">
-        <ng-content class="picture"></ng-content>
-    </div>
+  <div class="list-item disable-text-selection imported-btn">
+    <ng-content class="picture"></ng-content>
+  </div>
 
-    <ng-template [ngIf]="items.length !== 0">
-        <div class="list-item disable-text-selection" *ngFor="let item of items; let index = index"
-            (click)="clickItem(index)">
-            <img class="picture" [src]="item.picture">
-            <div class="description">
-                <div class="main-content">{{ item.mainContent }}</div>
-                <div class="secondary-content">{{ item.secondaryContent }}</div>
-            </div>
-            <div class="options" *ngIf="editMode">
-                <button mat-icon-button (click)="deleteItem(index); $event.stopPropagation()">
-                    <mat-icon aria-hidden="false" aria-label="delete the item">
-                        delete_outline
-                    </mat-icon>
-                </button>
-            </div>
-        </div>
-    </ng-template>
+  <ng-template [ngIf]="items.length !== 0">
+    <div
+      class="list-item disable-text-selection"
+      *ngFor="let item of items; let index = index"
+      (click)="clickItem(index)"
+      (contextmenu)="onContextMenu($event, item, index)"
+      [matMenuTriggerFor]="contextMenu"
+    >
+      <img class="picture" [src]="item.picture" />
+      <div class="description">
+        <div class="main-content">{{ item.mainContent }}</div>
+        <div class="secondary-content">{{ item.secondaryContent }}</div>
+      </div>
+      <div class="options" *ngIf="editMode">
+        <button
+          mat-icon-button
+          (click)="deleteItem(index); $event.stopPropagation()"
+        >
+          <mat-icon aria-hidden="false" aria-label="delete the item">
+            delete_outline
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+  </ng-template>
 </div>
+
+<div
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuPosition.x"
+  [style.top]="contextMenuPosition.y"
+  [matMenuTriggerFor]="contextMenu"
+></div>
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-item="item" let-index="index">
+    <button
+      mat-menu-item
+      *ngFor="let action of menuActions"
+      (click)="onActionClicked(action.onActionClicked, index)"
+    >
+      <mat-icon>{{ action.icon }}</mat-icon>
+      {{ action.title }}
+    </button>
+  </ng-template>
+</mat-menu>

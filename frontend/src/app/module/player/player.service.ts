@@ -1,14 +1,15 @@
-import { Inject, InjectionToken } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Inject, InjectionToken } from "@angular/core";
+import { BehaviorSubject, Subject } from "rxjs";
 
-import { PlayerConfig, PlayerProviders, PlayerState } from '~types/player';
-import { Track } from '~types/index';
+import { PlayerConfig, PlayerProviders, PlayerState } from "~types/player";
+import { Track } from "~types/index";
 
 // tslint:disable-next-line: variable-name
-export const PlayerConfigService = new InjectionToken<PlayerConfig>('PlayerConfig');
+export const PlayerConfigService = new InjectionToken<PlayerConfig>(
+  "PlayerConfig"
+);
 
 export class PlayerService {
-
   private _provider = new BehaviorSubject<PlayerProviders>(this.config.current);
   public readonly provider = this._provider.asObservable();
 
@@ -24,11 +25,15 @@ export class PlayerService {
   public readonly currentTrack = this._currentTrack.asObservable();
 
   constructor(@Inject(PlayerConfigService) public config: PlayerConfig) {
-    console.log('~[DEBUG]~ Player sevice is started with ' + config.current + ' player!');
+    console.log(
+      "~[DEBUG]~ Player sevice is started with " + config.current + " player!"
+    );
     this.bindKeysListener();
   }
 
-  getState(): PlayerState { return this._state.getValue(); }
+  getState(): PlayerState {
+    return this._state.getValue();
+  }
   setState(state: PlayerState): void {
     this._state.next(state);
   }
@@ -37,17 +42,17 @@ export class PlayerService {
     console.log(evt.code);
 
     switch (evt.code) {
-      case 'ArrowRight':
+      case "ArrowRight":
         this.nextTrack();
         break;
-      case 'ArrowLeft':
+      case "ArrowLeft":
         this.prevTrack();
         break;
     }
   }
 
   bindKeysListener() {
-    window.addEventListener('keydown', (evt) => this.keysListener(evt))
+    window.addEventListener("keydown", evt => this.keysListener(evt));
   }
 
   findTrackIndex(track: Track): number {
@@ -68,6 +73,7 @@ export class PlayerService {
   queueTracks(...tracks: Track[]): void {
     this._tracks = [...this._tracks, ...tracks];
     this._tracksQueue.next(this._tracks);
+    console.log(this._tracks);
   }
 
   nextTrack() {
@@ -81,5 +87,4 @@ export class PlayerService {
       this.setPosition(this._index - 1);
     }
   }
-
 }

@@ -1,42 +1,58 @@
-<table mat-table [dataSource]="tracks" class="mat-elevation-z8" style="width: 100%">
+<table
+  mat-table
+  [dataSource]="tracks"
+  class="mat-elevation-z8"
+  style="width: 100%"
+>
   <!-- Checkbox Column -->
   <ng-container matColumnDef="select">
     <th mat-header-cell *matHeaderCellDef>
-      <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
-        [indeterminate]="selection.hasValue() && !isAllSelected()" [title]="checkboxLabel()"
-        [aria-label]="checkboxLabel()">
+      <mat-checkbox
+        (change)="$event ? masterToggle() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()"
+        [title]="checkboxLabel()"
+        [aria-label]="checkboxLabel()"
+      >
       </mat-checkbox>
     </th>
     <td mat-cell *matCellDef="let row">
-      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? toggleSelection(row) : null"
-        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? toggleSelection(row) : null"
+        [checked]="selection.isSelected(row)"
+        [aria-label]="checkboxLabel(row)"
+      >
       </mat-checkbox>
     </td>
   </ng-container>
 
   <ng-container matColumnDef="title">
-    <th mat-header-cell *matHeaderCellDef> Title </th>
-    <td mat-cell *matCellDef="let track"> {{track.title}} </td>
+    <th mat-header-cell *matHeaderCellDef>Title</th>
+    <td mat-cell *matCellDef="let track">{{ track.title }}</td>
   </ng-container>
 
   <ng-container matColumnDef="artist">
-    <th mat-header-cell *matHeaderCellDef> Artist </th>
-    <td mat-cell *matCellDef="let track"> {{track.artist}} </td>
+    <th mat-header-cell *matHeaderCellDef>Artist</th>
+    <td mat-cell *matCellDef="let track">{{ track.artist }}</td>
   </ng-container>
 
   <ng-container matColumnDef="album">
-    <th mat-header-cell *matHeaderCellDef> Album </th>
-    <td mat-cell *matCellDef="let track"> {{track.album}} </td>
+    <th mat-header-cell *matHeaderCellDef>Album</th>
+    <td mat-cell *matCellDef="let track">{{ track.album }}</td>
   </ng-container>
 
   <ng-container matColumnDef="release">
-    <th mat-header-cell *matHeaderCellDef> Release </th>
-    <td mat-cell *matCellDef="let track"> {{track.release}} </td>
+    <th mat-header-cell *matHeaderCellDef>Release</th>
+    <td mat-cell *matCellDef="let track">{{ track.release.slice(0, 4) }}</td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="toggleSelection(row)">
-  </tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns"
+    (click)="toggleSelection(row)"
+  ></tr>
 </table>
 
 <ng-template [ngIf]="!noActionBtn">
@@ -55,7 +71,13 @@
     </button>
   </mat-menu>
 
-  <button mat-fab *ngIf="selection.hasValue()" class="action-button" color="accent" [matMenuTriggerFor]="actionsMenu">
+  <button
+    mat-fab
+    *ngIf="selection.hasValue()"
+    class="action-button"
+    color="accent"
+    [matMenuTriggerFor]="actionsMenu"
+  >
     <mat-icon>more_vert</mat-icon>
   </button>
 </ng-template>
