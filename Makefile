@@ -6,5 +6,11 @@ serve-backend:
 serve-frontend:
 	cd frontend && make serve
 
-deploy:
+version:
 	$(PYTHON) -m script.deploy
+
+deploy:
+	ansible-playbook -i devops/hosts devops/deploy-playbook.yml
+
+ssh:
+	ssh sylvan@sylvan.ovh

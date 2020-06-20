@@ -1,0 +1,40 @@
+---
+# This playbook deploys the whole application stack in this site.
+
+# Apply common configuration to all hosts
+- hosts: swarm_hosts
+  remote_user: sylvan
+
+  tasks:
+  - name: Deploy play to production server
+    docker_stack:
+      state: present
+      name: play
+      compose:
+        - version: "3.4"
+          services:
+            play-frontend:
+              image: everrest/play-frontend
+              networks:
+                - www
+              deploy:
+                labels:
+                  traefik.enable: "true"
+                  traefik.http.routers.play-frontend.rule: "Host(`play.sylvan.ovh`)"
+                  traefik.http.services.play-frontend.loadbalancer.server.port: "80"
+                  traefik.docker.network: "www"
+
+            play-backend:
+              image: everrest/play-backend
+              networks:
+                - www
+              deploy:
+                labels:
+                  traefik.enable: "true"
+                  traefik.http.routers.play-backend.rule: "Host(`api.play.sylvan.ovh`)"
+                  traefik.http.services.play-backend.loadbalancer.server.port: "80"
+                  traefik.docker.network: "www"
+
+          networks:
+            www:
+              external: true
