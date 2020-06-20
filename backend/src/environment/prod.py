@@ -1,5 +1,5 @@
 # play own configuration
-PLAY_AUTHORIZED_URI = 'https://api.play.sylvan.ovh/authorized'
+PLAY_AUTHORIZED_URI = 'http://api.play.sylvan.ovh/authorized'
 PLAY_FRONTEND_URI   = 'http://play.sylvan.ovh'
 
 # deezer oauth2 configuration (dev and prod are differents apps)
