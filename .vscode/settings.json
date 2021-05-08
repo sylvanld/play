@@ -1,5 +1,4 @@
 {
   "tslint.configFile": "../frontend/tslint.json",
-  "editor.formatOnSave": true,
-  "python.pythonPath": "backend/venv"
+  "editor.formatOnSave": true
 }
