@@ -8,4 +8,5 @@ COPY . .
 
 ENV FLASK_ENV=production
 
+EXPOSE 80
 CMD ["gunicorn", "-b", "0.0.0.0:80", "server:app"]

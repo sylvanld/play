@@ -13,7 +13,7 @@ COPY .  /app
 RUN npm run build
 
 # STEP 2 build a small nginx image with static website
-FROM nginx
+FROM nginx:alpine
 
 ## Remove default nginx website
 #RUN rm -rf /usr/share/nginx/html/*
