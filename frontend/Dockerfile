@@ -5,8 +5,8 @@ FROM node:alpine as builder
 WORKDIR /app
 
 # Install app dependencies
-COPY package.json /app/
-RUN npm install
+COPY package*.json /app/
+RUN npm ci --production
 
 # Copy project files into the docker image
 COPY .  /app
